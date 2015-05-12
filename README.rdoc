@@ -1,28 +1,13 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+You'll need to create a `.env` or a `.env.development` file that looks something like this...
 
-Things you may want to cover:
+```
+HEROKU_AUTH_TOKEN=super-secret-auth-token-from-heroku
+DEVISE_SECRET_KEY=generate-by-running-rake-secret
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+G5_AUTH_CLIENT_ID=gigitygigitygigitygigity
+G5_AUTH_CLIENT_SECRET=blahblahblahblahblahblahblah
+G5_AUTH_REDIRECT_URI=http://localhost:3000/g5_auth/users/auth/g5/callback 
+G5_AUTH_ENDPOINT=https://dev-auth.g5search.com
+```
