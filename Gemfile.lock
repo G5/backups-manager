@@ -61,6 +61,7 @@ GEM
     minitest (5.6.1)
     multi_json (1.11.0)
     netrc (0.10.3)
+    pg (0.18.1)
     rack (1.5.3)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -127,6 +128,7 @@ DEPENDENCIES
   dotenv-rails
   jbuilder (~> 2.0)
   jquery-rails
+  pg
   rails (= 4.1.7)
   rest-client
   sass-rails (~> 4.0.3)
