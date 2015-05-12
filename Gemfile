@@ -18,6 +18,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer',  platforms: :ruby
 
 gem 'rest-client'
+gem 'g5_authenticatable'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
