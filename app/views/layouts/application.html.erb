@@ -7,8 +7,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<% content_for :wrangle_description do %>
 
-<%= yield %>
-
+<% end -%>
+  <div class="container">
+    <header class="header">
+      <span class="logo"><%= image_tag("logo2.png", class: "wrangle-logo", alt: "Wrangle those Apps Cowboy.") %></span>
+      <div class="wrangler-about">
+        <div class="wrangle">
+          <p class="wrangle-description">These are all the Heroku apps that the la.team@getg5.com account owns and/or has access to, regardless of whether they were spun up by the client app creator, are clone of some other app, or a stand alone app.</p>
+        </div>
+      </div>
+    </header>
+    <%= yield %>
+  </div>
 </body>
 </html>

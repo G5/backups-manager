@@ -1,14 +1,14 @@
-<h1>Heroku Apps By Type</h1>
-
-<p>These are all the Heroku apps that the la.team@getg5.com account owns and/or has access to, regardless of whether they were spun up by the client app creator, are clone of some other app, or a stand alone app.</p>
-
-<p><%= link_to "Group by owner", orgs_path %></p>
-
-<p><%= @app_count %> apps:</p>
-
-<ul>
-  <% @data.each do |app| %>
-    <li><%= app['name'] %></li>
-  <% end %>
-</ul>
-
+<div class="app"> 
+  <div class="app-card">
+    <h1>Heroku Apps By Type</h1>
+    <p class="app-count"><%= @app_count %> apps:</p>
+    <p class="app-btn"><%= link_to "Group by owner", orgs_path, class: 'btn' %></p>
+  </div>
+  <div class="app-group">
+    <ul>
+      <% @data.each do |app| %>
+        <li><%= app['name'] %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

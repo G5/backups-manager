@@ -1,0 +1,100 @@
+// --LAYOUT-- //
+.container{
+  @include outer-container;
+  padding:30px 0;
+}
+
+.header{
+  background-color: $color2;
+  @include span-columns(12 of 12);
+}
+
+.logo{
+  @include span-columns(4 of 12);
+}
+
+// --MODULE-- //
+//App
+.app{
+  clear: both;
+  @include span-columns(12 of 12);
+  @include pad(14px 18px);
+}
+
+.app-card{
+  @include span-columns(12 of 12);
+  background-color: $color3;
+  color: $color1;
+  @include omega();
+  @include pad(8px 8px 0);
+  border-left: 8px solid $color2;
+  h1{
+    color: $color5;
+    font-size: em(18);
+    @include span-columns(6 of 12)
+  }
+}
+
+.app-count{
+  font-size: em(18);
+  font-weight: bold;
+  font-style: italic;
+  @include span-columns(6 of 12)
+}
+
+.app-btn{
+  //@include span-columns(3 of 12);
+  float: right;
+  @include vert-align;
+}
+
+.app-group{
+  @include span-columns(12 of 12);
+  ul{
+    margin: 0 0 0 em(18);
+  }
+}
+
+.app-title{
+  background-color: $color5;
+  color: $color1;
+  width: 100%;
+  padding: 12px;
+  text-transform: capitalize;
+}
+
+
+
+//Wrangle
+.wrangle{
+  @include span-columns(8 of 12);
+  @include pad(12px 10px 0 0);
+}
+
+.wrangle-logo{
+  display: block;
+}
+
+.wrangle-description{
+  float: right;
+  color: $color4;
+}
+
+.wrangle-about{
+  @include span-columns(6 of 12);
+}
+
+
+// MQ   
+@include media($single-column){
+  .logo, .header,
+  .app, .app-card, .app-count, .app-group, 
+  .wrangle, .wrangle-about{
+    @include span-columns(1 of 1);
+  }
+
+  .header{
+    //@include margin(14px 18px);
+    margin: 14px 18px;
+  }
+}
