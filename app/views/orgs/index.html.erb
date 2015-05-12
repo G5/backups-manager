@@ -1,0 +1,15 @@
+<h1>Heroku Apps By Owner</h1>
+<p><%= link_to "Group by app type", apps_path %></p>
+
+<p><%= @app_count %> apps, in <%= @org_count %> different organizations.</p>
+
+<% @data.each do |group| %>
+  <h3><%= group[0] %></h3>
+  <ul>
+    <% group[1].each do |app| %>
+      <li><%= app['name'] %></li>
+    <% end %>
+  </ul>
+  <hr />
+<% end %>
+

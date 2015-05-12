@@ -1,13 +1,11 @@
-<h1>Apps#index</h1>
-<p>Find me in app/views/apps/index.html.erb</p>
-<p>total: <%= @data.length %></p>
+<h1>Heroku Apps By Type</h1>
+<p><%= link_to "Group by owner", orgs_path %></p>
 
-<% @data.each do |group| %>
-  <h3><%= group[0] %></h3>
-  <ul>
-    <% group[1].each do |app| %>
-      <li><%= app['name'] %></li>
-    <% end %>
-  </ul>
-<% end %>
+<p><%= @app_count %> apps:</p>
+
+<ul>
+  <% @data.each do |app| %>
+    <li><%= app['name'] %></li>
+  <% end %>
+</ul>
 
