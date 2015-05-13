@@ -5,6 +5,15 @@
   <p><%= @details["git_url"] %></p>
   <p><strong>Last Upated:</strong> <%= @details["updated_at"].to_time.in_time_zone("Pacific Time (US & Canada)") %></p>
 
+  <h3 class="app-title">Dynos</h3>
+  <ul>
+  <% @dynos.each do |dyno| %>
+    <li><strong><%= dyno["type"] %></strong>: <%= dyno["quantity"] %> @ <%= dyno["size"] %></li> 
+  <% end %>
+  </ul>
+
+  <hr />
+
   <h3 class="app-title">Addons</h3>
   <ul>
   <% @addons.each do |addon| %>

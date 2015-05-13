@@ -24,5 +24,11 @@ class AppDetails
     response = RestClient.get "#{@uri}/config-vars", @headers
     data = JSON.parse response.body
   end
+
+  def dynos
+    response = RestClient.get "#{@uri}/formation", @headers
+    data = JSON.parse response.body
+  end
+
  
 end

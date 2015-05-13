@@ -1,6 +1,6 @@
 class AppsController < ApplicationController
   caches_action :index, expires_in: 5.minutes
-  
+
   def index
     @data = AppList.new().data
     @app_count = @data.length
@@ -13,5 +13,6 @@ class AppsController < ApplicationController
     @details = app.details
     @addons = app.addons
     @config_vars = app.config_vars
+    @dynos = app.dynos
   end
 end
