@@ -17,7 +17,10 @@ class AppsController < ApplicationController
   end
 
   def destroy
-    @gigity = "goo"
+    @app_name = params[:id]
+    app = AppDetails.new(params[:id])
+    success = app.delete
+    @message = success ? "#{@app_name} has been deleted." : "There was a problem, and #{@app_name} was not deleted."
   end
 
 end
