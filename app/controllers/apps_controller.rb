@@ -15,4 +15,9 @@ class AppsController < ApplicationController
     @config_vars = app.config_vars
     @dynos = app.dynos
   end
+
+  def destroy
+    @gigity = "goo"
+  end
+
 end
