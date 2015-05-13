@@ -6,7 +6,8 @@ module ApplicationHelper
                       "API_KEY",
                       "KEY_ID",
                       "LICENSE_KEY",
-                      "API_TOKEN"
+                      "API_TOKEN",
+                      "PASSWORD"
                     ]
 
     regex = /#{excluded_vars.join("|")}/
