@@ -11,8 +11,5 @@ class AppsController < ApplicationController
     @details = app.details
     @addons = app.addons
     @config_vars = app.config_vars
-
-    # render json: @config_vars
-    
   end
 end

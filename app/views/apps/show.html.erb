@@ -1,20 +1,23 @@
 <h1><%= @app_name %></h1>
 <p><%= link_to @details["web_url"] %></p>
 <p><%= @details["git_url"] %></p>
-<p><strong>Last Upated:</strong> <%= @details["updated_at"].to_time.localtime %></p>
-
-<h3>Gardens</h3>
-<ul>
-  <% ["LAYOUT_GARDEN_URL","THEME_GARDEN_URL","WIDGET_GARDEN_URL"].each do |garden| %>
-    <li><strong><%= garden %> = </strong> <%= @config_vars["#{garden}"] %></li> 
-  <% end %>
-</ul>
+<p><strong>Last Upated:</strong> <%= @details["updated_at"].to_time.in_time_zone("Pacific Time (US & Canada)") %></p>
 
 <h3>Addons</h3>
 <ul>
 <% @addons.each do |addon| %>
   <li><%= addon["plan"]["name"] %></li> 
 <% end %>
+</ul>
+
+<h3>Config Vars</h3>
+<p>This is not a complete list. Some config vars are hidden for security or because nobody usually cares about them.</p>
+<ul>
+  <% @config_vars.sort.map do |key, val| %>
+    <% unless exclude_config_var(key) %>
+      <li><strong><%= key %> = </strong> <%= val %></li>
+    <% end %>
+  <% end %>
 </ul>
 
 <p><%= link_to "Done", "/" %></p>
