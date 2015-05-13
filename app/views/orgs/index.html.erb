@@ -10,7 +10,7 @@
   <h3><%= group[0] %></h3>
   <ul>
     <% group[1].each do |app| %>
-      <li><%= app['name'] %></li>
+      <li><%= link_to app['name'], app_path(app['name']) %></li>
     <% end %>
   </ul>
   <hr />

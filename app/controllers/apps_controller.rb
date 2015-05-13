@@ -5,5 +5,14 @@ class AppsController < ApplicationController
   end
 
   def show
+    @app_name = params[:id]
+    app = AppDetails.new(params[:id])
+
+    @details = app.details
+    @addons = app.addons
+    @config_vars = app.config_vars
+
+    # render json: @config_vars
+    
   end
 end

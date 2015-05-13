@@ -1,2 +1,20 @@
-<h1>Apps#show</h1>
-<p>Find me in app/views/apps/show.html.erb</p>
+<h1><%= @app_name %></h1>
+<p><%= link_to @details["web_url"] %></p>
+<p><%= @details["git_url"] %></p>
+<p><strong>Last Upated:</strong> <%= @details["updated_at"].to_time.localtime %></p>
+
+<h3>Gardens</h3>
+<ul>
+  <% ["LAYOUT_GARDEN_URL","THEME_GARDEN_URL","WIDGET_GARDEN_URL"].each do |garden| %>
+    <li><strong><%= garden %> = </strong> <%= @config_vars["#{garden}"] %></li> 
+  <% end %>
+</ul>
+
+<h3>Addons</h3>
+<ul>
+<% @addons.each do |addon| %>
+  <li><%= addon["plan"]["name"] %></li> 
+<% end %>
+</ul>
+
+<p><%= link_to "Done", "/" %></p>

@@ -8,7 +8,7 @@
 
 <ul>
   <% @data.each do |app| %>
-    <li><%= app['name'] %></li>
+    <li><%= link_to app['name'], app_path(app['name']) %></li>
   <% end %>
 </ul>
 
