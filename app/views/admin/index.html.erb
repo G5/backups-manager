@@ -1,0 +1,7 @@
+<h1>Dis is da Admin page</h1>
+
+<%= form_tag("/admin/batch_delete", method: "post") do %>
+  <%= label_tag(:apps, "Comma Separated List of apps to be deleted:") %>
+  <%= text_field_tag(:apps) %>
+  <%= submit_tag("Delete") %>
+<% end %>
