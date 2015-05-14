@@ -1,4 +1,8 @@
-<h1>Dis is da Admin page</h1>
+<h1>Heroku App Admin</h1>
+
+<p><strong>DANGER:</strong> You are about to permanently delete some Heroku apps. Enter a comma separated list of Heroku app names in the field below. Then when you hit "Delete", those apps and all their data, addons, and environment variables will be deleted. This cannont be undone!</p>
+
+<p>Be safe...</p>
 
 <%= form_tag("/admin/batch_delete", method: "post") do %>
   <%= label_tag(:apps, "Comma Separated List of apps to be deleted:") %>
