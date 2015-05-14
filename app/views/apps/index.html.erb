@@ -4,11 +4,8 @@
     <p class="app-count"><%= @app_count %> apps:</p>
     <p class="app-btn"><%= link_to "Group by owner", orgs_path, class: 'btn' %></p>
   </div>
+
   <div class="app-group">
-    <ul>
-      <% @data.each do |app| %>
-        <li><%= link_to app['name'], app_path(app['name']) %></li>
-      <% end %>
-    </ul>
+    <%= render_app_groups(make_app_array) %>
   </div>
 </div>
