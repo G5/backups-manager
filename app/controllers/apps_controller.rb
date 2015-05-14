@@ -15,13 +15,4 @@ class AppsController < ApplicationController
     @config_vars = app.config_vars
     @dynos = app.dynos
   end
-
-  def destroy
-    @app_name = params[:id]
-
-    Resque.enqueue(AppDelete, @app_name)
-
-    @message = "#{@app_name} has been queued for deletion."
-  end
-
 end

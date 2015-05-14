@@ -35,10 +35,3 @@
 </div>
 
 <p><%= link_to "Done", "/", class: "btn" %></p>
-
-<% # Hide this super scary button for now %>
-
-<% if allow_deletion %>
-  <br /><br /><br /><br /><br />
-  <p><%= link_to 'Delete App',  @app_name,  method: :delete, data: { confirm: "DANGER! Are you sure you want to delete #{@app_name}? This cannot be undone." } %></p>
-<% end %>
