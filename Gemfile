@@ -33,6 +33,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem 'dotenv-rails', :groups => [:development, :test]
+gem 'pry', '~> 0.10.1'
 
 #Front End
 gem 'normalize-rails', '~> 3.0.1'
