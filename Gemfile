@@ -41,6 +41,12 @@ gem 'bourbon'
 gem 'bitters', '~> 1.0.0'
 gem 'neat'
 
+gem 'rspec-rails', group: :test
+
+gem 'rails_12factor', group: :production
+
+gem 'actionpack-action_caching'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
