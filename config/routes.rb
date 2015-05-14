@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  require 'resque/server'
+  mount Resque::Server.new, at: "/resque"
   mount G5Authenticatable::Engine => '/g5_auth'
+
   get 'apps/index'
 
   get 'apps/show'

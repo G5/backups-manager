@@ -18,9 +18,10 @@ class AppsController < ApplicationController
 
   def destroy
     @app_name = params[:id]
-    app = AppDetails.new(params[:id])
-    success = app.delete
-    @message = success ? "#{@app_name} has been deleted." : "There was a problem, and #{@app_name} was not deleted."
+
+    Resque.enqueue(AppDelete, @app_name)
+
+    @message = "#{@app_name} has been queued for deletion."
   end
 
 end
