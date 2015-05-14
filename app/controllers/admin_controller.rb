@@ -1,4 +1,7 @@
 class AdminController < ApplicationController
+
+  before_filter :authenticate_user!, :verify_admin
+
   def index
   end
 
