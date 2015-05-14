@@ -14,4 +14,8 @@ module ApplicationHelper
 
     regex.match(var_name)
   end
+
+  def allow_deletion
+    ["john.lucia@getg5.com"].include?(current_user.email)
+  end
 end

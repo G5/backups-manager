@@ -33,7 +33,6 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem 'dotenv-rails', :groups => [:development, :test]
-gem 'pry', '~> 0.10.1'
 
 #Front End
 gem 'normalize-rails', '~> 3.0.1'
@@ -46,6 +45,10 @@ gem 'rspec-rails', group: :test
 gem 'rails_12factor', group: :production
 
 gem 'actionpack-action_caching'
+
+gem 'resque'
+
+gem 'pry', group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

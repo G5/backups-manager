@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
+  require 'resque/server'
+  mount Resque::Server.new, at: "/resque"
   mount G5Authenticatable::Engine => '/g5_auth'
-  get 'apps/index'
-
-  get 'apps/show'
 
   root 'orgs#index'
 
   resources :orgs
   resources :apps
+  resources :admin
+
+  post 'admin/batch_delete', to: 'admin#batch_delete'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

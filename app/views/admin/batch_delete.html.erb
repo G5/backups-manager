@@ -1,0 +1,8 @@
+<h1>Deleting Apps</h1>
+
+<p>The following apps have been queued for deletion:</p>
+<ul>
+  <% @death_row_apps.each do |app| %>
+    <li><%= app %></li>
+  <% end %>
+</ul>
