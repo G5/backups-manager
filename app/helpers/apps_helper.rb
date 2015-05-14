@@ -31,7 +31,7 @@ module AppsHelper
       value.each do |v|
         markup << "<li>#{link_to v, app_path(v)}</li>"
       end
-      markup << "</ul>"
+      markup << "</ul>" unless value.blank?
       markup << "<hr />" unless value.blank?
     end
     markup.html_safe
