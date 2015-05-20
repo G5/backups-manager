@@ -4,6 +4,7 @@ class AppsController < ApplicationController
   def index
     @data = AppList.new().data
     @app_count = @data.length
+    @rate_limit = RateCheck.new().usage
   end
 
   def show
@@ -14,5 +15,6 @@ class AppsController < ApplicationController
     @addons = app.addons
     @config_vars = app.config_vars
     @dynos = app.dynos
+    @rate_limit = RateCheck.new().usage
   end
 end

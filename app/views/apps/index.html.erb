@@ -3,6 +3,7 @@
     <h1>Heroku Apps By Type</h1>
     <p class="app-count"><%= @app_count %> apps:</p>
     <p class="app-btn"><%= link_to "Group by owner", orgs_path, class: 'btn' %></p>
+    <p class="app-count">Current API requests remaining: <%= @rate_limit %> out of 2400 </p>
   </div>
 
   <div class="app-group">
