@@ -6,6 +6,7 @@ class AppsController < ApplicationController
     @app_count = @data.length
     @rate_limit = RateCheck.new().usage
 
+    # Need to clean this up. Duplicated over in the OrgsController
     zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
     @time = Time.now.in_time_zone(zone).strftime("%I:%M%p")
   end
