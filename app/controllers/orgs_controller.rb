@@ -8,5 +8,8 @@ class OrgsController < ApplicationController
     @data = @data.sort_by{|i| i[0]}
     @org_count = @data.length
     @rate_limit = RateCheck.new().usage
+
+    zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
+    @time = Time.now.in_time_zone(zone).strftime("%I:%M%p")
   end
 end

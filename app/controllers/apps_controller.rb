@@ -5,6 +5,9 @@ class AppsController < ApplicationController
     @data = AppList.new().data
     @app_count = @data.length
     @rate_limit = RateCheck.new().usage
+
+    zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
+    @time = Time.now.in_time_zone(zone).strftime("%I:%M%p")
   end
 
   def show
