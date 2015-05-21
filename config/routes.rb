@@ -3,9 +3,7 @@ Rails.application.routes.draw do
   mount Resque::Server.new, at: "/resque"
   mount G5Authenticatable::Engine => '/g5_auth'
 
-  root 'orgs#index'
-
-  get '/rate_limit', to: 'rate_limit#index'
+  root 'rate_limit#index'
 
   resources :orgs
   resources :apps
