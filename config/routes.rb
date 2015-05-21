@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   root 'orgs#index'
 
+  get '/rate_limit', to: 'rate_limit#index'
+
   resources :orgs
   resources :apps
   resources :admin
