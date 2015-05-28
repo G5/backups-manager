@@ -1,5 +1,15 @@
 <h1>Heroku App Admin</h1>
 
+<p>Enter a comma separated list of Heroku app names in the field below. Those apps will be shut down, but not deleted. Costs associated with web and worker dynos will stop accruing, but other services like DB's will continue to rack up charges.</p>
+
+<%= form_tag("/admin/batch_spin_down", method: "post") do %>
+  <%= label_tag(:apps, "Comma Separated List of apps to be shut down:") %>
+  <%= text_field_tag(:apps) %>
+  <%= submit_tag("Shut Down") %>
+<% end %>
+
+<br /><br /><br /><br /><br /><br /><br />
+
 <p><strong>DANGER:</strong> You are about to permanently delete some Heroku apps. Enter a comma separated list of Heroku app names in the field below. Then when you hit "Delete", those apps and all their data, addons, and environment variables will be deleted. This cannont be undone!</p>
 
 <p>Be safe...</p>

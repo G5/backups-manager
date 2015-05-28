@@ -34,4 +34,12 @@ class AppDetails
     response = RestClient.delete @uri, @headers
     success = response.code == 200 ? true : false
   end
+
+  def spin_down
+    data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
+    @headers[:content_type] = 'application/json'
+    response = RestClient.patch "#{@uri}/formation", data.to_json, @headers
+
+    success = response.code == 200 ? true : false
+  end
 end

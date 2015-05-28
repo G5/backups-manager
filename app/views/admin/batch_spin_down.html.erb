@@ -1,0 +1,9 @@
+<h1>Deleting Apps</h1>
+
+<p>The following apps have been queued for shut down:</p>
+
+<ul>
+  <% @sleepy_apps.each do |app| %>
+    <li><%= app %></li>
+  <% end %>
+</ul>

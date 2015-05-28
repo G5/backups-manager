@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :admin
 
   post 'admin/batch_delete', to: 'admin#batch_delete'
+  post 'admin/batch_spin_down', to: 'admin#batch_spin_down'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

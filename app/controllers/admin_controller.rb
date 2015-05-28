@@ -12,4 +12,12 @@ class AdminController < ApplicationController
       Resque.enqueue(AppDelete, app)
     end
   end
+
+  def batch_spin_down
+    @sleepy_apps = params['apps'].split(',').map(&:strip)
+
+    @sleepy_apps.each do |app|
+      Resque.enqueue(AppSpinDown, app)
+    end
+  end
 end
