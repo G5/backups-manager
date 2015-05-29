@@ -48,6 +48,19 @@
   @include vert-align;
 }
 
+.app-group-list {
+  @include span-columns(12 of 12);
+  @include pad(8px 8px 0);
+  margin: 8px auto;
+  ul {
+    li {
+      float: left;
+      display: inline-block;
+      margin-right: em(10);
+    }
+  }
+}
+
 .app-group{
   @include span-columns(12 of 12);
   ul{
@@ -84,6 +97,23 @@
 
 .wrangle-about{
   @include span-columns(6 of 12);
+}
+
+
+.version {
+  float: right;
+  .ahead {
+    color: #0000cc;
+  }
+  .behind {
+    color: #cc0000
+  }
+  .current {
+    color: #00cc00;
+  }
+  .error {
+    color: #cc0000;
+  }
 }
 
 
