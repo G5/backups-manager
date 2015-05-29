@@ -1,6 +1,6 @@
 GEM
   remote: https://rubygems.org/
-  remote: https://msc9777J2TEEbgRsedKE@gem.fury.io/g5dev/
+  remote: https://gem.fury.io/g5dev/
   specs:
     actionmailer (4.1.7)
       actionpack (= 4.1.7)

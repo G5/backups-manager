@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-source "https://msc9777J2TEEbgRsedKE@gem.fury.io/g5dev/"
+source "https://gem.fury.io/g5dev/"
 
 ruby "2.2.2"
 
