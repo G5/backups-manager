@@ -69,10 +69,9 @@ class AppList
   end
 
   def get_master_version(app)
-    return @master_version unless @master_version.blank?
     uri = URI(version_apps_list[app]) if version_apps_list.has_key?(app)
     content = Net::HTTP.get(uri) if uri
     yml = YAML.load(content).with_indifferent_access if content
-    @master_version = yml.try(:[], :version) if yml
+    yml.try(:[], :version) if yml
   end
 end
