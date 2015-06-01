@@ -24,6 +24,11 @@ class AppsController < ApplicationController
     @addons = app.addons
     @config_vars = app.config_vars
     @dynos = app.dynos
+
+    if @app_name.include? "-clw-"
+      @domains = app.domains
+    end
+
     @rate_limit = RateCheck.new().usage
   end
 end

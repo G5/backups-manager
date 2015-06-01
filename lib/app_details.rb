@@ -30,6 +30,11 @@ class AppDetails
     data = JSON.parse response.body
   end
 
+  def domains
+    response = RestClient.get "#{@uri}/domains", @headers
+    data = JSON.parse response.body
+  end
+
   def delete
     response = RestClient.delete @uri, @headers
     success = response.code == 200 ? true : false
