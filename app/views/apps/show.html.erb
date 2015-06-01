@@ -39,7 +39,7 @@
     <ul>
     <% @domains.each do |domain| %>
       <% unless domain["hostname"] =~ /-clw-|.g5dns.|.herokuapp.com/ %>
-        <li><%= domain["hostname"] %></li>
+        <li><%= link_to domain["hostname"], "http://#{domain["hostname"]}", target: "_blank" %></li>
       <% end %> 
     <% end %>
     </ul>
