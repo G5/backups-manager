@@ -11,7 +11,7 @@ $(document).ready ->
       ul.find('li').each (idx2, elem2) ->
         element = $(elem2)
         urn = element.find('a').text()
-        url = "https://#{urn}.herokuapp.com/g5_ops/health"
+        url = "//#{urn}.herokuapp.com/g5_ops/health"
         ver = element.find('.version')
         $.ajax url,
           method: 'GET'
