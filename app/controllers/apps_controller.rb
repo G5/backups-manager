@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-  caches_action :index, expires_in: 5.minutes
+  #caches_action :index, expires_in: 5.minutes
 
   def index
     @data = AppList.new().data
@@ -9,6 +9,11 @@ class AppsController < ApplicationController
     # Need to clean this up. Duplicated over in the OrgsController
     zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
     @time = Time.now.in_time_zone(zone).strftime("%I:%M%p")
+
+    respond_to do |format|
+      format.html
+      format.json { render json: AppList.new.make_app_array.as_json }
+    end
   end
 
   def show
