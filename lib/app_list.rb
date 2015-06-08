@@ -57,8 +57,8 @@ class AppList
 
   def version_apps_list
     {
-      'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/698f5501689dcf418c6ef4e0071402211840f492/config/version.yml",
-      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/71fda2272aa1db044243e86e900be22c823b6a89/config/version.yml?token=AFfFnCS-HcKWaDeW9lOlYccIdTQ4WIfOks5VcelCwA%3D%3D"
+      'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/84df96f329e2320d738cff5ab3bad93e64dec893/config/version.yml",
+      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/bae3e99a3f7f43f7f76236365c7e550f3664d0a7/config/version.yml?token=AFfFnJLzaIbNXB750xlc1xq4SYeEn9Ntks5VfxKhwA%3D%3D"
     }
   end
 
@@ -71,7 +71,7 @@ class AppList
   def get_master_version(app)
     uri = URI(version_apps_list[app]) if version_apps_list.has_key?(app)
     content = Net::HTTP.get(uri) if uri
-    yml = YAML.load(content).with_indifferent_access if content
+    yml = YAML.load(content).try(:with_indifferent_access) if content && content != 'Not Found'
     yml.try(:[], :version) if yml
   end
 end
