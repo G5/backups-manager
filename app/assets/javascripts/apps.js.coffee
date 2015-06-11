@@ -28,7 +28,7 @@ class AppsController
   updateAppsVersions: ->
     $(".app-title").each (idx, elem) ->
       master_version = $(elem).find('.version-value')
-      if master_version
+      if master_version.length
         master_version = master_version.text()
 
         ul = $(elem).next('ul')
