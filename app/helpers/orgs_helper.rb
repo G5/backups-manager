@@ -31,7 +31,7 @@ module OrgsHelper
     type = get_app_version_type(appname)
     if type
       mv = AppList.get_master_version(type)
-      "<span class='version' data-type='#{type}'><span class='version-value'>...</span> (master: <span class='master-value'>#{mv}</span>)</span>"
+      "<span class='version' data-type='#{type}'><span class='version-value'>...</span> (<span class='master-value'>#{mv}</span>)</span>"
     end
   end
 

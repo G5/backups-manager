@@ -5,14 +5,13 @@
 window.appsList ||= ['cms', 'dsh']
 
 window.toggleAppsGroups = ->
-  $(".app-title").each (i, title) ->
-    $(title).on 'click', ->
-      if $(title).hasClass('show')
-        $(title).removeClass('show')
-        $(title).next('.app-list').removeClass('show')
-      else
-        $(title).addClass('show')
-        $(title).next('.app-list').addClass('show')
+  $(".app-title").on 'click', ->
+    if $(this).hasClass('show')
+      $(this).removeClass('show')
+      $(this).next('.app-list').removeClass('show')
+    else
+      $(this).addClass('show')
+      $(this).next('.app-list').addClass('show')
 
 window.ajaxVersion = (urn, master, elem)->
   url = "//#{urn}.herokuapp.com/g5_ops/health"
@@ -36,11 +35,15 @@ window.ajaxVersionSuccess = (res, master, elem)->
 window.ajaxVersionError = (elem)->
   elem.find('.version-value').html("<b class='error'>not found</i>")
 
-$(document).ready ->
+window.documentReady = ->
   if $('.app').hasClass('orgs')
     window.orgsController = new OrgsController
   else
     window.appsController = new AppsController unless $('.app').hasClass('orgs')
+
+
+## fixes turbolinks document ready
+$(document).on 'ready page:load', window.documentReady
 
 class AppsController
   constructor: ->
@@ -73,5 +76,5 @@ class OrgsController
         ver = element.find('.version')
         if ver.length
           urn = element.find('.app-name a').text()
-          master = ver.find('.master-version').text()
+          master = ver.find('.master-value').text()
           window.ajaxVersion(urn, master, ver)
