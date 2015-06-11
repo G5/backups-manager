@@ -19,7 +19,7 @@ module AppsHelper
   end
 
   def app_version_str(key)
-    "<span class='version'>...</span>" if AppList.version_apps_list.has_key?(key)
+    "<span class='version'><span class='version-value'>...</span></span>" if AppList.version_apps_list.has_key?(key)
   end
 
   def app_item_str(key, value, app)
