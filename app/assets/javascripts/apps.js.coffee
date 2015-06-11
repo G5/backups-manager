@@ -14,8 +14,29 @@ window.toggleAppsGroups = ->
         $(title).addClass('show')
         $(title).next('.app-list').addClass('show')
 
+window.ajaxVersion = (urn, master, elem)->
+  url = "//#{urn}.herokuapp.com/g5_ops/health"
+  $.ajax url,
+    method: 'GET'
+    success: (res, status, xhr) ->
+      window.ajaxVersionSuccess(res, master, elem)
+    error: (xhr, status, err) ->
+      window.ajaxVersionError(elem)
+
+window.ajaxVersionSuccess = (res, master, elem)->
+  version = if res.version then res.version else res.health.version
+  if version == master
+    klass = 'current'
+  else if version > master
+    klass = 'ahead'
+  else if version < master
+    klass = 'behind'
+  elem.find('.version-value').html("<b class='#{klass}'>#{version}</b>")
+
+window.ajaxVersionError = (elem)->
+  elem.find('.version-value').html("<b class='error'>not found</i>")
+
 $(document).ready ->
-  window.toggleAppsGroups()
   if $('.app').hasClass('orgs')
     window.orgsController = new OrgsController
   else
@@ -23,36 +44,25 @@ $(document).ready ->
 
 class AppsController
   constructor: ->
+    window.toggleAppsGroups()
     @updateAppsVersions()
 
   updateAppsVersions: ->
     $(".app-title").each (idx, elem) ->
-      master_version = $(elem).find('.version-value')
-      if master_version.length
-        master_version = master_version.text()
-
+      master = $(elem).find('.version-value')
+      if master.length
+        master = master.text()
         ul = $(elem).next('ul')
         ul.find('li').each (idx2, elem2) ->
           element = $(elem2)
           urn = element.find('.app-name a').text()
-          url = "//#{urn}.herokuapp.com/g5_ops/health"
           ver = element.find('.version')
-          $.ajax url,
-            method: 'GET'
-            success: (res, status, xhr) ->
-              version = if res.version then res.version else res.health.version
-              if version == master_version
-                klass = 'current'
-              else if version > master_version
-                klass = 'ahead'
-              else if version < master_version
-                klass = 'behind'
-              ver.find('.version-value').html("<b class='#{klass}'>#{version}</b>")
-            error: (xhr, status, err) ->
-              ver.find('.version-value').html("<b class='error'>not found</i>")
+          window.ajaxVersion(urn, master, ver)
+
 
 class OrgsController
   constructor: ->
+    window.toggleAppsGroups()
     @updateOrgsVersions()
 
   updateOrgsVersions: ->
@@ -63,19 +73,5 @@ class OrgsController
         ver = element.find('.version')
         if ver.length
           urn = element.find('.app-name a').text()
-          url = "//#{urn}.herokuapp.com/g5_ops/health"
-          master_version = element.find('.master-version')
-          $.ajax url,
-            method: 'GET'
-            success: (res, status, xhr) ->
-              version = if res.version then res.version else res.health.version
-              if version == master_version
-                klass = 'current'
-              else if version > master_version
-                klass = 'ahead'
-              else if version < master_version
-                klass = 'behind'
-              ver.find('.version-value').html("<b class='#{klass}'>#{version}</b>")
-            error: (xhr, status, err) ->
-              ver.find('.version-value').html("<b class='error'>not found</i>")
-
+          master = ver.find('.master-version').text()
+          window.ajaxVersion(urn, master, ver)
