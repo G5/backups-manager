@@ -8,7 +8,6 @@ $(document).ready ->
 class OrgsController
   constructor: ->
     @updateOrgsVersions()
-    window.toggleAppsGroups()
 
   updateOrgsVersions: ->
     $(".app-title").each (idx, elem) ->

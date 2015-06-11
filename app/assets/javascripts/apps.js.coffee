@@ -5,7 +5,6 @@
 window.appsList ||= ['cms', 'dsh']
 
 window.toggleAppsGroups = ->
-  debugger
   $(".app-title").each (i, title) ->
     $(title).click ->
       if $(title).hasClass('show')
@@ -16,12 +15,12 @@ window.toggleAppsGroups = ->
         $(title).next('.app-list').addClass('show')
 
 $(document).ready ->
+  window.toggleAppsGroups()
   window.appsController = new AppsController unless $('.app').hasClass('orgs')
 
 class AppsController
   constructor: ->
     @updateAppsVersions()
-    window.toggleAppsGroups()
 
   updateAppsVersions: ->
     $(".app-title").each (idx, elem) ->
