@@ -3,6 +3,8 @@ class AppList
   require 'net/https'
   require "uri"
 
+  @@masters = nil
+
   def initialize
     @uri = "https://api.heroku.com/apps"
     @headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
@@ -55,11 +57,22 @@ class AppList
     grouped.merge!(misfits)
   end
 
-  def version_apps_list
+  def self.version_apps_list
     {
       'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml",
       'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=AFfFnAGZ3yANo_-lbi2Bb8h8kfedepSYks5Vf0XGwA%3D%3D"
     }
+  end
+
+  def self.master_versions
+    @@masters ||= self.verion_apps_list.inject({}) do |h, (k, v)|
+      h[k] = self.get_master_version(k)
+      h
+    end
+  end
+
+  def self.get_master_version(key)
+    self.master_versions.try(:[], key.downcase.parameterize)
   end
 
   def regular_app_groups
@@ -68,8 +81,8 @@ class AppList
       'g5-nae', 'g5-social', 'g5-theme-', 'g5-vendor', 'g5-vls', 'g5-widget']
   end
 
-  def get_master_version(app)
-    uri = URI(version_apps_list[app]) if version_apps_list.has_key?(app)
+  def self.get_master_version(app)
+    uri = URI(self.version_apps_list[app]) if self.version_apps_list.has_key?(app)
     content = Net::HTTP.get(uri) if uri
     yml = YAML.load(content).try(:with_indifferent_access) if content && content != 'Not Found'
     yml.try(:[], :version) if yml
