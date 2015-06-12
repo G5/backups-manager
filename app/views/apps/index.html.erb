@@ -1,7 +1,7 @@
 <div class="app"> 
   <div class="app-card">
     <h1>Heroku Apps By Type</h1>
-    <p class="app-count"><%= @app_count %> apps:</p>
+    <p class="app-count"><%= @app_count %> Apps</p>
     <p class="app-btn"><%= link_to "Group by owner", orgs_path, class: 'btn' %></p>
     <p class="app-count">API requests remaining at <%= @time %>: <span class="rate-limit"><%= @rate_limit %> out of 2400</span></p>
   </div>
