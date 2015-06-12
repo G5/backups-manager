@@ -42,7 +42,7 @@ class AppList
   end
 
   def get_app_groups(apps)
-    reg_array = regular_app_groups
+    reg_array = self.class.regular_app_groups
     kook_apps = reg_array.join("|")
     grouped = {}
     misfits = {}
@@ -75,7 +75,7 @@ class AppList
     self.master_versions.try(:[], key.downcase.parameterize)
   end
 
-  def regular_app_groups
+  def self.regular_app_groups
     [ 'g5-analytics', 'g5-backups', 'g5-cau', 'g5-client', 'g5-cls', 'g5-clw', 'g5-cms-',
       'g5-cpas', 'g5-cpns', 'g5-cxm', 'g5-dsh', 'g5-inventory', 'g5-inv-', 'g5-jobs', 'g5-layout',
       'g5-nae', 'g5-social', 'g5-theme-', 'g5-vendor', 'g5-vls', 'g5-widget']
