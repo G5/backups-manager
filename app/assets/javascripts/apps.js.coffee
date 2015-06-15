@@ -15,9 +15,13 @@ class BaseController
   constructor: ->
     @toggleAppsGroups()
     @appTitles = $(".app-title")
+    @openHash()
+
+  openHash: ->
     hash = window.location.hash
     activeTitle = $(".app-title#{hash}") if hash
     activeTitle.click() if activeTitle
+    $('html, body').animate { scrollTop: activeTitle.offset().top }, 400, 'easeInOut'
 
   toggleAppsGroups: ->
     $(".app-title").on 'click', ->
