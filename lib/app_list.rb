@@ -59,9 +59,9 @@ class AppList
 
   def self.version_apps_list
     {
-      'cls' => "https://raw.githubusercontent.com/g5search/g5-client-leads-service/master/config/version.yml?token=#{self.github_token}",
-      'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml?token=#{self.github_token}",
-      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=#{self.github_token}"
+      'cls' => "https://raw.githubusercontent.com/g5search/g5-client-leads-service/master/config/version.yml?token=AFfFnAX_785e2dBxLjEbWz19TLF-0Ddwks5ViJPEwA%3D%3D",
+      'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml",
+      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=AFfFnMhDW3xrOrZH9TDcCM19swTSYaYQks5ViJPiwA%3D%3D"
     }
   end
 

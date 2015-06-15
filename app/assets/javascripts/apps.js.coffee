@@ -16,7 +16,7 @@ class BaseController
     @toggleAppsGroups()
     @appTitles = $(".app-title")
     hash = window.location.hash
-    activeTitle = $(".app-title##{hash}") if hash
+    activeTitle = $("#"+hash) if hash
     activeTitle.click() if activeTitle
 
   toggleAppsGroups: ->
