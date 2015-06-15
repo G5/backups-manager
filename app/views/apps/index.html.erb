@@ -1,20 +1,12 @@
 <div class="app"> 
   <div class="app-card">
     <h1>Heroku Apps By Type</h1>
-    <p class="app-count"><%= @app_count %> apps:</p>
+    <p class="app-count"><%= @app_count %> Apps</p>
     <p class="app-btn"><%= link_to "Group by owner", orgs_path, class: 'btn' %></p>
     <p class="app-count">API requests remaining at <%= @time %>: <span class="rate-limit"><%= @rate_limit %> out of 2400</span></p>
   </div>
 
   <% app_array = @app_list.make_app_array %>
-  <div class="app-group-list">
-    <ul>
-      <% app_array.each do |app| %>
-        <li><a href="#<%= app[0].downcase %>"><%= app[0] %></a></li>
-      <% end %>
-    </ul>
-  </div>
-
   <div class="app-group">
     <%= render_app_groups(app_array) %>
   </div>

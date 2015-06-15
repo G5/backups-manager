@@ -1,3 +1,15 @@
+%default {
+  @include box-shadow(none);
+}
+
+%hover {
+  @include box-shadow(0 0 1px rgba(0,0,0,0.2), 0 1px 1px rgba(0,0,0,0.2));
+}
+
+%focus {
+  @include box-shadow(0 0 2px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.4));
+}
+
 // --LAYOUT-- //
 .container{
   @include outer-container;
@@ -63,17 +75,76 @@
 
 .app-group{
   @include span-columns(12 of 12);
-  ul{
-    margin: 0 0 0 em(18);
-  }
-}
 
-.app-title{
-  background-color: $color5;
-  color: $color1;
-  width: 100%;
-  padding: 12px;
-  text-transform: capitalize;
+  .app-title{
+    position: relative;
+    display: block;
+    background-color: $color5;
+    color: $color1;
+    width: 100%;
+    padding: 12px;
+    margin: 1em 0 0 0;
+    text-transform: capitalize;
+    cursor: pointer;
+    @include transition(200ms all ease-in-out);
+    &:before {
+      @include transition(200ms all ease-in-out);
+      position: relative;
+      content: '';
+      display: block;
+      float: left;
+      margin-right: 1em;
+      @include triangle(18px, $color1, right);
+    }
+    &:hover {
+      background-color: darken($color5, 10%);
+      @extend %hover;
+    }
+    &.show {
+      background-color: lighten($color5, 10%);
+      &:before {
+        @include transform(rotate(90deg));
+      }
+    }
+  }
+
+  .app-name {
+    display: inline-block;
+    min-width: 280px;
+  }
+
+  .heroku-dashboard, .heroku-app {
+    display: inline-block;
+    padding: 0 10px;
+  }
+
+  .heroku-dashboard {
+    border-right: 1px solid $color5;
+  }
+
+  ul.app-list {
+    position: relative;
+    display: block;
+    margin: 0;
+    border: 1px solid $color5;
+    max-height: 0;
+    opacity: 0;
+    overflow:hidden;
+    @include transition(400ms all ease-in-out);
+    li {
+      padding: 2px 12px 2px 38px;
+      &:hover {
+        background-color: $color2;
+      }
+    }
+    &.show {
+      opacity: 1;
+      max-height: 9999em;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .rate-limit{ color: $color5; }
