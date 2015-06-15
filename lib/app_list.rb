@@ -65,10 +65,6 @@ class AppList
     }
   end
 
-  def self.github_token
-    "AFfFnIkqjlZNENBV4ffT3yd61FOD5adOks5ViJH0wA%3D%3D"
-  end
-
   def self.master_versions
     @@masters ||= self.verion_apps_list.inject({}) do |h, (k, v)|
       h[k] = self.get_master_version(k)
