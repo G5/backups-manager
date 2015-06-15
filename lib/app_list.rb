@@ -61,7 +61,7 @@ class AppList
     {
       'cls' => "https://raw.githubusercontent.com/g5search/g5-client-leads-service/master/config/version.yml?token=AFfFnC-HYV_FvflbpbjsWdBlqJcEdZKfks5ViJCIwA%3D%3D",
       'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml",
-      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=AFfFnAGZ3yANo_-lbi2Bb8h8kfedepSYks5Vf0XGwA%3D%3D"
+      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=AFfFnIkqjlZNENBV4ffT3yd61FOD5adOks5ViJH0wA%3D%3D"
     }
   end
 
