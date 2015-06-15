@@ -59,10 +59,14 @@ class AppList
 
   def self.version_apps_list
     {
-      'cls' => "https://raw.githubusercontent.com/g5search/g5-client-leads-service/master/config/version.yml?token=AFfFnC-HYV_FvflbpbjsWdBlqJcEdZKfks5ViJCIwA%3D%3D",
-      'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml",
-      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=AFfFnIkqjlZNENBV4ffT3yd61FOD5adOks5ViJH0wA%3D%3D"
+      'cls' => "https://raw.githubusercontent.com/g5search/g5-client-leads-service/master/config/version.yml?token=#{self.github_token}",
+      'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml?token=#{self.github_token}",
+      'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=#{self.github_token}"
     }
+  end
+
+  def self.github_token
+    "AFfFnIkqjlZNENBV4ffT3yd61FOD5adOks5ViJH0wA%3D%3D"
   end
 
   def self.master_versions
