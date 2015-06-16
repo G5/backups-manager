@@ -35,6 +35,10 @@ module ApplicationHelper
     "<a href='https://dashboard.heroku.com/apps/#{appname}/' target='_blank' class='heroku-dashboard'>Dashboard</a>"
   end
 
+  # def dyno_index_count(dynos)
+    
+  # end
+
   def heroku_app_link_str(appname)
     "<a href='https://#{appname}.herokuapp.com' target='_blank' class='heroku-app'>App</a>"
   end
