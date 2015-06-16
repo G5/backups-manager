@@ -59,6 +59,7 @@ class AppList
 
   def self.version_apps_list
     {
+      'cau' => "https://raw.githubusercontent.com/G5/g5-sibling-deployer/master/config/version.yml",
       'cls' => "https://raw.githubusercontent.com/g5search/g5-client-leads-service/master/config/version.yml?token=#{ENV['CLS_GITHUB_TOKEN']}",
       'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml",
       'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=#{ENV['DSH_GITHUB_TOKEN']}"
