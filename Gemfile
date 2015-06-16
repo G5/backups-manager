@@ -41,7 +41,12 @@ gem 'bourbon'
 gem 'bitters', '~> 1.0.0'
 gem 'neat'
 
-gem 'rspec-rails', group: :test
+group :test do
+  gem 'rspec-rails'
+  gem 'webmock'
+  gem 'rspec-sidekiq'
+end
+
 
 gem 'rails_12factor', group: :production
 
