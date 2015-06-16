@@ -15,16 +15,24 @@ class BaseController
   constructor: ->
     @toggleAppsGroups()
     @appTitles = $(".app-title")
+    @openHash()
+
+  openHash: ->
+    hash = window.location.hash
+    activeTitle = $(".app-title#{hash}") if hash
+    if activeTitle
+      activeTitle.click()
+      $('html, body').animate { scrollTop: activeTitle.offset().top }, 400
 
   toggleAppsGroups: ->
     $(".app-title").on 'click', ->
       if $(this).hasClass('show')
         $(this).removeClass('show')
         $(this).next('.app-list').removeClass('show')
-        window.location.hash = $(this).attr('id')
       else
         $(this).addClass('show')
         $(this).next('.app-list').addClass('show')
+        window.location.hash = $(this).attr('id')
 
   ajaxVersion: (urn, master, elem)->
     url = "//#{urn}.herokuapp.com/g5_ops/health"
