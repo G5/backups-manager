@@ -2,8 +2,14 @@ class AppWranglerWorker
   require "net/http"
   require 'net/https'
   require "uri"
+  include Sidekiq::Worker
 
-  def get_app_list
+  def perform
+    #::Wrangler.new() or something like this
+  end
+
+  class Wrangler
+    def get_app_list
     app_list_uri = "https://api.heroku.com/apps"
     headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
                  accept: "application/vnd.heroku+json; version=3",
@@ -29,4 +35,18 @@ class AppWranglerWorker
     # app_list = get_app_list
 
   end
+
+  def get_app_addons
+  end
+
+  def get_app_config_variables
+  end
+
+  def get_app_dynos
+  end
+
+  def get_app_domains
+  end
+  end
+
 end
