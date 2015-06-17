@@ -11,17 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150615204430) do
+ActiveRecord::Schema.define(version: 20150617165721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "apps", force: true do |t|
-    t.json "app_details"
-    t.json "dynos"
-    t.json "addons"
-    t.json "config_variables"
-    t.json "domains"
+    t.json     "app_details"
+    t.json     "dynos"
+    t.json     "addons"
+    t.json     "config_variables"
+    t.json     "domains"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "g5_authenticatable_users", force: true do |t|
