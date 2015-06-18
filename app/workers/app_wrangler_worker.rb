@@ -5,7 +5,7 @@ class AppWranglerWorker
   include Sidekiq::Worker
 
   def perform
-    #::Wrangler.new() or something like this
+    ::Wrangler.new()
   end
 
   class Wrangler

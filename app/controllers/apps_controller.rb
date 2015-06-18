@@ -2,9 +2,8 @@ class AppsController < ApplicationController
   caches_action :index, expires_in: 5.minutes
 
   def index
-    @app_list = AppList.new()
-    @data = @app_list.data
-    @app_count = @data.length
+    @app_list = App.all
+    @app_count = @app_list.count
     @rate_limit = RateCheck.new().usage
 
     # Need to clean this up. Duplicated over in the OrgsController
@@ -13,7 +12,7 @@ class AppsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: AppList.new.make_app_array.as_json }
+      format.json { render json: App.all.make_app_array.as_json }
     end
   end
 

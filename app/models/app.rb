@@ -1,30 +1,5 @@
 class App < ActiveRecord::Base
   @@masters = nil
-  
-  def self.make_app_array
-    return @app_array unless @app_array.blank?
-    app_array = []
-      data.each do |key, value| 
-        app_array << "#{key['name']}" 
-      end
-    @app_array = get_app_groups(app_array) 
-  end
-
-  def self.get_app_groups(apps)
-    reg_array = self.class.regular_app_groups
-    kook_apps = reg_array.join("|")
-    grouped = {}
-    misfits = {}
-    misc_app = []
-    misc_app = apps.reject { |i| i[/#{kook_apps}/] }
-    misfits["MISFITS"] = misc_app
-    reg_array.each do |reg|
-      app_name = reg.gsub('-', '').upcase.gsub('G5', '')
-      app_group = apps.select { |i| i[/#{reg}/] }
-      grouped[app_name] = app_group
-    end
-    grouped.merge!(misfits)
-  end
 
   def self.version_apps_list
     {

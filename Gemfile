@@ -20,6 +20,8 @@ gem 'rest-client'
 gem 'g5_authenticatable'
 
 gem 'sidekiq'
+gem 'sinatra', :require => nil
+gem 'whenever', :require => false
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -45,6 +47,8 @@ group :test do
   gem 'rspec-rails'
   gem 'webmock'
   gem 'rspec-sidekiq'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 

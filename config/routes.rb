@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   require 'resque/server'
+  require 'sidekiq/web'
   mount Resque::Server.new, at: "/resque"
   mount G5Authenticatable::Engine => '/g5_auth'
+  mount Sidekiq::Web => '/sidekiq'
 
-  root 'rate_limit#index'
+  root 'apps#index'
 
   resources :orgs
   resources :apps
