@@ -15,7 +15,8 @@ module AppsHelper
   end
 
   def apps_title_str(key, value, master_version_str="")
-    "<h3 class='app-title' id='#{key_slug(key)}'><span class='app-name'>#{key}</span>#{count_str(value)}#{master_version_str}</h3>" unless value.blank?
+    refresh = "<a href='#' class='version-refresh'>#{image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions')}</a>" unless master_version_str.blank?
+    "<h3 class='app-title' id='#{key_slug(key)}'><span class='app-name'>#{key}</span>#{count_str(value)}#{master_version_str}#{refresh}</h3>" unless value.blank?
   end
 
   def app_version_str(key)

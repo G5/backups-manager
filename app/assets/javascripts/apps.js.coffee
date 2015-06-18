@@ -37,6 +37,7 @@ class BaseController
   ajaxVersion: (urn, master, elem)->
     url = "//#{urn}.herokuapp.com/g5_ops/health"
     _this = this
+    @setVersionValue(elem, "...")
     $.ajax url, 
       method: 'GET'
       success: (res, status, xhr) ->
@@ -46,12 +47,9 @@ class BaseController
 
   ajaxSuccess: (res, master, elem)->
     version = if res.version then res.version else res.health.version
-    if version == master
-      klass = 'current'
-    else if version > master
-      klass = 'ahead'
-    else if version < master
-      klass = 'behind'
+    klass = 'current' if version == master
+    klass = 'ahead' if version > master
+    klass = 'behind' if version < master
     @setVersionValue(elem, "<b class='#{klass}'>#{version}</b>")
 
   ajaxError: (elem)->
@@ -60,10 +58,18 @@ class BaseController
   setVersionValue: (elem, html)->
     elem.find('.version-value').html(html)
 
+  noEvent: (e)->
+    e.stopPropagation()
+    e.preventDefault()
+    false
+
 class AppsController extends BaseController
   constructor: ->
     super()
     @updateVersions()
+    $('.version-refresh').on 'click', (e)=>
+      @updateVersions()
+      @noEvent(e)
 
   updateVersions: ->
     @appTitles.each (idx, elem) =>
@@ -72,9 +78,8 @@ class AppsController extends BaseController
         master = master.text()
         ul = $(elem).next('ul')
         ul.find('li').each (idx2, elem2) =>
-          element = $(elem2)
-          urn = element.find('.app-name a').text()
-          ver = element.find('.version')
+          urn = $(elem2).find('.app-name a').text()
+          ver = $(elem2).find('.version')
           @ajaxVersion(urn, master, ver)
 
 

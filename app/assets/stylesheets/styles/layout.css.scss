@@ -170,6 +170,27 @@
   @include span-columns(6 of 12);
 }
 
+.version-refresh {
+  float: right;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  margin: 0 2px;
+  img {
+    opacity: 1.0;
+    margin: 3px 4px 5px 4px;
+    width: 16px;
+    height: 16px;
+    @include transition(200ms all ease-in-out);
+  }
+  &:hover {
+    img {
+      @include transform(rotate(180deg));
+      opacity: 0.7;
+    }
+  }
+}
+
 
 .version {
   float: right;
