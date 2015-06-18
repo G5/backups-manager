@@ -11,10 +11,7 @@ class AppWranglerWorker
   class Wrangler
     def get_app_list
       app_list_uri = "https://api.heroku.com/apps"
-      headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-                   accept: "application/vnd.heroku+json; version=3",
-                   range: "name ..; max=1000;"
-                 }
+      headers = create_headers
 
       response = RestClient.get app_list_uri, headers
       data = JSON.parse response.body.to_json
@@ -44,39 +41,34 @@ class AppWranglerWorker
     end
 
     def get_app_dynos(name)
-      headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-                   accept: "application/vnd.heroku+json; version=3",
-                   range: "name ..; max=1000;"
-                 }
+      headers = create_headers
       response = RestClient.get "https://api.heroku.com/apps/#{name}/formation", headers
       data = JSON.parse response.body.to_json
     end
 
     def get_app_addons(name)
-      headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-                   accept: "application/vnd.heroku+json; version=3",
-                   range: "name ..; max=1000;"
-                 }
+      headers = create_headers
       response = RestClient.get "https://api.heroku.com/apps/#{name}/addons", headers
       data = JSON.parse response.body.to_json
     end
 
     def get_app_config_variables(name)
-      headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-                   accept: "application/vnd.heroku+json; version=3",
-                   range: "name ..; max=1000;"
-                 }
+      headers = create_headers
       response = RestClient.get "https://api.heroku.com/apps/#{name}/config-vars", headers
       data = JSON.parse response.body.to_json
     end
 
     def get_app_domains(name)
+      headers = create_headers
+      response = RestClient.get "https://api.heroku.com/apps/#{name}/domains", headers
+      data = JSON.parse response.body.to_json
+    end
+
+    def create_headers
       headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
                    accept: "application/vnd.heroku+json; version=3",
                    range: "name ..; max=1000;"
                  }
-      response = RestClient.get "https://api.heroku.com/apps/#{name}/domains", headers
-      data = JSON.parse response.body.to_json
     end
   end
 
