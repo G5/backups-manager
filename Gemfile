@@ -43,14 +43,14 @@ gem 'bourbon'
 gem 'bitters', '~> 1.0.0'
 gem 'neat'
 
-group :test do
+group :development, :test do
   gem 'rspec-rails'
-  gem 'webmock'
   gem 'rspec-sidekiq'
   gem 'fabrication'
   gem 'faker'
 end
 
+gem 'webmock', group: :test
 
 gem 'rails_12factor', group: :production
 

@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-  caches_action :index, expires_in: 5.minutes
+  # caches_action :index, expires_in: 5.minutes
 
   def index
     @app_list = App.all
@@ -31,4 +31,5 @@ class AppsController < ApplicationController
 
     @rate_limit = RateCheck.new().usage
   end
+
 end

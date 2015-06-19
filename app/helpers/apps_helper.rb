@@ -1,4 +1,13 @@
 module AppsHelper
+  def make_app_array(obj)
+    return @app_array unless @app_array.blank?
+    app_array = []
+    obj[0].app_details.each do |app|
+      app_array << app["name"] 
+    end
+    @app_array = get_app_groups(app_array) 
+  end
+
   def render_app_groups(order_up)
     markup = ""
     order_up.each do |key, value|
@@ -14,17 +23,8 @@ module AppsHelper
     markup.html_safe
   end
 
-  def make_app_array
-    return @app_array unless @app_array.blank?
-    app_array = []
-    App.all.each do |key, value| 
-      app_array << "#{key['name']}" 
-    end
-    @app_array = get_app_groups(app_array) 
-  end
-
   def get_app_groups(apps)
-    reg_array = self.class.regular_app_groups
+    reg_array = regular_app_groups
     kook_apps = reg_array.join("|")
     grouped = {}
     misfits = {}
@@ -50,5 +50,11 @@ module AppsHelper
 
   def app_item_str(key, value, app)
     "<li>#{app_link_str(app)}#{heroku_dashboard_link_str(app)}#{heroku_app_link_str(app)}#{app_version_str(key_slug(key))}</li>"
+  end
+
+  def regular_app_groups
+    [ 'g5-analytics', 'g5-backups', 'g5-cau', 'g5-client', 'g5-cls', 'g5-clw', 'g5-cms-',
+      'g5-cpas', 'g5-cpns', 'g5-cxm', 'g5-dsh', 'g5-inventory', 'g5-inv-', 'g5-jobs', 'g5-layout',
+      'g5-nae', 'g5-social', 'g5-theme-', 'g5-vendor', 'g5-vls', 'g5-widget']
   end
 end

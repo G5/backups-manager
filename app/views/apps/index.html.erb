@@ -6,7 +6,7 @@
     <p class="app-count">API requests remaining at <%= @time %>: <span class="rate-limit"><%= @rate_limit %> out of 2400</span></p>
   </div>
 
-  <% app_array = @app_list.make_app_array %>
+  <% app_array = make_app_array(@app_list) %>
   <div class="app-group">
     <%= render_app_groups(app_array) %>
   </div>
