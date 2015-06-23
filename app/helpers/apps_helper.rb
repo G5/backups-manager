@@ -56,4 +56,12 @@ module AppsHelper
       'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=#{ENV['DSH_GITHUB_TOKEN']}"
     }
   end
+
+  def dyno_count(dynos)
+    dyno_count = 0
+    dynos.each do |dyno|
+      dyno_count += dyno["quantity"]
+    end
+    dyno_count
+  end
 end

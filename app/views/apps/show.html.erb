@@ -7,7 +7,7 @@
   <h3 class="app-title">Dynos</h3>
   <ul>
   <% @dynos.each do |dyno| %>
-    <li><strong><%= dyno["type"] %></strong>: <%= dyno["quantity"] %> @ <%= dyno["size"] %></li> 
+    <li><strong><%= dyno["type"] %></strong>: <%= dyno["quantity"] %> @ <%= dyno["size"] %>X</li> 
   <% end %>
   </ul>
 
@@ -16,7 +16,7 @@
   <h3 class="app-title">Addons</h3>
   <ul>
   <% @addons.each do |addon| %>
-    <li><%= addon["plan"]["name"] %></li> 
+    <li><%= addon["name"] %></li> 
   <% end %>
   </ul>
 
@@ -25,7 +25,7 @@
   <h3 class="app-title">Config Vars</h3>
   <p>This is not a complete list. Some config vars are hidden for security or because nobody usually cares about them.</p>
   <ul>
-    <% @config_vars.sort.map do |key, val| %>
+    <% @config_vars[0].sort.map do |key, val| %>
       <% unless exclude_config_var(key) %>
         <li><strong><%= key %> = </strong> <%= val %></li>
       <% end %>

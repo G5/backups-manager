@@ -9,32 +9,35 @@
   <div class="app-group">
     <% grouped_apps = get_app_groups(@app_list) %>
     <% grouped_apps.each do |type, apps| %>
-      <%= content_tag :h3, class: "app-title", id: type.downcase do %>
-        <span class="app-name"><%= type %></span>
-        <i><%= apps.count %></i>
-        <span class='version'>Master: 
-          <span class="version-value">
-            <%= get_master_version(type) %>
+      <% unless apps.blank? %>
+        <%= content_tag :h3, class: "app-title", id: type.downcase do %>
+          <span class="app-name"><%= type %></span>
+          <i><%= apps.count %></i>
+          <span class='version'>Master: 
+            <span class="version-value">
+              <%= get_master_version(type) %>
+            </span>
           </span>
-        </span>
-        <a href='#' class='version-refresh'><%= image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions') %></a>
-      <% end %>
-      <ul class="app-list">
-        <% apps.each do |app| %>
-          <li>
-            <span class="app-name">
-              <%= link_to app.app_name, app_path(app)  %>
-            </span>
-            <%= link_to "Dashboard", "https://dashboard.heroku.com/apps/#{app.app_name}/" %>
-            <%= link_to "App", "https://#{app.app_name}.herokuapp.com" %>
-            <span class="version">
-              <span class="version-value">
-                ...
-              </span>
-            </span>
-          </li>
+          <a href='#' class='version-refresh'><%= image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions') %></a>
         <% end %>
-      </ul>
+        <ul class="app-list">
+          <% apps.each do |app| %>
+            <li>
+              <span class="app-name">
+                <%= link_to app.app_name, app_path(app)  %>
+              </span>
+              <%= link_to "Dashboard |", "https://dashboard.heroku.com/apps/#{app.app_name}/", target: "blank" %>
+              <%= link_to "App", "https://#{app.app_name}.herokuapp.com", target: "blank" %>
+              <%= link_to "| Dyno Count: #{dyno_count(app.dynos)}", "https://dashboard.heroku.com/apps/#{app.app_name}/resources", target: "blank" %>
+              <span class="version">
+                <span class="version-value">
+                  ...
+                </span>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     <% end %>
   </div>
 </div>
