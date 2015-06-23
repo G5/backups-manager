@@ -27,30 +27,19 @@ module ApplicationHelper
     "<a name='#{key_slug(key)}'></a>"
   end
 
-  def key_slug(key)
-    key.downcase.parameterize if key
+  def key_slug(appname)
+    appname.downcase.parameterize if appname
   end
 
-  def heroku_dashboard_link_str(appname)
-    "<a href='https://dashboard.heroku.com/apps/#{appname}/' target='_blank' class='heroku-dashboard'>Dashboard</a>"
+  def heroku_dashboard_link_str(app)
+    "<a href='https://dashboard.heroku.com/apps/#{app.app_name}/' target='_blank' class='heroku-dashboard'>Dashboard</a>"
   end
 
-  # def dyno_index_count(dynos)
-    
-  # end
-
-  def heroku_app_link_str(appname)
-    "<a href='https://#{appname}.herokuapp.com' target='_blank' class='heroku-app'>App</a>"
+  def heroku_app_link_str(app)
+    "<a href='https://#{app.app_name}.herokuapp.com' target='_blank' class='heroku-app'>App</a>"
   end
 
-  def get_app_version_type(appname)
-    arr = AppList.version_apps_list.map do |k, v|
-      k if appname.include?("g5-#{k}-")
-    end.compact
-    arr.empty? ? nil : arr.first
-  end
-
-  def app_link_str(appname)
-    "<span class='app-name'>" + link_to(appname, app_path(appname)) + "</span>"
+  def app_link_str(app)
+    "<span class='app-name'>" + link_to(app.app_name, app_path(app)) + "</span>"
   end
 end

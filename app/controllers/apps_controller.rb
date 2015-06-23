@@ -17,12 +17,15 @@ class AppsController < ApplicationController
   end
 
   def show
-    @app_name = params[:id]
-    app = App.all
-    @details = app.details
-    @addons = app.addons
-    @config_vars = app.config_vars
-    @dynos = app.dynos
+    @app = App.find params[:id]
+    details = @app.app_details[0]
+    @app_name = details["name"]
+    @app_url = details["web_url"]
+    @app_git_url = details["git_url"]
+    @updated_at = details["updated_at"]
+    @addons = @app.addons
+    @config_vars = @app.config_variables
+    @dynos = @app.dynos
 
     if @app_name.include? "-clw-"
       @domains = app.domains
