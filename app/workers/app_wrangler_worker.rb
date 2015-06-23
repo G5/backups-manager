@@ -9,14 +9,16 @@ class AppWranglerWorker
   def create_and_update_apps
     app_list = AppList.new().get_app_list
     app_list.each do |app|
-      if existing_app = App.find_by(name: app["name"])
-        if existing_app.app_details[0]["updated_at"] != app["updated_at"]
-          attributes = get_the_package(app["name"])
-          App.update_attributes(attributes)
-        end
-      else
+      #Query data base for an app with the json name attribute
+      app_query = App.where("app_details->>'name' = ?", app["name"])
+      #This returns a active record relation, so check if its blank, if so, it doesn't exist yet and needs to be created
+      if app_query[0].blank?
         attributes = {app_details: app}
         App.create(attributes)
+      #Otherwise check the matching app for any changes and update the attributes
+      elsif app_query[0].app_details["updated_at"] != app["updated_at"] 
+        attributes = get_the_package(app["name"])
+        App.update_attributes(attributes)
       end
     end
   end

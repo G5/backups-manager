@@ -7,7 +7,7 @@ class AppList
     app_list_uri = "https://api.heroku.com/apps"
     headers = create_headers 
     response = RestClient.get app_list_uri, headers
-    data = JSON.parse response.body.to_json
+    data = JSON.parse response.body
     # Heroku returns up to 1000 records at a time. A response code 
     # of 206 means we only got a subset, so go back for more data.
     while response.code == 206

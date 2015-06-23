@@ -45,12 +45,14 @@ gem 'neat'
 
 group :development, :test do
   gem 'rspec-rails'
-  gem 'rspec-sidekiq'
   gem 'fabrication'
   gem 'faker'
 end
 
-gem 'webmock', group: :test
+group :test do
+  gem 'rspec-sidekiq'
+  gem 'webmock'
+end
 
 gem 'rails_12factor', group: :production
 

@@ -28,7 +28,7 @@
               </span>
               <%= link_to "Dashboard |", "https://dashboard.heroku.com/apps/#{app.app_name}/", target: "blank" %>
               <%= link_to "App", "https://#{app.app_name}.herokuapp.com", target: "blank" %>
-              <%= link_to "| Dyno Count: #{dyno_count(app.dynos)}", "https://dashboard.heroku.com/apps/#{app.app_name}/resources", target: "blank" %>
+              <%= link_to "| Dyno Count: #{dyno_count(app.dynos)}", "https://dashboard.heroku.com/apps/#{app.app_name}/resources", target: "blank" if app.dynos  %>
               <span class="version">
                 <span class="version-value">
                   ...

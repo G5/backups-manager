@@ -1,7 +1,7 @@
 class App < ActiveRecord::Base
 
   def app_name
-    app_details[0]["name"]
+    app_details["name"]
   end
   
 end
