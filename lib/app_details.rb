@@ -5,7 +5,7 @@ class AppDetails
 
   attr_reader :uri, :header
   
-  def intialize(name)
+  def initialize(name)
     @header = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
                  accept: "application/vnd.heroku+json; version=3"
                }
@@ -15,22 +15,22 @@ class AppDetails
 
   def get_app_dynos
     response = RestClient.get "#{uri}/formation", header
-    data = JSON.parse response.body.to_json
+    data = JSON.parse response.body
   end
 
   def get_app_addons
     response = RestClient.get "#{uri}/addons", header
-    data = JSON.parse response.body.to_json
+    data = JSON.parse response.body
   end
 
   def get_app_config_variables
     response = RestClient.get "#{uri}/config_vars", header
-    data = JSON.parse response.body.to_json
+    data = JSON.parse response.body
   end
 
   def get_app_domains
     response = RestClient.get "#{uri}/domains", header
-    data = JSON.parse response.body.to_json
+    data = JSON.parse response.body
   end
 
   def delete

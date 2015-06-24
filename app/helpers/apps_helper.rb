@@ -59,7 +59,6 @@ module AppsHelper
 
   def dyno_count(dynos)
     dyno_count = 0
-    binding.pry
     dynos.each do |dyno|
       dyno_count += dyno["quantity"]
     end
