@@ -64,4 +64,14 @@ module AppsHelper
     end
     dyno_count
   end
+
+  def total_group_dynos(apps)
+    grand_total = 0
+    apps.each do |app| 
+      app.dynos.each do |dyno|
+        grand_total += dyno["quantity"]
+      end
+    end
+    grand_total
+  end
 end

@@ -12,7 +12,8 @@
       <% unless apps.blank? %>
         <%= content_tag :h3, class: "app-title", id: type.downcase do %>
           <span class="app-name"><%= type %></span>
-          <i><%= apps.count %></i>
+          <span><%= "Group App Count: #{apps.count}" %> | </span>
+          <span><%= "Group Dyno Count: #{total_group_dynos(apps)}" %> | </span>
           <span class='version'>Master: 
             <span class="version-value">
               <%= get_master_version(type) %>
