@@ -51,6 +51,7 @@ module AppsHelper
 
   def version_apps_list
     {
+      'cau' => "https://raw.githubusercontent.com/G5/g5-sibling-deployer/master/config/version.yml",
       'cls' => "https://raw.githubusercontent.com/g5search/g5-client-leads-service/master/config/version.yml?token=#{ENV['CLS_GITHUB_TOKEN']}",
       'cms' => "https://raw.githubusercontent.com/g5search/g5-content-management-system/master/config/version.yml",
       'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=#{ENV['DSH_GITHUB_TOKEN']}"
@@ -65,13 +66,14 @@ module AppsHelper
     dyno_count
   end
 
-  def total_group_dynos(apps)
+  def average_dynos_per_app(apps)
     grand_total = 0
     apps.each do |app| 
       app.dynos.each do |dyno|
         grand_total += dyno["quantity"]
       end
     end
-    grand_total
+    average = grand_total.to_f/apps.count
+    average.round(1)
   end
 end

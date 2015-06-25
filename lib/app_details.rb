@@ -24,7 +24,7 @@ class AppDetails
   end
 
   def get_app_config_variables
-    response = RestClient.get "#{uri}/config_vars", header
+    response = RestClient.get "#{uri}/config-vars", header
     data = JSON.parse response.body
   end
 

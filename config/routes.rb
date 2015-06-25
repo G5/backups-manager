@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :orgs
   resources :apps
+  resources :live_summaries
   resources :admin
 
   post 'admin/batch_delete', to: 'admin#batch_delete'

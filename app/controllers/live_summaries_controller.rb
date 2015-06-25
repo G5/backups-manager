@@ -1,0 +1,2 @@
+class LiveSummariesController < ApplicationController
+end
