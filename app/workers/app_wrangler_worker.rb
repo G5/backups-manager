@@ -11,7 +11,7 @@ class AppWranglerWorker
     app_list.each do |app|
       #Query data base for an app with the json name attribute
       app_query = App.where("app_details->>'name' = ?", app["name"])
-      #This returns a active record relation, so check if its blank, if so, it doesn't exist yet and needs to be created
+      #This returns an active record relation, so check if its blank, if so, it doesn't exist yet and needs to be created
       if app_query[0].blank?
         attributes = {app_details: app}
         App.create(attributes)
