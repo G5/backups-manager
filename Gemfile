@@ -42,7 +42,7 @@ gem 'dotenv-rails', :groups => [:development, :test]
 gem 'normalize-rails', '~> 3.0.1'
 gem 'bourbon'
 gem 'bitters', '~> 1.0.0'
-gem 'neat'
+gem 'neat', '~> 1.5.1'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -53,7 +53,7 @@ end
 
 group :test do
   gem 'rspec-sidekiq'
-  gem 'webmock'
+  gem 'webmock', '~> 1.20.3'
 end
 
 gem 'rails_12factor', group: :production
