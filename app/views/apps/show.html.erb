@@ -1,22 +1,36 @@
 <div class="app">
-  <h1><%= @app_name %></h1>
-  <p>Current API requests remaining: <%= @rate_limit %> out of 2400 </p>
-  <p><a href="<%= @app_url %>"><%= @app_url %></a></p>
-  <p><%= @app_git_url %></p>
+  <h1>App Name: <%= @app_name %></h1>
   <p><strong>Last Upated:</strong> <%= @updated_at.to_time.in_time_zone("Pacific Time (US & Canada)") %></p>
-  <h3 class="app-title">Dynos</h3>
-  <ul>
-  <% @dynos.each do |dyno| %>
-    <li><strong><%= dyno["type"] %></strong>: <%= dyno["quantity"] %> @ <%= dyno["size"] %></li> 
-  <% end %>
+  <p>Current API requests remaining: <%= @rate_limit %> out of 2400 </p>
+  <h3 class="app-title">URL's:</h3>
+  <p><%= link_to "<strong>App URL: </strong>#{@app_url}".html_safe, @app_url, target: 'blank' %></a></p>
+  <p><%= link_to "<strong>Git URL: </strong>#{@app_git_url}".html_safe, @app_git_url, target: 'blank' %></p>
   </ul>
-
+  <h3 class="app-title">Dynos:</h3>
+  <table class="table-minimal">
+    <thead>
+      <tr>
+        <th>Dyno Type</th>
+        <th>Quantity</th>
+        <th>Size</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @dynos.each do |dyno| %>
+        <tr>
+          <td><%= dyno["type"] %></td>
+          <td><%= dyno["quantity"] %></td>
+          <td><%= dyno["size"] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
   <hr />
 
   <h3 class="app-title">Addons</h3>
   <ul>
   <% @addons.each do |addon| %>
-    <li><%= addon["name"] %></li> 
+    <li><%= addon["plan"]["name"] %></li> 
   <% end %>
   </ul>
 
@@ -24,13 +38,24 @@
 
   <h3 class="app-title">Config Vars</h3>
   <p>This is not a complete list. Some config vars are hidden for security or because nobody usually cares about them.</p>
-  <ul>
-    <% @config_vars.sort.map do |key, val| %>
-      <% unless exclude_config_var(key) %>
-        <li><strong><%= key %> = </strong> <%= val %></li>
+  <table class="table-minimal">
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @config_vars.sort.map do |key, val| %>
+        <% unless exclude_config_var(key) %>
+          <tr>
+            <td><%= key %></td>
+            <td><%= val %></td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </ul>
+    </tbody>
+  </table>
 
   <% if @domains %>
     <hr />
