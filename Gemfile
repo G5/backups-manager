@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
-source "https://gem.fury.io/g5dev/"
+source "https://#{ENV['FURY_AUTH']}@gem.fury.io/g5dev/"
 
 ruby "2.2.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails'
+gem 'rails', '~> 4.1.11'
+
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
