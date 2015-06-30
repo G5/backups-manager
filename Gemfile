@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-source "https://gem.fury.io/g5dev/"
+source "https://#{ENV['FURY_AUTH']}@gem.fury.io/g5dev/"
 
 ruby "2.2.2"
 
