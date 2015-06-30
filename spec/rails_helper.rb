@@ -2,6 +2,7 @@
 
 require 'spec_helper'
 require 'rspec/rails'
+require 'g5_authenticatable/rspec'
 require 'webmock/rspec'
 require 'sidekiq/testing'
 require 'pry'

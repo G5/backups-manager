@@ -32,7 +32,7 @@ module ApplicationHelper
   end
 
   def heroku_dashboard_link_str(app)
-    "<a href='https://dashboard.heroku.com/apps/#{app.app_name}/' target='_blank' class='heroku-dashboard'>Dashboard</a>"
+    "<a href='https://dashboard.heroku.com/apps/#{app.name}/' target='_blank' class='heroku-dashboard'>Dashboard</a>"
   end
 
   def heroku_app_link_str(app)
@@ -40,6 +40,6 @@ module ApplicationHelper
   end
 
   def app_link_str(app)
-    "<span class='app-name'>" + link_to(app.app_name, app_path(app)) + "</span>"
+    "<span class='app-name'>" + link_to(app.name, app_path(app)) + "</span>"
   end
 end
