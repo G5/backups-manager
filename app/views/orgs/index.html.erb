@@ -1,5 +1,5 @@
 <div class="app orgs">
-  <%= render 'shared/wrangler_header', grouped_by: "Owner" %>
+  <%= render 'shared/wrangler_header', object: {grouped: "Owner", group_by: "type", view_link: apps_path} %>
   <%= master_version_inputs %>
   <div class="app-group">
     <%= render_org_groups(@data) %>
