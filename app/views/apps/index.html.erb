@@ -1,14 +1,5 @@
 <div class="app"> 
-  <div class="app-card">
-    <h1>Heroku Apps By Type</h1>
-    <%= content_tag :p, "App data as of: #{Date.yesterday.to_formatted_s(:long_ordinal)}" %>
-    <%= content_tag :p, "#{@app_count} Apps" %>
-    <%= content_tag :p, class: 'app-btn' do %>
-      <%= link_to "Group by owner", orgs_path, class: 'btn' %>
-    <% end %>
-    <%= content_tag :p, "API requests remaining at #{@time}: <span class='rate-limit'>#{@rate_limit} out of 2400</span>".html_safe %>
-  </div>
-
+  <%= render 'shared/wrangler_header', grouped_by: "Type" %>
   <div class="app-group">
     <% grouped_apps = get_app_groups(@app_list) %>
     <% grouped_apps.each do |type, apps| %>

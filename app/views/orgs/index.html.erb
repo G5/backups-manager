@@ -1,10 +1,5 @@
 <div class="app orgs">
-  <div class="app-card">
-    <h1>Heroku Apps By Owner</h1>
-    <p class="app-count"><%= @app_count %> Apps, in <%= @org_count %> different organizations.</p>
-    <p class="app-btn"><%= link_to "Group by app type", apps_path, class: 'btn' %></p>
-    <p class="app-count">API requests remaining at <%= @time %>: <span class="rate-limit"><%= @rate_limit %> out of 2400</span></p>
-  </div>
+  <%= render 'shared/wrangler_header', grouped_by: "Owner" %>
   <%= master_version_inputs %>
   <div class="app-group">
     <%= render_org_groups(@data) %>
