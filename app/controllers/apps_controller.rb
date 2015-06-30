@@ -18,8 +18,8 @@ class AppsController < ApplicationController
 
   def show
     @app = App.find params[:id]
-    details = @app.app_details[0]
-    @app_name = details["name"]
+    details = @app.app_details
+    @app_name = @app.name
     @app_url = details["web_url"]
     @app_git_url = details["git_url"]
     @updated_at = details["updated_at"]
@@ -27,7 +27,7 @@ class AppsController < ApplicationController
     @config_vars = @app.config_variables
     @dynos = @app.dynos
 
-    @domains = app.domains if @app_name.include? "-clw-"
+    @domains = @app.domains if @app_name.include? "-clw-"
 
     @rate_limit = RateCheck.new().usage
   end
