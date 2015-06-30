@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-describe 'AppConfigVarsWorker' do
+describe AppConfigVarsWorker do
   
 end

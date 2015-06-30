@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-describe AppDomainsWorkerSpec do
+describe AppDomainsWorker do
   
 end
