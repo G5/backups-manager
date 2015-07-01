@@ -27,9 +27,7 @@ module OrgsHelper
     type_array = app.name.split("-")
     type = ""
     version_apps_list.each do |key, value|
-      if type_array.include?(key)
-        type = key
-      end
+      type = key if type_array.include?(key)
     end
     type
   end
