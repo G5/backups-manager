@@ -2,6 +2,34 @@
   <%= render 'shared/wrangler_header', object: {grouped: "Owner", group_by: "type", view_link: apps_path} %>
   <%= master_version_inputs %>
   <div class="app-group">
-    <%= render_org_groups(@data) %>
+    <% @grouped_apps.each do |owner, apps| %>
+      <% unless apps.blank? %>
+        <%= content_tag :h3, class: "app-title", id: owner do %>
+          <span class="app-name"><%= owner %></span>
+          <span><%= "Group App Count: <span class='counter'>#{apps.count}</span>".html_safe %> | </span>
+            <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(apps)}</span>".html_safe %> | </span>
+        <% end %>
+        <ul class="app-list">
+          <% apps.each do |app| %>
+            <li>
+              <span class="app-name">
+                <%= link_to app.name, app_path(app)  %>
+              </span>
+              <%= link_to "Dashboard |", "https://dashboard.heroku.com/apps/#{app.name}/", target: "blank" %>
+              <%= link_to "App", "https://#{app.name}.herokuapp.com", target: "blank" %>
+              <%= link_to "| Dyno Count: #{dyno_count(app.dynos)}", "https://dashboard.heroku.com/apps/#{app.name}/resources", target: "blank" if app.dynos  %>
+              <% type = get_app_type(app) %>
+              <% if version_apps_list.has_key? type.downcase.parameterize %>
+                <% mv = get_master_version(type) %>
+                <span class="version">
+                  <span class="version-value">...</span>
+                  <span class='master-value'>(<%= mv %>)</span>
+                </span>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
   </div>
 </div>
