@@ -16,6 +16,7 @@
       </tr>
     </thead>
     <tbody>
+    <% if @dynos.any? %>
       <% @dynos.each do |dyno| %>
         <tr>
           <td><%= dyno["type"] %></td>
@@ -23,14 +24,21 @@
           <td><%= dyno["size"] %></td>
         </tr>
       <% end %>
+    <% else %>
+    <h2>This app isn't showing any dynos.</h2>
+    <% end %>
     </tbody>
   </table>
   <hr />
 
   <h3 class="app-title">Addons</h3>
   <ul>
-  <% @addons.each do |addon| %>
-    <li><%= addon["plan"]["name"] %></li> 
+  <% if @addons.any? %>
+    <% @addons.each do |addon| %>
+      <li><%= addon["plan"]["name"] %></li>
+    <% end %>
+  <% else %>
+    <h2>This app does not have any addons.</h2> 
   <% end %>
   </ul>
 
@@ -46,13 +54,17 @@
       </tr>
     </thead>
     <tbody>
-      <% @config_vars.sort.map do |key, val| %>
-        <% unless exclude_config_var(key) %>
-          <tr>
-            <td><%= key %></td>
-            <td><%= val %></td>
-          </tr>
+      <% if @config_vars.any? %>
+        <% @config_vars.sort.map do |key, val| %>
+          <% unless exclude_config_var(key) %>
+            <tr>
+              <td><%= key %></td>
+              <td><%= val %></td>
+            </tr>
+          <% end %>
         <% end %>
+      <% else %>
+        <h2>This app doesn't have any config variables set up.</h2>
       <% end %>
     </tbody>
   </table>
@@ -60,7 +72,7 @@
   <% if @domains %>
     <hr />
 
-    <h3 class="app-title">Domains</h3>
+    <%= "<h3 class='app-title'>Domains</h3>".html_safe unless domain["hostname"] =~ /-clw-|.g5dns.|.herokuapp.com/ %>
     <ul>
     <% @domains.each do |domain| %>
       <% unless domain["hostname"] =~ /-clw-|.g5dns.|.herokuapp.com/ %>
