@@ -1,0 +1,20 @@
+ <%= content_tag :h1, @app.name %>
+ <h3 class="app-title">Dynos:</h3>
+  <table class="table-minimal">
+    <thead>
+      <tr>
+        <th>Dyno Type</th>
+        <th>Quantity</th>
+        <th>Size</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @app_dynos.each do |dyno| %>
+        <tr>
+          <td><%= dyno["type"] %></td>
+          <td><%= dyno["quantity"] %></td>
+          <td><%= dyno["size"] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

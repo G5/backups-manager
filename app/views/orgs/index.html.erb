@@ -18,6 +18,7 @@
               <%= link_to "Dashboard |", "https://dashboard.heroku.com/apps/#{app.name}/", target: "blank" %>
               <%= link_to "App", "https://#{app.name}.herokuapp.com", target: "blank" %>
               <%= link_to "| Dyno Count: #{dyno_count(app.dynos)}", "https://dashboard.heroku.com/apps/#{app.name}/resources", target: "blank" if app.dynos  %>
+              <%= link_to "| Live Summary", app_live_summary_path(app) %>
               <% type = get_app_type(app) %>
               <% if version_apps_list.has_key? type.downcase.parameterize %>
                 <% mv = get_master_version(type) %>

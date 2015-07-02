@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   root 'apps#index'
 
   resources :orgs
-  resources :apps
-  resources :live_summaries
+  resources :apps do
+    get 'live_summary', to: 'live_summaries#index'
+  end
   resources :admin
 
   post 'admin/batch_delete', to: 'admin#batch_delete'
