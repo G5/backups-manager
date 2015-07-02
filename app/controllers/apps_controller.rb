@@ -5,11 +5,8 @@ class AppsController < ApplicationController
     @app_list = App.all
     @app_count = @app_list.count
     @rate_limit = RateCheck.new().usage
-
-    # Need to clean this up. Duplicated over in the OrgsController
-    zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
-    @time = Time.now.in_time_zone(zone).strftime("%I:%M%p")
-
+    @time = get_time
+    
     respond_to do |format|
       format.html
       format.json { render json: App.all.make_app_array.as_json }

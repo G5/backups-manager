@@ -23,26 +23,6 @@ module ApplicationHelper
     "<i>#{value.size} apps</i>"
   end
 
-  def anchor_str(key)
-    "<a name='#{key_slug(key)}'></a>"
-  end
-
-  def key_slug(appname)
-    appname.downcase.parameterize if appname
-  end
-
-  def heroku_dashboard_link_str(app)
-    "<a href='https://dashboard.heroku.com/apps/#{app.name}/' target='_blank' class='heroku-dashboard'>Dashboard</a>"
-  end
-
-  def heroku_app_link_str(app)
-    "<a href='https://#{app.app_name}.herokuapp.com' target='_blank' class='heroku-app'>App</a>"
-  end
-
-  def app_link_str(app)
-    "<span class='app-name'>" + link_to(app.name, app_path(app)) + "</span>"
-  end
-
   def master_versions
     @@masters ||= version_apps_list.inject({}) do |h, (k, v)|
       h[k] = get_app_master_version(k)
