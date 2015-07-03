@@ -1,9 +1,10 @@
  <%= content_tag :h1, @app.name %>
+ <%= content_tag :h2, "App data as of: #{Time.now.strftime('%B %d at %l:%M %p')}" %>
  <h3 class="app-title">Dynos:</h3>
   <table class="table-minimal">
     <thead>
       <tr>
-        <th>Dyno Type</th>
+        <th>Dyno</th>
         <th>Quantity</th>
         <th>Size</th>
       </tr>

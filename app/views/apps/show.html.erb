@@ -10,7 +10,7 @@
   <table class="table-minimal">
     <thead>
       <tr>
-        <th>Dyno Type</th>
+        <th>Dyno</th>
         <th>Quantity</th>
         <th>Size</th>
       </tr>
@@ -54,7 +54,7 @@
       </tr>
     </thead>
     <tbody>
-      <% if @config_vars.any? %>
+      <% unless @config_vars.nil? %>
         <% @config_vars.sort.map do |key, val| %>
           <% unless exclude_config_var(key) %>
             <tr>
@@ -68,18 +68,17 @@
       <% end %>
     </tbody>
   </table>
-
-  <% if @domains %>
     <hr />
 
-    <%= "<h3 class='app-title'>Domains</h3>".html_safe unless domain["hostname"] =~ /-clw-|.g5dns.|.herokuapp.com/ %>
-    <ul>
-    <% @domains.each do |domain| %>
-      <% unless domain["hostname"] =~ /-clw-|.g5dns.|.herokuapp.com/ %>
-        <li><%= link_to domain["hostname"], "http://#{domain["hostname"]}", target: "_blank" %></li>
-      <% end %> 
-    <% end %>
-    </ul>
+  <% unless @domains.blank? %>
+    <h3 class='app-title'>Domains</h3>
+      <ul>
+      <% @domains.each do |domain| %>
+        <% unless domain["hostname"] =~ /-clw-|.g5dns.|.herokuapp.com/ %>
+          <li><%= link_to domain["hostname"], "http://#{domain["hostname"]}", target: "_blank" %></li>
+        <% end %> 
+      <% end %>
+      </ul>  
   <% end %>
 </div>
 
