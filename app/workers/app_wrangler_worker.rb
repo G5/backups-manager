@@ -3,31 +3,17 @@ class AppWranglerWorker
   include Sidekiq::Worker
 
   def perform
-    create_and_update_apps
+    create_new_apps
   end
 
-  def create_and_update_apps
-    app_list = AppList.new().get_app_list
+  def create_new_apps
+    app_list = AppList.new().get_app_list #hits api once
     app_list.each do |app|
-      #Query data base for an app with the json name attributes
-      if app_query = App.where(name: app['name']).take
-        if app_query.app_details["updated_at"] != app["updated_at"]
-          attributes = get_the_package(app, app["name"]) 
-          app_query.update_attributes(attributes)
-        end
-      else
-        attributes = get_the_package(app, app["name"])
+      if App.where(name: app["name"]).blank? #this will not create a new app if it already exists
+        attributes = {app_details: app, name: app["name"]}
         App.create(attributes)
       end 
     end
-  end
-
-  def get_the_package(app, app_name)
-    dynos = AppDetails.new(app_name).get_app_dynos
-    addons = AppDetails.new(app_name).get_app_addons
-    config_vars = AppDetails.new(app_name).get_app_config_variables
-    domains = AppDetails.new(app_name).get_app_domains
-    attributes = {app_details: app, dynos: dynos, addons: addons, config_variables: config_vars, domains: domains}
   end
 
 end

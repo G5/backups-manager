@@ -1,6 +1,4 @@
 module AppsHelper
-  @@masters = nil
-
   def get_app_groups(apps)
     reg_array = regular_app_groups
     kook_apps = reg_array.join("|")

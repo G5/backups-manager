@@ -1,4 +1,5 @@
 module ApplicationHelper
+  @@masters = nil
   def exclude_config_var(var_name)
     excluded_vars = [ "SECRET",
                       "ID_RSA",
@@ -74,10 +75,12 @@ module ApplicationHelper
 
   def average_dynos_per_app(apps)
     grand_total = 0
-    apps.each do |app| 
-      app.dynos.each do |dyno|
-        grand_total += dyno["quantity"]
-      end
+    apps.each do |app|
+      if app.dynos
+        app.dynos.each do |dyno|
+          grand_total += dyno["quantity"]
+        end
+      end 
     end
     average = grand_total.to_f/apps.count
     average.round(1)

@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-    <% if @dynos.any? %>
+    <% unless @dynos.blank? || !@dyno.any? %>
       <% @dynos.each do |dyno| %>
         <tr>
           <td><%= dyno["type"] %></td>
@@ -33,7 +33,7 @@
 
   <h3 class="app-title">Addons</h3>
   <ul>
-  <% if @addons.any? %>
+  <% unless @addons.blank? || !@addons.any? %>
     <% @addons.each do |addon| %>
       <li><%= addon["plan"]["name"] %></li>
     <% end %>
