@@ -4,7 +4,7 @@ class AppDomainsWorker
 
   def perform
     App.all.each do |app|
-      domains = AppDetails.new(app.app_details["name"]).get_app_domains
+      domains = AppDetails.new(app.name).get_app_domains
       app.update_attributes({domains: domains})
     end
   end
