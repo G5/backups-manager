@@ -47,7 +47,6 @@ hr {
   h1{
     color: $color5;
     font-size: em(18);
-    // @include span-columns(6 of 12)
   }
 }
 
@@ -59,7 +58,6 @@ hr {
 }
 
 .app-btn{
-  //@include span-columns(3 of 12);
   float: right;
   @include vert-align;
 }
