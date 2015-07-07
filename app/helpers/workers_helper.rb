@@ -1,5 +1,5 @@
 module WorkersHelper
-  def new_app?(attribute)
+  def new_app?(app, attribute)
     attribute = attribute.to_sym
     app.send(attribute).blank? ? true : false
   end
