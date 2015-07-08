@@ -1,11 +1,15 @@
 <div class="app">
-  <h1>App Name: <%= @app_name %></h1>
+  <% type = get_app_type(@app) %>
+  <% if versioned_apps.has_key? type.downcase.parameterize %>
+    <% mv = get_mv(type) %>
+  <% end %>
+  <h1>App Name: <%= @app_name %><span class='master-value-show'><%= " v#{mv}" if mv %></span></h1>
+  <%= link_to "Live Summary", app_live_summary_path(@app), class: "live-summary-link" %>
   <p><strong>Last Upated:</strong> <%= @updated_at.to_time.in_time_zone("Pacific Time (US & Canada)") %></p>
   <p>Current API requests remaining: <%= @rate_limit %> out of 2400 </p>
   <h3 class="app-title">URL's:</h3>
   <p><%= link_to "<strong>App URL: </strong>#{@app_url}".html_safe, @app_url, target: 'blank' %></a></p>
   <p><%= link_to "<strong>Git URL: </strong>#{@app_git_url}".html_safe, @app_git_url, target: 'blank' %></p>
-  </ul>
   <h3 class="app-title">Dynos:</h3>
   <table class="table-minimal">
     <thead>
