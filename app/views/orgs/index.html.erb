@@ -1,6 +1,6 @@
 <div class="app orgs">
   <%= render 'shared/wrangler_header', object: {grouped: "Owner", group_by: "type", view_link: apps_path} %>
-  <%= AppVersions.new().master_version_inputs %>
+  <%= AppVersions.master_version_inputs %>
   <div class="app-group">
     <% @grouped_apps.each do |owner, apps| %>
       <% unless apps.blank? %>

@@ -52,10 +52,10 @@ module ApplicationHelper
   end
 
   def versioned_apps
-    AppVersions.new().version_apps_list
+    AppVersions.version_apps_list
   end
 
   def get_mv(type)
-    AppVersions.new().get_master_version(type)
+    AppVersions.get_master_version(type)
   end
 end
