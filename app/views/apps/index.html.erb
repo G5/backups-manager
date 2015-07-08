@@ -8,10 +8,10 @@
           <span class="app-name"><%= type %></span>
           <span><%= "Group App Count: <span class='counter'>#{apps.count}</span>".html_safe %> | </span>
           <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(apps)}</span>".html_safe %> | </span>
-          <% if version_apps_list.has_key? type.downcase.parameterize %>
+          <% if versioned_apps.has_key? type.downcase.parameterize %>
             <span class='version'>Master: 
               <span class="version-value">
-                <%= get_master_version(type) %>
+                <%= get_mv(type) %>
               </span>
             </span>
             <a href='#' class='version-refresh'><%= image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions') %></a>
@@ -27,7 +27,7 @@
               <%= link_to "App", "https://#{app.name}.herokuapp.com", target: "blank" %>
               <%= link_to "| Dyno Count: #{dyno_count(app.dynos)}", "https://dashboard.heroku.com/apps/#{app.name}/resources", target: "blank" if app.dynos  %>
               <%= link_to "| Live Summary", app_live_summary_path(app) %>
-              <% if version_apps_list.has_key? type.downcase.parameterize %>
+              <% if versioned_apps.has_key? type.downcase.parameterize %>
                 <span class="version">
                   <span class="version-value">
                     ...
