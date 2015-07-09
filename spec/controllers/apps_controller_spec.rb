@@ -33,19 +33,12 @@ describe AppsController do
       end
 
       it { expect(assigns(:app)).to eq(app) }
-
       it { expect(assigns(:app_name)).to eq(app.name) }
-
       it { expect(assigns(:app_url)).to eq(app.app_details["web_url"]) }
-
       it { expect(assigns(:app_git_url)).to eq(app.app_details["git_url"]) }
-
       it { expect(assigns(:updated_at)).to eq(app.app_details["updated_at"]) }
-
       it { expect(assigns(:addons)).to eq(app.addons) }
-
       it { expect(assigns(:config_vars)).to eq(app.config_variables) }
-
       it { expect(assigns(:dynos)).to eq(app.dynos) }
     end
     
@@ -62,7 +55,5 @@ describe AppsController do
 
       it { expect(assigns(:domains)).to eq(clw_app.domains) }
     end
-
   end
-
 end

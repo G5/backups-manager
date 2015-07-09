@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: appwrangler_development
+  pool: 5
+  username: username
+  password:
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: appwrangler_test
+  pool: 5
+  username: username
+  password:

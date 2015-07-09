@@ -27,7 +27,6 @@ describe OrgsController do
     end
 
     it { expect(assigns(:data).count).to eq(2) }
-
     it { expect(assigns(:app_count)).to eq(App.count) }
       
     it "groups by app owner" do
@@ -35,6 +34,5 @@ describe OrgsController do
 
       expect(assigns(:data).first[0]).to eq(group1_owner)
     end
-
   end
 end

@@ -11,5 +11,4 @@ class AppAddonsWorker
       end
     end
   end
-
 end

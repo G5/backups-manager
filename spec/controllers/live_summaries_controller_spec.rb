@@ -3,7 +3,6 @@ require 'rails_helper'
 describe LiveSummariesController do
   describe 'GET index', auth_controller: true do
     let(:dynos) { stub_app_dynos_response }
-
     let!(:selected_app) { Fabricate(:complete_app) }
 
     before do
@@ -20,5 +19,4 @@ describe LiveSummariesController do
       expect(assigns(:app_dynos)).to eq(dynos)
     end
   end
-
 end

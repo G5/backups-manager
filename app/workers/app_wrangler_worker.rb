@@ -15,5 +15,4 @@ class AppWranglerWorker
       end 
     end
   end
-
 end

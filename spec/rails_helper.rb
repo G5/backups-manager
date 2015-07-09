@@ -6,6 +6,7 @@ require 'g5_authenticatable/rspec'
 require 'webmock/rspec'
 require 'sidekiq/testing'
 require 'pry'
+
 Sidekiq::Testing.inline!
 
 # Add additional requires below this line. Rails is not loaded until this point!

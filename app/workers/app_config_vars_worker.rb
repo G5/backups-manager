@@ -13,5 +13,4 @@ class AppConfigVarsWorker
       end
     end
   end
-
 end

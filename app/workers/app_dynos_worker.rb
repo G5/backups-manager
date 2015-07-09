@@ -11,5 +11,4 @@ class AppDynosWorker
       end
     end
   end
-
 end

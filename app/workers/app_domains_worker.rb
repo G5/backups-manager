@@ -11,5 +11,4 @@ class AppDomainsWorker
       end
     end
   end
-
 end
