@@ -42,7 +42,6 @@ class AppList
   end
 
   def get_app_groups(apps)
-    binding.pry
     reg_array = self.class.regular_app_groups
     kook_apps = reg_array.join("|")
     grouped = {}
