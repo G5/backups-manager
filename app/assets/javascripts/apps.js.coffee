@@ -41,16 +41,30 @@ class BaseController
     $.ajax url, 
       method: 'GET'
       success: (res, status, xhr) ->
-        _this.ajaxSuccess(res, master, elem)
+        _this.ajaxSuccess(res, master, elem, url)
       error: (xhr, status, err) ->
         _this.ajaxError(elem)
 
-  ajaxSuccess: (res, master, elem)->
-    version = if res.version then res.version else res.health.version
+  ajaxSuccess: (res, master, elem, url)->
+    version = if res.version
+                res.version
+              else if res.health
+                res.health.version
+              else
+                res.status.version
+
+    health = if res.status then res.status.health.OVERALL.is_healthy else 'UNKNOWN'
+
     klass = 'current' if version == master
     klass = 'ahead' if version > master
     klass = 'behind' if version < master
-    @setVersionValue(elem, "<b class='#{klass}'>#{version}</b>")
+
+    markup = "<b class='#{klass}'>#{version}</b>"
+    if health != 'UNKNOWN'
+      healthClass = if health then 'fa-smile-o healthy' else 'fa-frown-o unhealthy'
+      markup += " <a href='#{url}' target='_blank'><i class='fa #{healthClass}'></i></a>"
+
+    @setVersionValue(elem, markup)
 
   ajaxError: (elem)->
     @setVersionValue(elem, "<b class='error'>not found</i>")
