@@ -12,7 +12,8 @@
 
 // --LAYOUT-- //
 .container{
-  @include outer-container;
+  width:75%;
+  margin:0 auto;
   padding:30px 0;
 }
 
@@ -134,7 +135,10 @@ hr {
     overflow:hidden;
     @include transition(400ms all ease-in-out);
     li {
-      padding: 2px 12px 2px 38px;
+      padding: 0px 10px 0px 38px;
+      span, a {
+        vertical-align:top;
+      }
       &:hover {
         background-color: $color2;
       }
@@ -146,6 +150,12 @@ hr {
     a:hover {
       text-decoration: underline;
     }
+  }
+  .app-dyno-alert {
+    background:#f39c12;
+  }
+  hr {
+    margin:0;
   }
 }
 
@@ -280,6 +290,15 @@ hr {
     }
   }
   table-layout: auto;
+}
+
+.dynos {
+  width:31%;
+  margin-left:15%;
+  display:inline-block;
+  section {
+    display:inline-block;
+  }
 }
 
 

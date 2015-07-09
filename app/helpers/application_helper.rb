@@ -38,6 +38,10 @@ module ApplicationHelper
     dyno_count
   end
 
+  def free_dynos?(dynos)
+    true if dynos.any? {|dyno| dyno["quantity"] > 0 && dyno["size"] == "Free"}
+  end
+
   def average_dynos_per_app(apps)
     grand_total = 0
     apps.each do |app|

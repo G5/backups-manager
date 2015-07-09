@@ -23,7 +23,7 @@ gem 'g5_authenticatable'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'whenever', :require => false
-
+gem 'newrelic_rpm'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

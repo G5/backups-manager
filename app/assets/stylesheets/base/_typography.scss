@@ -24,7 +24,7 @@ p {
 }
 
 a {
-  color: $action-color;
+  color: #000000;
   text-decoration: none;
   transition: color 0.1s linear;
 
@@ -52,4 +52,9 @@ img,
 picture {
   margin: 0;
   max-width: 100%;
+}
+
+#alert-flag {
+  color:#c0392b;
+  font-weight:bold;
 }
