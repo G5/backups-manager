@@ -29,13 +29,15 @@
               <div class="dynos">
                 <span>Dynos: </span>
                 <section>
-                  <% app.dynos.each do |dyno| %>
-                    <% if dyno.class == Hash && dyno["quantity"] >= 1 %>
-                      <%= content_tag :span, "#{dyno['quantity']}", class: "dyno-info", id: ("alert-flag" if dyno["quantity"] >= 3) %>
-                      <%= content_tag :span, class: "dyno-info" do %>
-                        <%= dyno["quantity"] > 1 ? "#{dyno['type']}s @" : "#{dyno['type']} @" %>
+                  <% if app.dynos.present? %>
+                    <% app.dynos.each do |dyno| %>
+                      <% if dyno.class == Hash && dyno["quantity"] >= 1 %>
+                        <%= content_tag :span, "#{dyno['quantity']}", class: "dyno-info", id: ("alert-flag" if dyno["quantity"] >= 3) %>
+                        <%= content_tag :span, class: "dyno-info" do %>
+                          <%= dyno["quantity"] > 1 ? "#{dyno['type']}s @" : "#{dyno['type']} @" %>
+                        <% end %>
+                        <%= content_tag :span, "#{dyno['size']}", class: "dyno-info" %><br>
                       <% end %>
-                      <%= content_tag :span, "#{dyno['size']}", class: "dyno-info" %><br>
                     <% end %>
                   <% end %>
                 </section>

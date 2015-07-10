@@ -1,4 +1,4 @@
-class AppDetails
+  class AppDetails
   require "net/http"
   require 'net/https'
   require "uri"
@@ -14,23 +14,39 @@ class AppDetails
   end
 
   def get_app_dynos
-    response = RestClient.get "#{uri}/formation", header
-    data = JSON.parse response.body
+    begin
+      response = RestClient.get "#{uri}/formation", header
+      data = JSON.parse response.body
+    rescue => e
+      e.response
+    end
   end
 
   def get_app_addons
-    response = RestClient.get "#{uri}/addons", header
-    data = JSON.parse response.body
+    begin
+      response = RestClient.get "#{uri}/addons", header
+      data = JSON.parse response.body
+    rescue => e
+      e.response
+    end
   end
 
   def get_app_config_variables
-    response = RestClient.get "#{uri}/config-vars", header
-    data = JSON.parse response.body
+    begin
+      response = RestClient.get "#{uri}/config-vars", header
+      data = JSON.parse response.body
+    rescue => e
+      e.response
+    end
   end
 
   def get_app_domains
-    response = RestClient.get "#{uri}/domains", header
-    data = JSON.parse response.body
+    begin
+      response = RestClient.get "#{uri}/domains", header
+      data = JSON.parse response.body
+    rescue => e
+      e.response
+    end
   end
 
   def delete
