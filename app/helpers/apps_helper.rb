@@ -13,5 +13,6 @@ module AppsHelper
       grouped[app_name] = app_group
     end
     grouped.merge!(misfits)
+    grouped.sort
   end
 end
