@@ -18,3 +18,6 @@
 /.env
 /.env.development
 .DS_Store
+
+# Ignore all RubyMine project files
+.idea
