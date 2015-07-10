@@ -27,19 +27,19 @@ module ApplicationHelper
   def regular_app_groups
     [ 'g5-analytics', 'g5-backups', 'g5-cau', 'g5-client', 'g5-cls', 'g5-clw', 'g5-cms-',
       'g5-cpas', 'g5-cpns', 'g5-cxm', 'g5-dsh', 'g5-inventory', 'g5-inv-', 'g5-jobs', 'g5-layout',
-      'g5-nae', 'g5-social', 'g5-theme-', 'g5-vendor', 'g5-vls', 'g5-widget', 'g5-app-wrangler']
+      'g5-nae', 'g5-social', 'g5-theme-', 'g5-vendor', 'g5-widget', 'g5-app-wrangler']
   end
 
   def dyno_count(dynos)
     dyno_count = 0
     dynos.each do |dyno|
-      dyno_count += dyno["quantity"]
+      dyno_count += dyno["quantity"] if dyno.class == Hash
     end
     dyno_count
   end
 
   def free_dynos?(dynos)
-    true if dynos.any? {|dyno| dyno["quantity"] > 0 && dyno["size"] == "Free"}
+    true if dynos.any? {|dyno| (dyno["quantity"] > 0 && dyno["size"] == "Free") if dyno.class == Hash}
   end
 
   def average_dynos_per_app(apps)
@@ -47,7 +47,7 @@ module ApplicationHelper
     apps.each do |app|
       if app.dynos
         app.dynos.each do |dyno|
-          grand_total += dyno["quantity"]
+          grand_total += dyno["quantity"] if dyno.class == Hash
         end
       end 
     end

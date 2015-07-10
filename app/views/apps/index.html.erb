@@ -30,7 +30,7 @@
                 <span>Dynos: </span>
                 <section>
                   <% app.dynos.each do |dyno| %>
-                    <% if dyno["quantity"] >= 1 %>
+                    <% if dyno.class == Hash && dyno["quantity"] >= 1 %>
                       <%= content_tag :span, "#{dyno['quantity']}", class: "dyno-info", id: ("alert-flag" if dyno["quantity"] >= 3) %>
                       <%= content_tag :span, class: "dyno-info" do %>
                         <%= dyno["quantity"] > 1 ? "#{dyno['type']}s @" : "#{dyno['type']} @" %>
