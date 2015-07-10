@@ -8,7 +8,7 @@ module AppsHelper
     misc_app = apps.reject { |app| app.name[/#{kook_apps}/] }
     misfits["MISFITS"] = misc_app
     reg_array.each do |reg|
-      app_name = reg.gsub('-', '').upcase.gsub('G5', '')
+      app_name = reg.gsub('-', ' ').upcase.gsub('G5', '')
       app_group = apps.select { |app| app.name[/#{reg}/] }
       grouped[app_name] = app_group
     end
