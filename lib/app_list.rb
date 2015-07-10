@@ -19,7 +19,7 @@ class AppList
 
     data
   end
-
+  
   def create_headers
     headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
                  accept: "application/vnd.heroku+json; version=3",
