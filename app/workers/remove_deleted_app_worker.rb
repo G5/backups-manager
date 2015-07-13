@@ -1,15 +1,20 @@
 class RemoveDeletedAppWorker
+  
+  include Sidekiq::Worker
+
   def perform
     remove_deleted_app
   end
 
   def remove_deleted_app
     app_list = AppList.new().get_app_list #hits api once
-    apps_in_database = App.all
+    apps_on_heroku = app_list.map {|app| app["name"]}
+    apps_in_database = App.all.map {|app| app.name}
 
     apps_in_database.each do |app|
-      app_list.each do |happ|
-        happ["name"]
+      if apps_on_heroku.exclude?(app)
+        dead_app = App.find_by_name(app)
+        App.destroy(dead_app.id)
       end
     end 
   end
