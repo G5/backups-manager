@@ -26,6 +26,19 @@ class AppDetails
       accept: "application/vnd.heroku+json; version=3" }
   end
 
+  def delete
+    response = HTTPClient.delete uri, nil, header
+    success = response.code == 200 ? true : false
+  end
+
+  def spin_down
+    data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
+    @headers[:content_type] = 'application/json'
+    response = HTTPClient.request(:patch, "#{uri}/formation", nil, data.to_json, header)
+
+    success = response.code == 200 ? true : false
+  end
+
   private
 
   def get_detail(type)
@@ -36,19 +49,4 @@ class AppDetails
       e.response
     end
   end
-
-  # Need to validate the following two work with HttpClient
-
-  # def delete
-  #   response = HTTPClient.delete uri, nil, header
-  #   success = response.code == 200 ? true : false
-  # end
-
-  # def spin_down
-  #   data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
-  #   @headers[:content_type] = 'application/json'
-  #   response = HTTPClient.patch "#{uri}/formation", data.to_json, nil, header
-
-  #   success = response.code == 200 ? true : false
-  # end
 end
