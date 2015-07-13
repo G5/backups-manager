@@ -19,3 +19,7 @@ end
 task :update_config_vars => :environment do
   AppConfigVarsWorker.perform_async
 end
+
+task :remove_deleted_apps => :environment do
+  RemoveDeletedAppWorker.perform_async
+end
