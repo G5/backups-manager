@@ -5,7 +5,7 @@ describe AppsController do
     let!(:app) { Fabricate(:complete_app) }
     before do
       stub_request(:get, "https://api.heroku.com/account/rate-limits").
-         with(:headers => AppDetails.new(app.app_details["name"]).header).
+         with(:headers => AppDetails.default_headers).
          to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
       get :index
@@ -26,7 +26,7 @@ describe AppsController do
       let!(:app) { Fabricate(:complete_app) }
       before do
         stub_request(:get, "https://api.heroku.com/account/rate-limits").
-           with(:headers => AppDetails.new(app.app_details["name"]).header).
+           with(:headers => AppDetails.default_headers).
            to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         get :show, id: app.id
@@ -47,7 +47,7 @@ describe AppsController do
       let!(:clw_app) { Fabricate(:complete_app, name: "g5-clw-1sjhz1kl-holland-reside") }
       before do
         stub_request(:get, "https://api.heroku.com/account/rate-limits").
-           with(:headers => AppDetails.new(clw_app.app_details["name"]).header).
+           with(:headers => AppDetails.default_headers).
            to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         get :show, id: clw_app.id

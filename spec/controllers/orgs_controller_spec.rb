@@ -7,7 +7,7 @@ describe OrgsController do
     let!(:app3) { Fabricate(:complete_app)}
     before do
       stub_request(:get, "https://api.heroku.com/account/rate-limits").
-         with(:headers => AppDetails.new(app.app_details["name"]).header).
+         with(:headers => AppDetails.default_headers).
          to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         app2.app_details["owner"]["email"] = "group2@herokumanager.com"

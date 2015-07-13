@@ -1,64 +1,54 @@
-  class AppDetails
-  require "net/http"
-  require 'net/https'
-  require "uri"
-
-  attr_reader :uri, :header
+class AppDetails
+  attr_reader :uri
   
   def initialize(name)
-    @header = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-                 accept: "application/vnd.heroku+json; version=3"
-               }
-
     @uri = "https://api.heroku.com/apps/#{name}"
   end
 
   def get_app_dynos
-    begin
-      response = HTTPClient.get "#{uri}/formation", nil, header
-      data = JSON.parse response.body
-    rescue => e
-      e.response
-    end
+    get_detail("formation")
   end
 
   def get_app_addons
-    begin
-      response = HTTPClient.get "#{uri}/addons", nil, header
-      data = JSON.parse response.body
-    rescue => e
-      e.response
-    end
+    get_detail("addons")
   end
 
   def get_app_config_variables
-    begin
-      response = HTTPClient.get "#{uri}/config-vars", nil, header
-      data = JSON.parse response.body
-    rescue => e
-      e.response
-    end
+    get_detail("config-vars")
   end
 
   def get_app_domains
+    get_detail("domains")
+  end
+
+  def self.default_headers
+    { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
+      accept: "application/vnd.heroku+json; version=3" }
+  end
+
+  private
+
+  def get_detail(type)
     begin
-      response = HTTPClient.get "#{uri}/domains", nil, header
+      response = HTTPClient.get "#{uri}/#{type}", nil, AppDetails.default_headers
       data = JSON.parse response.body
     rescue => e
       e.response
     end
   end
 
-  def delete
-    response = HTTPClient.delete uri, nil, header
-    success = response.code == 200 ? true : false
-  end
+  # Need to validate the following two work with HttpClient
 
-  def spin_down
-    data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
-    @headers[:content_type] = 'application/json'
-    response = HTTPClient.patch "#{uri}/formation", data.to_json, nil, header
+  # def delete
+  #   response = HTTPClient.delete uri, nil, header
+  #   success = response.code == 200 ? true : false
+  # end
 
-    success = response.code == 200 ? true : false
-  end
+  # def spin_down
+  #   data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
+  #   @headers[:content_type] = 'application/json'
+  #   response = HTTPClient.patch "#{uri}/formation", data.to_json, nil, header
+
+  #   success = response.code == 200 ? true : false
+  # end
 end
