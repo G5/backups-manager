@@ -4,8 +4,8 @@ describe AppsController do
   describe 'GET index', auth_controller: true do
     let!(:app) { Fabricate(:complete_app) }
     before do
-      stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-         with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+      stub_request(:get, "https://api.heroku.com/account/rate-limits").
+         with(:headers => AppDetails.new(app.app_details["name"]).header).
          to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
       get :index
@@ -25,8 +25,8 @@ describe AppsController do
     context "when showing a non clw app" do
       let!(:app) { Fabricate(:complete_app) }
       before do
-        stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-           with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        stub_request(:get, "https://api.heroku.com/account/rate-limits").
+           with(:headers => AppDetails.new(app.app_details["name"]).header).
            to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         get :show, id: app.id
@@ -46,8 +46,8 @@ describe AppsController do
     context "setting app domains for clw apps only" do
       let!(:clw_app) { Fabricate(:complete_app, name: "g5-clw-1sjhz1kl-holland-reside") }
       before do
-        stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-           with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        stub_request(:get, "https://api.heroku.com/account/rate-limits").
+           with(:headers => AppDetails.new(clw_app.app_details["name"]).header).
            to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         get :show, id: clw_app.id

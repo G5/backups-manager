@@ -15,7 +15,7 @@
 
   def get_app_dynos
     begin
-      response = RestClient.get "#{uri}/formation", header
+      response = HTTPClient.get "#{uri}/formation", nil, header
       data = JSON.parse response.body
     rescue => e
       e.response
@@ -24,7 +24,7 @@
 
   def get_app_addons
     begin
-      response = RestClient.get "#{uri}/addons", header
+      response = HTTPClient.get "#{uri}/addons", nil, header
       data = JSON.parse response.body
     rescue => e
       e.response
@@ -33,7 +33,7 @@
 
   def get_app_config_variables
     begin
-      response = RestClient.get "#{uri}/config-vars", header
+      response = HTTPClient.get "#{uri}/config-vars", nil, header
       data = JSON.parse response.body
     rescue => e
       e.response
@@ -42,7 +42,7 @@
 
   def get_app_domains
     begin
-      response = RestClient.get "#{uri}/domains", header
+      response = HTTPClient.get "#{uri}/domains", nil, header
       data = JSON.parse response.body
     rescue => e
       e.response
@@ -50,14 +50,14 @@
   end
 
   def delete
-    response = RestClient.delete uri, header
+    response = HTTPClient.delete uri, nil, header
     success = response.code == 200 ? true : false
   end
 
   def spin_down
     data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
     @headers[:content_type] = 'application/json'
-    response = RestClient.patch "#{uri}/formation", data.to_json, header
+    response = HTTPClient.patch "#{uri}/formation", data.to_json, nil, header
 
     success = response.code == 200 ? true : false
   end

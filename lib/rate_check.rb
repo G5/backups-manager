@@ -11,7 +11,7 @@ class RateCheck
   end
 
   def usage
-    response = RestClient.get @uri, @headers
+    response = HTTPClient.get @uri, nil, @headers
     data = JSON.parse response.body
     data["remaining"]
   end

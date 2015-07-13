@@ -6,7 +6,8 @@ describe LiveSummariesController do
     let!(:selected_app) { Fabricate(:complete_app) }
 
     before do
-      stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/apps/#{selected_app.app_details["name"]}/formation").to_return(:status => 200, :body => dynos.to_json, :headers => {})
+      stub_request(:get, "https://api.heroku.com/apps/#{selected_app.app_details["name"]}/formation")
+        .to_return(:status => 200, :body => dynos.to_json, :headers => {})
 
       get :index, app_id: selected_app.id
     end

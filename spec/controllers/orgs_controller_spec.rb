@@ -6,8 +6,8 @@ describe OrgsController do
     let!(:app2) { Fabricate(:complete_app)}
     let!(:app3) { Fabricate(:complete_app)}
     before do
-      stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-         with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+      stub_request(:get, "https://api.heroku.com/account/rate-limits").
+         with(:headers => AppDetails.new(app.app_details["name"]).header).
          to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         app2.app_details["owner"]["email"] = "group2@herokumanager.com"
