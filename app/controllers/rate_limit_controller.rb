@@ -2,7 +2,7 @@ class RateLimitController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @remaining = RateCheck.new().usage
+    @remaining = RateCheck.usage
   end
 
 end
