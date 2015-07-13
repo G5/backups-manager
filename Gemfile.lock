@@ -104,6 +104,8 @@ GEM
       i18n (~> 0.5)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    font-awesome-sass (4.3.2.1)
+      sass (~> 3.2)
     g5_authenticatable (0.7.2)
       devise_g5_authenticatable (~> 0.2.2)
       g5_authenticatable_api (~> 0.4.1)
@@ -124,6 +126,11 @@ GEM
       activesupport
       g5_authentication_client (>= 0.2)
       httparty
+    g5_ops (0.2.4)
+      active_model_serializers (~> 0.8)
+      pg
+      rails
+      virtus
     g5_updatable (0.8.0)
       active_model_serializers (~> 0.8)
       activesupport
@@ -327,7 +334,9 @@ DEPENDENCIES
   fabrication
   factory_girl_rails
   faker
+  font-awesome-sass
   g5_authenticatable
+  g5_ops
   jbuilder (~> 2.0)
   jquery-rails
   neat (~> 1.5.1)

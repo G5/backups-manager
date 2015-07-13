@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   mount G5Authenticatable::Engine => '/g5_auth'
+  mount G5Ops::Engine => '/g5_ops'
   require 'resque/server'
   require 'sidekiq/web'
   mount Resque::Server.new, at: "/resque"

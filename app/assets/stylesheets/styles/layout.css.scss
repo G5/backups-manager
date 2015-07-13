@@ -301,18 +301,28 @@ hr {
   }
 }
 
-
-
-// MQ   
-@include media($single-column){
-  .logo, .header,
-  .app, .app-card, .app-count, .app-group, 
-  .wrangle, .wrangle-about{
-    @include span-columns(1 of 1);
+.fa {
+  &.unhealthy {
+    color: #cc0000;
   }
 
-  .header{
-    //@include margin(14px 18px);
-    margin: 14px 18px;
+  &.healthy {
+    color: #cccccc;
   }
 }
+
+
+  // MQ
+  @include media($single-column){
+    .logo, .header,
+    .app, .app-card, .app-count, .app-group,
+    .wrangle, .wrangle-about{
+      @include span-columns(1 of 1);
+    }
+
+    .header{
+      //@include margin(14px 18px);
+      margin: 14px 18px;
+    }
+  }
+
