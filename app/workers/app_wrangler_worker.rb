@@ -7,7 +7,7 @@ class AppWranglerWorker
   end
 
   def create_new_apps
-    app_list = AppList.new().get_app_list #hits api once
+    app_list = AppList.get #hits api once
     app_list.each do |app|
       if App.where(name: app["name"]).blank? #this will not create a new app if it already exists
         attributes = {app_details: app, name: app["name"]}

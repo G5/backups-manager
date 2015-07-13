@@ -1,11 +1,7 @@
 class AppList
-  require "net/http"
-  require 'net/https'
-  require "uri"
-
-  def get_app_list
+  def self.get
     app_list_uri = "https://api.heroku.com/apps"
-    headers = create_headers 
+    headers = default_headers 
     response = HTTPClient.get app_list_uri, nil, headers
     data = JSON.parse response.body
     # Heroku returns up to 1000 records at a time. A response code 
@@ -20,10 +16,9 @@ class AppList
     data
   end
   
-  def create_headers
-    headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-                 accept: "application/vnd.heroku+json; version=3",
-                 range: "name ..; max=1000;"
-               }
+  def self.default_headers
+    { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
+      accept: "application/vnd.heroku+json; version=3",
+      range: "name ..; max=1000;" }
   end
 end

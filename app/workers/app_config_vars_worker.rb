@@ -3,7 +3,7 @@ class AppConfigVarsWorker
   include WorkersHelper
   
   def perform
-    app_list = AppList.new().get_app_list
+    app_list = AppList.get
     App.all.each do |app|
       app_type = app.name.split("-")
       next if app_type.include?("clw")
