@@ -53,6 +53,8 @@ class BaseController
               else
                 res.status.version
 
+    master = $.trim(master)
+
     health = if res.status then res.status.health.OVERALL.is_healthy else 'UNKNOWN'
 
     klass = 'current' if version == master
