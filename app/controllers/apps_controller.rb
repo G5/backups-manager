@@ -8,7 +8,7 @@ class AppsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.json { render json: App.all.make_app_array.as_json }
+      #format.json { render json: App.all.make_app_array.as_json }
     end
   end
 
