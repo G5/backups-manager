@@ -42,5 +42,4 @@ class AppVersions
       'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=#{ENV['DSH_GITHUB_TOKEN']}"
     }
   end
-
 end

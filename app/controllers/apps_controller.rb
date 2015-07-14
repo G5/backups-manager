@@ -3,7 +3,7 @@ class AppsController < ApplicationController
   def index
     @app_list = App.all
     @app_count = @app_list.count
-    @rate_limit = RateCheck.new().usage
+    @rate_limit = RateCheck.usage
     @time = get_time
     
     respond_to do |format|
@@ -25,7 +25,7 @@ class AppsController < ApplicationController
 
     @domains = @app.domains if @app_name.include? "-clw-"
 
-    @rate_limit = RateCheck.new().usage
+    @rate_limit = RateCheck.usage
   end
 
 end

@@ -3,7 +3,7 @@ class AppAddonsWorker
   include WorkersHelper
 
   def perform
-    app_list = AppList.new().get_app_list
+    app_list = AppList.get
     App.all.each do |app|
       if new_app?(app, "addons") || updated_app?(app, app_list)
         addons = AppDetails.new(app.name).get_app_addons
@@ -11,5 +11,4 @@ class AppAddonsWorker
       end
     end
   end
-
 end

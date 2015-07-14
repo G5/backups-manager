@@ -4,8 +4,8 @@ describe AppsController do
   describe 'GET index', auth_controller: true do
     let!(:app) { Fabricate(:complete_app) }
     before do
-      stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-         with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+      stub_request(:get, "https://api.heroku.com/account/rate-limits").
+         with(:headers => AppDetails.default_headers).
          to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
       get :index
@@ -25,27 +25,20 @@ describe AppsController do
     context "when showing a non clw app" do
       let!(:app) { Fabricate(:complete_app) }
       before do
-        stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-           with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        stub_request(:get, "https://api.heroku.com/account/rate-limits").
+           with(:headers => AppDetails.default_headers).
            to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         get :show, id: app.id
       end
 
       it { expect(assigns(:app)).to eq(app) }
-
       it { expect(assigns(:app_name)).to eq(app.name) }
-
       it { expect(assigns(:app_url)).to eq(app.app_details["web_url"]) }
-
       it { expect(assigns(:app_git_url)).to eq(app.app_details["git_url"]) }
-
       it { expect(assigns(:updated_at)).to eq(app.app_details["updated_at"]) }
-
       it { expect(assigns(:addons)).to eq(app.addons) }
-
       it { expect(assigns(:config_vars)).to eq(app.config_variables) }
-
       it { expect(assigns(:dynos)).to eq(app.dynos) }
     end
     
@@ -53,8 +46,8 @@ describe AppsController do
     context "setting app domains for clw apps only" do
       let!(:clw_app) { Fabricate(:complete_app, name: "g5-clw-1sjhz1kl-holland-reside") }
       before do
-        stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-           with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        stub_request(:get, "https://api.heroku.com/account/rate-limits").
+           with(:headers => AppDetails.default_headers).
            to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         get :show, id: clw_app.id
@@ -62,7 +55,5 @@ describe AppsController do
 
       it { expect(assigns(:domains)).to eq(clw_app.domains) }
     end
-
   end
-
 end

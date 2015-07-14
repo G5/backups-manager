@@ -1,4 +1,15 @@
-== README
+## Setup
+
+```
+bundle install
+cp config/database.yml.example config/database.yml
+```
+
+Edit your database.yml with your local database credentials.
+
+```
+bundle exec rake db:create db:migrate
+```
 
 You'll need to create a `.env` or a `.env.development` file that looks something like this...
 

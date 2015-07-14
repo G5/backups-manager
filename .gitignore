@@ -19,6 +19,7 @@
 /.env.development
 /.env.test
 .DS_Store
+/config/database.yml
 
 # Ignore all RubyMine project files
 .idea

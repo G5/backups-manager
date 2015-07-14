@@ -4,7 +4,7 @@ class OrgsController < ApplicationController
     @app_count = @app_list.count
     @data = @app_list.group_by { |app| app.app_details["owner"]["email"].gsub("@herokumanager.com", "") }
     @grouped_apps = @data.sort_by{|i| i[0]}
-    @rate_limit = RateCheck.new().usage
+    @rate_limit = RateCheck.usage
     @time = get_time
   end
 end

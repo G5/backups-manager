@@ -7,7 +7,7 @@ class RemoveDeletedAppWorker
   end
 
   def remove_deleted_app
-    app_list = AppList.new().get_app_list #hits api once
+    app_list = AppList.get #hits api once
     apps_on_heroku = app_list.map {|app| app["name"]}
     apps_in_database = App.all.map {|app| app.name}
 

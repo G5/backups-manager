@@ -3,7 +3,7 @@ class AppDynosWorker
   include WorkersHelper
 
   def perform
-    app_list = AppList.new().get_app_list
+    app_list = AppList.get
     App.all.each do |app|
       if new_app?(app, "dynos") || updated_app?(app, app_list)
         dynos = AppDetails.new(app.name).get_app_dynos
@@ -11,5 +11,4 @@ class AppDynosWorker
       end
     end
   end
-
 end

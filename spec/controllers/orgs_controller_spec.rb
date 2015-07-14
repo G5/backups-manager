@@ -6,8 +6,8 @@ describe OrgsController do
     let!(:app2) { Fabricate(:complete_app)}
     let!(:app3) { Fabricate(:complete_app)}
     before do
-      stub_request(:get, "https://la.team%40getg5.com:#{ENV['HEROKU_AUTH_TOKEN']}@api.heroku.com/account/rate-limits").
-         with(:headers => {'Accept'=>'application/vnd.heroku+json; version=3', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+      stub_request(:get, "https://api.heroku.com/account/rate-limits").
+         with(:headers => AppDetails.default_headers).
          to_return(:status => 200, :body => {"remaining" => 2400}.to_json, :headers => {})
 
         app2.app_details["owner"]["email"] = "group2@herokumanager.com"
@@ -27,7 +27,6 @@ describe OrgsController do
     end
 
     it { expect(assigns(:data).count).to eq(2) }
-
     it { expect(assigns(:app_count)).to eq(App.count) }
       
     it "groups by app owner" do
@@ -35,6 +34,5 @@ describe OrgsController do
 
       expect(assigns(:data).first[0]).to eq(group1_owner)
     end
-
   end
 end
