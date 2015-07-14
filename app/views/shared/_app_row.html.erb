@@ -1,0 +1,38 @@
+<% show_master = false if local_assigns[:show_master].nil? %>
+<li class=<%= 'app-dyno-alert' if (dyno_count(app.dynos) > 3 || free_dynos?(app.dynos)) %>>
+  <span class="app-name">
+    <%= link_to app.name, app_path(app)  %>
+  </span>
+  <%= link_to "Dashboard |", "https://dashboard.heroku.com/apps/#{app.name}/", target: "blank" %>
+  <%= link_to "App", "https://#{app.name}.herokuapp.com", target: "blank" %>
+  <%= link_to "https://dashboard.heroku.com/apps/#{app.name}/resources" do %>
+    <div class="dynos">
+      <span>Dynos: </span>
+      <section>
+        <% if app.dynos.present? %>
+          <% app.dynos.each do |dyno| %>
+            <% if dyno.class == Hash && dyno["quantity"] >= 1 %>
+              <%= content_tag :span, "#{dyno['quantity']}", class: "dyno-info", id: ("alert-flag" if dyno["quantity"] >= 3) %>
+              <%= content_tag :span, class: "dyno-info" do %>
+                <%= dyno["quantity"] > 1 ? "#{dyno['type']}s @" : "#{dyno['type']} @" %>
+              <% end %>
+              <%= content_tag :span, "#{dyno['size']}", class: "dyno-info" %><br>
+            <% end %>
+          <% end %>
+        <% end %>
+      </section>
+      <% end %>
+    </div>
+  <% if versioned_apps.has_key? type.downcase.parameterize %>
+    <% mv = get_mv(type) %>
+    <span class="version">
+      <span class="version-value">
+        ...
+      </span>
+      <% if show_master && mv %>
+        (<span class='master-value'><%= "#{mv}" %></span>)
+      <% end %>
+    </span>
+  <% end %>
+</li>
+<hr>
