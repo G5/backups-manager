@@ -1,6 +1,6 @@
 <div class="app">
   <% type = get_app_type(@app) %>
-  <% if versioned_apps.has_key? type.downcase.parameterize %>
+  <% if AppVersions.is_versioned?(type) %>
     <% mv = get_mv(type) %>
   <% end %>
   <h1>App Name: <%= @app_name %><span class='master-value-show'><%= " v#{mv}" if mv %></span></h1>

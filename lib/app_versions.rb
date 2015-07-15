@@ -42,4 +42,15 @@ class AppVersions
       'dsh' => "https://raw.githubusercontent.com/g5search/g5-dashboard/master/config/version.yml?token=#{ENV['DSH_GITHUB_TOKEN']}"
     }
   end
+
+  def self.app_list
+    { 'cau' => "G5/g5-sibling-deployer",
+      'cls' => "g5search/g5-client-leads-service",
+      'cms' => "g5search/g5-content-management-system",
+      'dsh' => "g5search/g5-dashboard" }
+  end
+
+  def self.is_versioned?(type)
+    app_list.has_key?(type)
+  end
 end

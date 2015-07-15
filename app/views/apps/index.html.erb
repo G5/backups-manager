@@ -8,7 +8,7 @@
           <span class="app-name"><%= type %></span>
           <span><%= "Group App Count: <span class='counter'>#{apps.count}</span>".html_safe %> | </span>
           <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(apps)}</span>".html_safe %> | </span>
-          <% if versioned_apps.has_key? type.downcase.parameterize %>
+          <% if AppVersions.is_versioned?(type.downcase.parameterize) %>
             <span class='version'>Master: 
               <span class="version-value">
                 <%= get_mv(type) %>
@@ -19,7 +19,7 @@
         <% end %>
         <ul class="app-list">
           <% apps.each do |app| %>
-            <%= render 'shared/app_row', app: app, type: type %>
+            <%= render 'shared/app_row', app: app, type: type.downcase.parameterize %>
           <% end %>
         </ul>
       <% end %>
