@@ -7,7 +7,8 @@ class AppList
     # Heroku returns up to 1000 records at a time. A response code 
     # of 206 means we only got a subset, so go back for more data.
     while response.code == 206
-      headers[:range] = response.headers[:next_range].gsub("]", "..")
+      binding.pry
+      headers[:range] = response.headers[:next_range].gsub("]", "..") if response.headers[:next_range].present?
       response = HTTPClient.get app_list_uri, nil, headers
       next_batch = JSON.parse response.body
       data += next_batch
