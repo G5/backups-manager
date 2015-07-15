@@ -12,13 +12,18 @@
 
 // --LAYOUT-- //
 .container{
-  @include outer-container;
+  width:75%;
+  margin:0 auto;
   padding:30px 0;
 }
 
 .header{
-  background-color: $color2;
   @include span-columns(12 of 12);
+  margin-bottom: 20px;
+}
+
+hr {
+  clear:both;
 }
 
 .logo{
@@ -43,7 +48,6 @@
   h1{
     color: $color5;
     font-size: em(18);
-    @include span-columns(6 of 12)
   }
 }
 
@@ -55,7 +59,6 @@
 }
 
 .app-btn{
-  //@include span-columns(3 of 12);
   float: right;
   @include vert-align;
 }
@@ -132,7 +135,10 @@
     overflow:hidden;
     @include transition(400ms all ease-in-out);
     li {
-      padding: 2px 12px 2px 38px;
+      padding: 0px 10px 0px 38px;
+      span, a {
+        vertical-align:top;
+      }
       &:hover {
         background-color: $color2;
       }
@@ -145,6 +151,12 @@
       text-decoration: underline;
     }
   }
+  .app-dyno-alert {
+    background:#f39c12;
+  }
+  hr {
+    margin:0;
+  }
 }
 
 .rate-limit{ color: $color5; }
@@ -153,7 +165,7 @@
 
 //Wrangle
 .wrangle{
-  @include span-columns(8 of 12);
+  @include span-columns(7 of 12);
   @include pad(12px 10px 0 0);
 }
 
@@ -205,6 +217,87 @@
   }
   .error {
     color: #cc0000;
+  }
+}
+
+.table-minimal {
+  $base-border-color: gainsboro !default;
+  $base-border-radius: 3px !default;
+  $base-background-color: white !default;
+  $base-line-height: 1.5em !default;
+  $base-spacing: 1.5em !default;
+  $action-color: #477DCA !default;
+  $dark-gray: #333 !default;
+  $light-gray: #DDD !default;
+  $medium-screen: em(640) !default;
+  $large-screen: em(860) !default;
+  $base-font-color: $dark-gray !default;
+  $table-border-color: $base-border-color;
+  $table-border: 1px solid $table-border-color;
+  $table-background: $base-background-color;
+  $table-header-background: lighten($table-background, 10);
+  $table-hover-background: darken($table-background, 2);
+  $table-stripe-background: darken($table-background, 4);
+  $table-stripe-background-hover: darken($table-stripe-background, 5);
+  $table-padding: .75em 1em;
+
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+
+  tbody {
+    tr:hover > td, tr:hover > th {
+      background-color: $table-hover-background;
+    }
+    tr:first-child td {
+      border-top: 2px solid $table-border-color;
+    }
+  }
+
+  thead {
+    th {
+      background-color: $table-header-background;
+      border-bottom: 0px;
+      padding: $table-padding;
+      text-align: left;
+    }
+  }
+
+  tbody {
+    background-color: $table-background;
+
+    td {
+      border-bottom: 0px;
+      border-top: 1px solid $table-border-color;
+      line-height: $base-line-height;
+      padding: $table-padding;
+
+      button {
+        display: inline-block;
+        font-size: .7em;
+        line-height: $base-line-height;
+        margin-bottom: .3em;
+        margin-right: 0.5em;
+        outline: none;
+        padding: .3em 1em;
+        width: 100%;
+
+        @include media($medium-screen) {
+          margin-bottom: 0;
+          width: auto;
+        }
+      }
+    }
+  }
+  table-layout: auto;
+}
+
+.dynos {
+  width:31%;
+  margin-left:15%;
+  display:inline-block;
+  section {
+    display:inline-block;
   }
 }
 

@@ -1,12 +1,21 @@
 <div class="app orgs">
-  <div class="app-card">
-    <h1>Heroku Apps By Owner</h1>
-    <p class="app-count"><%= @app_count %> Apps, in <%= @org_count %> different organizations.</p>
-    <p class="app-btn"><%= link_to "Group by app type", apps_path, class: 'btn' %></p>
-    <p class="app-count">API requests remaining at <%= @time %>: <span class="rate-limit"><%= @rate_limit %> out of 2400</span></p>
-  </div>
-  <%= master_version_inputs %>
+  <%= render 'shared/wrangler_header', grouped: "Owner", group_by: "type", view_link: apps_path %>
+  <%= AppVersions.master_version_inputs %>
   <div class="app-group">
-    <%= render_org_groups(@data) %>
+    <% @grouped_apps.each do |owner, apps| %>
+      <% unless apps.blank? %>
+        <%= content_tag :h3, class: "app-title", id: owner do %>
+          <span class="app-name"><%= owner %></span>
+          <span><%= "Group App Count: <span class='counter'>#{apps.count}</span>".html_safe %> | </span>
+            <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(apps)}</span>".html_safe %> | </span>
+        <% end %>
+        <ul class="app-list">
+          <% apps.each do |app| %>
+            <% type = get_app_type(app) %>
+            <%= render 'shared/app_row', app: app, type: type, show_master: true %>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
   </div>
 </div>

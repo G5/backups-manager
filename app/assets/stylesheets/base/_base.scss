@@ -13,3 +13,24 @@
 @import "lists";
 @import "tables";
 @import "typography";
+
+.counter {
+  color:#fde396;
+}
+
+.master-value-show {
+  color:#e74c3c;
+}
+
+.live-summary-link {
+  float:right;
+  display: block;
+  margin-top: -30px;
+  background:#7f8c8d;
+  color:#ffffff;
+  padding:5px;
+  border-radius:10px;
+  &:hover {
+    background:#bdc3c7;
+  }
+}

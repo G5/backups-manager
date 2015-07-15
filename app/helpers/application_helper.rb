@@ -1,4 +1,5 @@
 module ApplicationHelper
+
   def exclude_config_var(var_name)
     excluded_vars = [ "SECRET",
                       "ID_RSA",
@@ -23,30 +24,46 @@ module ApplicationHelper
     "<i>#{value.size} apps</i>"
   end
 
-  def anchor_str(key)
-    "<a name='#{key_slug(key)}'></a>"
+  def regular_app_groups
+    [ 'g5-analytics', 'g5-backups', 'g5-cau', 'g5-client', 'g5-cls', 'g5-clw', 'g5-cms-',
+      'g5-cpas', 'g5-cpns', 'g5-cxm', 'g5-dsh', 'g5-inventory', 'g5-inv-', 'g5-jobs', 'g5-layout',
+      'g5-nae', 'g5-social', 'g5-theme-', 'g5-vendor', 'g5-widget', 'g5-app-wrangler', 'g5-hub', 'g5-integrations', 'g5-phone-number-service', 'g5-configurator', 'g5-news-and-events-service']
   end
 
-  def key_slug(key)
-    key.downcase.parameterize if key
+  def dyno_count(dynos)
+    dyno_count = 0
+    if dynos.present?
+      dynos.each do |dyno|
+        dyno_count += dyno["quantity"] if dyno.class == Hash
+      end
+    end
+    dyno_count
   end
 
-  def heroku_dashboard_link_str(appname)
-    "<a href='https://dashboard.heroku.com/apps/#{appname}/' target='_blank' class='heroku-dashboard'>Dashboard</a>"
+  def free_dynos?(dynos)
+    if dynos.present?
+      true if dynos.any? {|dyno| (dyno["quantity"] > 0 && dyno["size"] == "Free") if dyno.class == Hash}
+    end
   end
 
-  def heroku_app_link_str(appname)
-    "<a href='https://#{appname}.herokuapp.com' target='_blank' class='heroku-app'>App</a>"
+  def average_dynos_per_app(apps)
+    grand_total = 0
+    apps.each do |app|
+      if app.dynos
+        app.dynos.each do |dyno|
+          grand_total += dyno["quantity"] if dyno.class == Hash
+        end
+      end 
+    end
+    average = grand_total.to_f/apps.count
+    average.round(1)
   end
 
-  def get_app_version_type(appname)
-    arr = AppList.version_apps_list.map do |k, v|
-      k if appname.include?("g5-#{k}-")
-    end.compact
-    arr.empty? ? nil : arr.first
+  def versioned_apps
+    AppVersions.version_apps_list
   end
 
-  def app_link_str(appname)
-    "<span class='app-name'>" + link_to(appname, app_path(appname)) + "</span>"
+  def get_mv(type)
+    AppVersions.get_master_version(type)
   end
 end

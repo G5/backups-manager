@@ -1,13 +1,28 @@
 <div class="app"> 
-  <div class="app-card">
-    <h1>Heroku Apps By Type</h1>
-    <p class="app-count"><%= @app_count %> Apps</p>
-    <p class="app-btn"><%= link_to "Group by owner", orgs_path, class: 'btn' %></p>
-    <p class="app-count">API requests remaining at <%= @time %>: <span class="rate-limit"><%= @rate_limit %> out of 2400</span></p>
-  </div>
-
-  <% app_array = @app_list.make_app_array %>
+  <%= render 'shared/wrangler_header', grouped: "Type", group_by: "owner", view_link: orgs_path %>
   <div class="app-group">
-    <%= render_app_groups(app_array) %>
+    <% grouped_apps = get_app_groups(@app_list) %>
+    <% grouped_apps.each do |type, apps| %>
+      <% unless apps.blank? %>
+        <%= content_tag :h3, class: "app-title", id: type.downcase do %>
+          <span class="app-name"><%= type %></span>
+          <span><%= "Group App Count: <span class='counter'>#{apps.count}</span>".html_safe %> | </span>
+          <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(apps)}</span>".html_safe %> | </span>
+          <% if versioned_apps.has_key? type.downcase.parameterize %>
+            <span class='version'>Master: 
+              <span class="version-value">
+                <%= get_mv(type) %>
+              </span>
+            </span>
+            <a href='#' class='version-refresh'><%= image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions') %></a>
+          <% end %>
+        <% end %>
+        <ul class="app-list">
+          <% apps.each do |app| %>
+            <%= render 'shared/app_row', app: app, type: type %>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
   </div>
 </div>

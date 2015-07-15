@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include G5Authenticatable::Authorization
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
 
@@ -13,5 +14,10 @@ class ApplicationController < ActionController::Base
     else
       render :nothing => true, :status => 403
     end
+  end
+
+  def get_time
+    zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
+    Time.now.in_time_zone(zone).strftime("%I:%M%p")
   end
 end

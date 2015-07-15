@@ -1,50 +1,52 @@
 class AppDetails
-  require "net/http"
-  require 'net/https'
-  require "uri"
-
-  def initialize(app_name)
-    @uri = "https://api.heroku.com/apps/#{app_name}"
-    @headers = { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-                 accept: "application/vnd.heroku+json; version=3"
-               }
+  attr_reader :uri
+  
+  def initialize(name)
+    @uri = "https://api.heroku.com/apps/#{name}"
   end
 
-  def details
-    response = RestClient.get @uri, @headers
-    data = JSON.parse response.body
+  def get_app_dynos
+    get_detail("formation")
   end
 
-  def addons
-    response = RestClient.get "#{@uri}/addons", @headers
-    data = JSON.parse response.body
+  def get_app_addons
+    get_detail("addons")
   end
 
-  def config_vars
-    response = RestClient.get "#{@uri}/config-vars", @headers
-    data = JSON.parse response.body
+  def get_app_config_variables
+    get_detail("config-vars")
   end
 
-  def dynos
-    response = RestClient.get "#{@uri}/formation", @headers
-    data = JSON.parse response.body
+  def get_app_domains
+    get_detail("domains")
   end
 
-  def domains
-    response = RestClient.get "#{@uri}/domains", @headers
-    data = JSON.parse response.body
+  def self.default_headers
+    { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
+      accept: "application/vnd.heroku+json; version=3" }
   end
 
   def delete
-    response = RestClient.delete @uri, @headers
+    response = HTTPClient.delete uri, nil, header
     success = response.code == 200 ? true : false
   end
 
   def spin_down
     data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
     @headers[:content_type] = 'application/json'
-    response = RestClient.patch "#{@uri}/formation", data.to_json, @headers
+    response = HTTPClient.request(:patch, "#{uri}/formation", nil, data.to_json, header)
 
     success = response.code == 200 ? true : false
+  end
+
+  private
+
+  def get_detail(type)
+    begin
+      response = HTTPClient.get "#{uri}/#{type}", nil, AppDetails.default_headers
+      data = JSON.parse response.body
+    rescue => e
+      e.response
+    end
   end
 end
