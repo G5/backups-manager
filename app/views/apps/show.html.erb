@@ -1,5 +1,5 @@
 <div class="app">
-  <% type = get_app_type(@app) %>
+  <% type = @app.type %>
   <% if AppVersions.is_versioned?(type) %>
     <% mv = get_mv(type) %>
   <% end %>

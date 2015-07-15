@@ -11,7 +11,7 @@
         <% end %>
         <ul class="app-list">
           <% apps.each do |app| %>
-            <% type = get_app_type(app) %>
+            <% type = app.type %>
             <%= render 'shared/app_row', app: app, type: type, show_master: true %>
           <% end %>
         </ul>
