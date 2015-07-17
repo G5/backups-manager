@@ -11,7 +11,6 @@ class AppList
       response = HTTPClient.get app_list_uri, nil, headers
       next_batch = JSON.parse response.body
       data += next_batch
-      binding.pry
     end
 
     data
