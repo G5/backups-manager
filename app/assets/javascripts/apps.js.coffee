@@ -46,16 +46,18 @@ class BaseController
         _this.ajaxError(elem)
 
   ajaxSuccess: (res, master, elem, url)->
-    version = if res.version
-                res.version
-              else if res.health
-                res.health.version
-              else
-                res.status.version
+
+    # Accounting for old versions
+    if(res.status)
+      res = res.status
+    else if(res.health && res.health.version)
+      res = res.health
+
+    version = res.version
 
     master = $.trim(master)
 
-    health = if res.status then res.status.health.OVERALL.is_healthy else 'UNKNOWN'
+    health = if (res && res.health) then res.health.OVERALL.is_healthy else 'UNKNOWN'
 
     klass = 'current' if version == master
     klass = 'ahead' if version > master

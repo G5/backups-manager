@@ -124,7 +124,7 @@ GEM
       activesupport
       g5_authentication_client (>= 0.2)
       httparty
-    g5_ops (0.2.4)
+    g5_ops (0.3.0)
       active_model_serializers (~> 0.8)
       pg
       rails
