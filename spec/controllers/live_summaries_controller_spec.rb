@@ -2,22 +2,21 @@ require 'rails_helper'
 
 describe LiveSummariesController do
   describe 'GET index', auth_controller: true do
-    let(:dynos) { stub_app_dynos_response }
-    let!(:selected_app) { Fabricate(:complete_app) }
+    let(:app) { App.create(id: 1, name: "appster") }
 
     before do
-      stub_request(:get, "https://api.heroku.com/apps/#{selected_app.app_details["name"]}/formation")
-        .to_return(:status => 200, :body => dynos.to_json, :headers => {})
+      stub_request(:get, "https://api.heroku.com/apps/appster/formation")
+        .to_return(status: 200, body: '[{"type": "1X"}]')
 
-      get :index, app_id: selected_app.id
+      get :index, app_id: app.id
     end
 
-    it "finds the correct app" do
-      expect(assigns(:app).id).to eq(selected_app.id)
+    it "provides the app to the view" do
+      expect(assigns(:app)).to eq(app)
     end
 
-    it "retrieves the dynos for the cooresponding app" do
-      expect(assigns(:app_dynos)).to eq(dynos)
+    it "makes a request for the app dynos and provides them to the view" do
+      expect(assigns(:app_dynos)).to eq([{"type" => "1X"}])
     end
   end
 end
