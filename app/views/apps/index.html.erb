@@ -11,7 +11,7 @@
           <% if AppVersions.is_versioned?(type.downcase.parameterize) %>
             <span class='version'>Master: 
               <span class="version-value">
-                <%= get_mv(type) %>
+                <%= get_mv(type.downcase.parameterize) %>
               </span>
             </span>
             <a href='#' class='version-refresh'><%= image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions') %></a>

@@ -60,6 +60,6 @@ module ApplicationHelper
   end
 
   def get_mv(type)
-    AppVersions.get_master_version(type)
+    AppVersions.master_versions[type]
   end
 end
