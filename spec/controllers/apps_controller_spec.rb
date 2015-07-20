@@ -15,10 +15,6 @@ describe AppsController do
       expect(App.count).to eq(1)
       expect(App.first).to eq(app)
     end
-
-    it "assigns the correct @app_count" do
-      expect(assigns(:app_count)).to eq(App.count)
-    end
   end
 
   describe 'GET show', auth_controller: true do

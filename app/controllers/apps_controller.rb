@@ -2,7 +2,6 @@ class AppsController < ApplicationController
 
   def index
     @app_list = App.all
-    @app_count = @app_list.count
     @rate_limit = RateCheck.usage
     
     respond_to do |format|

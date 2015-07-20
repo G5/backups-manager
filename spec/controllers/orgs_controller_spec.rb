@@ -27,8 +27,7 @@ describe OrgsController do
     end
 
     it { expect(assigns(:data).count).to eq(2) }
-    it { expect(assigns(:app_count)).to eq(App.count) }
-      
+
     it "groups by app owner" do
       group1_owner = app.app_details["owner"]["email"].gsub("@herokumanager.com", "")
 
