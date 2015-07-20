@@ -23,7 +23,7 @@
       </section>
       <% end %>
     </div>
-  <% if versioned_apps.has_key? type.downcase.parameterize %>
+  <% if AppVersions.is_versioned?(type) %>
     <% mv = get_mv(type) %>
     <span class="version">
       <span class="version-value">
