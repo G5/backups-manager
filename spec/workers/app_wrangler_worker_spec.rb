@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe AppWranglerWorker do
   describe :perform do
     let(:app_list) { [{"name" => "App"}] }

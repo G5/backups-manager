@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe AppsController do
   let!(:app) do
     App.create(

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe AppDetails do
   let(:app_name) { "App"}
   let(:json) { {"json" => "any"} }

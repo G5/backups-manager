@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe App do
   describe ".type_from_name" do
     it "finds app types in hyphenated names" do

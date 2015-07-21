@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe LiveSummariesController do
   describe 'GET index', auth_controller: true do
     let(:app) { App.create(id: 1, name: "appster") }

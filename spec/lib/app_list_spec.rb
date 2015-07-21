@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe AppList do
   describe "#get" do
     let(:required_headers) do

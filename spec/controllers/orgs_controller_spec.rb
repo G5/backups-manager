@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe OrgsController do
   describe 'GET index', auth_controller: true do
     let!(:app)  { App.create(id: 1, name: "App 1", app_details: { "owner" => {"email" => "group2@herokumanager.com"} }) }
