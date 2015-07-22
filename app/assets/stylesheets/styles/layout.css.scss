@@ -90,6 +90,7 @@ hr {
     text-transform: capitalize;
     cursor: pointer;
     @include transition(200ms all ease-in-out);
+    .app-name { text-transform: uppercase; }
     &:before {
       @include transition(200ms all ease-in-out);
       position: relative;

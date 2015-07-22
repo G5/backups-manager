@@ -2,7 +2,7 @@
   <%= render 'shared/wrangler_header', grouped: "Owner", group_by: "type", view_link: apps_path %>
   <%= AppVersions.master_version_inputs %>
   <div class="app-group">
-    <% @grouped_apps.each do |owner, apps| %>
+    <% App.group_by_owner(@app_list).each do |owner, apps| %>
       <% unless apps.blank? %>
         <%= content_tag :h3, class: "app-title", id: owner do %>
           <span class="app-name"><%= owner %></span>
