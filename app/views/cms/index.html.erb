@@ -1,0 +1,17 @@
+<div class="cms"> 
+  <%= render 'shared/wrangler_header', grouped: "Owner", group_by: "type", view_link: apps_path %>
+  <div class="app-group">
+    <% @cms_list.each do |apps| %>
+      <% unless apps.blank? %>
+        <%= content_tag :h3, class: "app-title", id: 'cms' do %>
+          <span class="app-name">CMS</span>
+        <% end %>
+        <ul class="app-list">
+          <% apps.each do |app| %>
+            <%= render 'cms_row', app: app %>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+</div>
