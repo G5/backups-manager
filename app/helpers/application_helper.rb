@@ -62,4 +62,9 @@ module ApplicationHelper
   def get_mv(type)
     AppVersions.master_versions[type]
   end
+
+  def current_time(format)
+    zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
+    Time.now.in_time_zone(zone).strftime(format)
+  end
 end

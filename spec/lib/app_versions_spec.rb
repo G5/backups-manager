@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe AppVersions do
   before(:each) do
     allow(AppVersions).to receive(:app_list)

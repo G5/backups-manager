@@ -1,21 +1,21 @@
- <%= content_tag :h1, @app.name %>
- <%= content_tag :h2, "App data as of: #{Time.now.strftime('%B %d at %l:%M %p')}" %>
- <h3 class="app-title">Dynos:</h3>
-  <table class="table-minimal">
-    <thead>
+<%= content_tag :h1, @app.name %>
+<%= content_tag :h2, "App data as of: #{current_time('%B %d at %l:%M %p')}" %>
+<h3 class="app-title">Dynos:</h3>
+<table class="table-minimal">
+  <thead>
+    <tr>
+      <th>Dyno</th>
+      <th>Quantity</th>
+      <th>Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @app_dynos.each do |dyno| %>
       <tr>
-        <th>Dyno</th>
-        <th>Quantity</th>
-        <th>Size</th>
+        <td><%= dyno["type"] %></td>
+        <td><%= dyno["quantity"] %></td>
+        <td><%= dyno["size"] %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @app_dynos.each do |dyno| %>
-        <tr>
-          <td><%= dyno["type"] %></td>
-          <td><%= dyno["quantity"] %></td>
-          <td><%= dyno["size"] %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <% end %>
+  </tbody>
+</table>

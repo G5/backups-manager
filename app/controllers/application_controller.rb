@@ -15,9 +15,4 @@ class ApplicationController < ActionController::Base
       render :nothing => true, :status => 403
     end
   end
-
-  def get_time
-    zone = ActiveSupport::TimeZone.new("Pacific Time (US & Canada)")
-    Time.now.in_time_zone(zone).strftime("%I:%M%p")
-  end
 end
