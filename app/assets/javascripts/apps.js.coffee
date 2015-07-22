@@ -20,7 +20,7 @@ class BaseController
   openHash: ->
     hash = window.location.hash
     activeTitle = $(".app-title#{hash}") if hash
-    if activeTitle
+    if activeTitle.length
       activeTitle.click()
       $('html, body').animate { scrollTop: activeTitle.offset().top }, 400
 
@@ -76,10 +76,6 @@ class BaseController
   setVersionValue: (elem, html)->
     elem.find('.version-value').html(html)
 
-  noEvent: (e)->
-    e.stopPropagation()
-    e.preventDefault()
-    false
 
 class AppsController extends BaseController
   constructor: ->
@@ -87,7 +83,7 @@ class AppsController extends BaseController
     @updateVersions()
     $('.version-refresh').on 'click', (e)=>
       @updateVersions()
-      @noEvent(e)
+      window.noEvent(e)
 
   updateVersions: ->
     @appTitles.each (idx, elem) =>
@@ -116,3 +112,9 @@ class OrgsController extends BaseController
           urn = element.find('.app-name a').text()
           master = ver.find('.master-value').text()
           @ajaxVersion(urn, master, ver)
+
+
+window.noEvent = (e)->
+  e.stopPropagation()
+  e.preventDefault()
+  false

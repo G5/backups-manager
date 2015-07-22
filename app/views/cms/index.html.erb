@@ -1,17 +1,24 @@
 <div class="cms"> 
-  <%= render 'shared/wrangler_header', grouped: "Owner", group_by: "type", view_link: apps_path %>
+  <%= render 'shared/wrangler_header', grouped: "CMS", group_by: "type", view_link: apps_path %>
+  <form id="target-theme-form">
+    <label for="target-theme">Web Theme Search:</label>
+    <input type="text" name="target-theme" id="target-theme" value="" placeholder="Enter Theme name or slug here">
+    <input type="submit" name="target-theme-submit" id="target-theme-submit" class="btn" value="Find Themes">
+  </form>
+  <form id="target-widget-form">
+    <label for="target-widget">Widget Search:</label>
+    <input type="text" name="target-widget" id="target-widget" value="" placeholder="Enter Widget name or slug here">
+    <input type="submit" name="target-widget-submit" id="target-widget-submit" class="btn" value="Find Widgets">
+  </form>
+
   <div class="app-group">
-    <% @cms_list.each do |apps| %>
-      <% unless apps.blank? %>
-        <%= content_tag :h3, class: "app-title", id: 'cms' do %>
-          <span class="app-name">CMS</span>
-        <% end %>
-        <ul class="app-list">
-          <% apps.each do |app| %>
-            <%= render 'cms_row', app: app %>
-          <% end %>
-        </ul>
-      <% end %>
+    <%= content_tag :h3, class: "app-title", id: 'cms' do %>
+      <span class="app-name">CMS</span>
     <% end %>
+    <ul class="app-list cms-list">
+    <% @cms_list.each do |app| %>
+      <%= render 'cms_row', app: app %>
+    <% end %>
+    </ul>
   </div>
 </div>

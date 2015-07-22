@@ -143,6 +143,10 @@ hr {
       &:hover {
         background-color: $color2;
       }
+      .search-results {
+        float: right;
+        max-width: 40%;
+      }
     }
     &.show {
       opacity: 1;
@@ -313,17 +317,25 @@ hr {
 }
 
 
-  // MQ
-  @include media($single-column){
-    .logo, .header,
-    .app, .app-card, .app-count, .app-group,
-    .wrangle, .wrangle-about{
-      @include span-columns(1 of 1);
-    }
-
-    .header{
-      //@include margin(14px 18px);
-      margin: 14px 18px;
-    }
+// MQ
+@include media($single-column){
+  .logo, .header,
+  .app, .app-card, .app-count, .app-group,
+  .wrangle, .wrangle-about{
+    @include span-columns(1 of 1);
   }
+
+  .header{
+    //@include margin(14px 18px);
+    margin: 14px 18px;
+  }
+}
+
+.cms form {
+  width: 48%;
+  margin: 1%;
+  float: left;
+  display: block;
+  position: relative;
+}
 
