@@ -3,11 +3,6 @@ class AppsController < ApplicationController
   def index
     @app_list = App.all
     @rate_limit = RateCheck.usage
-    
-    respond_to do |format|
-      format.html
-      #format.json { render json: App.all.make_app_array.as_json }
-    end
   end
 
   def show

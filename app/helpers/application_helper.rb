@@ -24,12 +24,6 @@ module ApplicationHelper
     "<i>#{value.size} apps</i>"
   end
 
-  def regular_app_groups
-    [ 'g5-analytics', 'g5-backups', 'g5-cau', 'g5-client', 'g5-cls', 'g5-clw', 'g5-cms-',
-      'g5-cpas', 'g5-cpns', 'g5-cxm', 'g5-dsh', 'g5-inventory', 'g5-inv-', 'g5-jobs', 'g5-layout',
-      'g5-nae', 'g5-social', 'g5-theme-', 'g5-vendor', 'g5-widget', 'g5-app-wrangler', 'g5-hub', 'g5-integrations', 'g5-phone-number-service', 'g5-configurator', 'g5-news-and-events-service']
-  end
-
   def dyno_count(dynos)
     dyno_count = 0
     if dynos.present?

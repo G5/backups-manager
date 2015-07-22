@@ -1,17 +1,16 @@
 <div class="app"> 
   <%= render 'shared/wrangler_header', grouped: "Type", group_by: "owner", view_link: orgs_path %>
   <div class="app-group">
-    <% grouped_apps = get_app_groups(@app_list) %>
-    <% grouped_apps.each do |type, apps| %>
+    <% App.group_by_type(@app_list).each do |type, apps| %>
       <% unless apps.blank? %>
-        <%= content_tag :h3, class: "app-title", id: type.downcase do %>
+        <%= content_tag :h3, class: "app-title", id: type do %>
           <span class="app-name"><%= type %></span>
           <span><%= "Group App Count: <span class='counter'>#{apps.count}</span>".html_safe %> | </span>
           <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(apps)}</span>".html_safe %> | </span>
-          <% if AppVersions.is_versioned?(type.downcase.parameterize) %>
+          <% if AppVersions.is_versioned?(type) %>
             <span class='version'>Master: 
               <span class="version-value">
-                <%= get_mv(type.downcase.parameterize) %>
+                <%= get_mv(type) %>
               </span>
             </span>
             <a href='#' class='version-refresh'><%= image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions') %></a>
@@ -19,7 +18,7 @@
         <% end %>
         <ul class="app-list">
           <% apps.each do |app| %>
-            <%= render 'shared/app_row', app: app, type: type.downcase.parameterize %>
+            <%= render 'shared/app_row', app: app, type: type %>
           <% end %>
         </ul>
       <% end %>
