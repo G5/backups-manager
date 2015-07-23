@@ -43,16 +43,19 @@ class CmsReporter
     $.trim(input.val()).toLowerCase()
 
   themeAjax: ()->
-    if @getTarget(@themeInput).length
-      @cmsList().each (idx, elem)=>
-        @fireAjax('web_themes', $(elem))
+    @doAjax(@themeInput, 'web_themes')
 
   widgetAjax: ()->
-    if @getTarget(@widgetInput).length
-      @cmsList().each (idx, elem)=>
-        @fireAjax('widgets', $(elem))
+    @doAjax(@widgetInput, 'widgets')
 
-  fireAjax: (type, elem)->
+  doAjax: (input, type)->
+    if @getTarget(input).length
+      @resetCmsRows()
+      @cmsList().each (idx, elem)=>
+        @appConfigAjax(type, $(elem))
+
+  appConfigAjax: (type, elem)->
+    @setSearchResults(elem, '...')
     appName = $.trim(elem.find('.app-name').text())
     $.ajax @cmsConfigUrl(appName),
       method: 'GET'
@@ -68,6 +71,7 @@ class CmsReporter
       @ajaxError(elem)
 
   ajaxError: (elem)->
+    @setCmsNotFound(elem)
     @setSearchResults(elem, "<b class='error'>not set up</i>")
 
   findSearchResults: (resultSet, type, elem)->
@@ -83,7 +87,7 @@ class CmsReporter
     if results.length
       @setSearchFoundResults(results, elem)
     else
-      @setSearchResults(elem, "<b class='error'>No matches found</b>")
+      @setSearchNotFoundResults(elem)
 
   findWidgetSearchResults: (resultSet, elem)->
     results = []
@@ -94,13 +98,18 @@ class CmsReporter
     if results.length
       @setSearchFoundResults(results, elem)
     else
-      @setSearchResults(elem, "<b class='error'>No matches found</b>")
+      @setSearchNotFoundResults(elem)
 
   setSearchFoundResults: (resultSet, elem)->
     html = ""
     $.each resultSet, (idx, res)=>
       html += "<b class='success'>#{res['location']} (#{res['urn']})</b><br>"
     @setSearchResults(elem, html)
+    @setCmsFound(elem)
+
+  setSearchNotFoundResults: (elem)->
+    @setSearchResults(elem, "<b class='error'>No matches found</b>")
+    @setCmsNotFound(elem)
 
   hasGardenWidget: (res, target)->
     ret = false
@@ -121,3 +130,12 @@ class CmsReporter
 
   cmsConfigUrl: (appName) ->
     "https://#{appName}.herokuapp.com/g5_ops/config"
+
+  setCmsFound: (elem)->
+    elem.removeClass('not-found').addClass('found')
+
+  setCmsNotFound: (elem)->
+    elem.removeClass('found').addClass('not-found')
+
+  resetCmsRows: ->
+    @cmsList().removeClass('found').removeClass('not-found').show()

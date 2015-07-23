@@ -136,7 +136,14 @@ hr {
     overflow:hidden;
     @include transition(400ms all ease-in-out);
     li {
+      display: block;
+      position: relative;
+      height: auto;
+      opacity: 1;
       padding: 0px 10px 0px 38px;
+      border-bottom: 1px solid $base-border-color;
+      @include clearfix;
+      @include transition(400ms all ease-in-out);
       span, a {
         vertical-align:top;
       }
@@ -145,7 +152,15 @@ hr {
       }
       .search-results {
         float: right;
-        max-width: 50%;
+        width: 50%;
+      }
+      &.found {
+        background-color: lighten($c-green, 55%);
+      }
+      &.not-found {
+        opacity: 0;
+        height: 0;
+        display: none;
       }
     }
     &.show {
@@ -212,19 +227,19 @@ hr {
 .version, .search-results {
   float: right;
   .ahead {
-    color: #0000cc;
+    color: $c-blue;
   }
   .behind {
-    color: #cc0000
+    color: $c-red;
   }
   .current {
-    color: #00cc00;
+    color: $c-green;
   }
   .error {
-    color: #cc0000;
+    color: $c-red;
   }
   .success {
-    color: #00cc00;
+    color: $c-green;
   }
 }
 
@@ -311,11 +326,11 @@ hr {
 
 .fa {
   &.unhealthy {
-    color: #cc0000;
+    color: $c-red;
   }
 
   &.healthy {
-    color: #cccccc;
+    color: $c-gray;
   }
 }
 
@@ -334,11 +349,15 @@ hr {
   }
 }
 
-.cms form {
-  width: 48%;
-  margin: 1%;
-  float: left;
-  display: block;
-  position: relative;
+.cms {
+  margin-bottom: 20px;
+  @include clearfix;
+  form {
+    width: 48%;
+    margin: 1%;
+    float: left;
+    display: block;
+    position: relative;
+  }
 }
 
