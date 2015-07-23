@@ -145,7 +145,7 @@ hr {
       }
       .search-results {
         float: right;
-        max-width: 40%;
+        max-width: 50%;
       }
     }
     &.show {
@@ -209,7 +209,7 @@ hr {
 }
 
 
-.version {
+.version, .search-results {
   float: right;
   .ahead {
     color: #0000cc;
@@ -222,6 +222,9 @@ hr {
   }
   .error {
     color: #cc0000;
+  }
+  .success {
+    color: #00cc00;
   }
 }
 

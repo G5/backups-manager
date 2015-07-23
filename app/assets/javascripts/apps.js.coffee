@@ -20,19 +20,25 @@ class BaseController
   openHash: ->
     hash = window.location.hash
     activeTitle = $(".app-title#{hash}") if hash
-    if activeTitle.length
+    if activeTitle && activeTitle.length
       activeTitle.click()
       $('html, body').animate { scrollTop: activeTitle.offset().top }, 400
 
   toggleAppsGroups: ->
     $(".app-title").on 'click', ->
       if $(this).hasClass('show')
-        $(this).removeClass('show')
-        $(this).next('.app-list').removeClass('show')
+        @hideAppTitle($(this))
       else
-        $(this).addClass('show')
-        $(this).next('.app-list').addClass('show')
+        @showAppTitle($(this))
         window.location.hash = $(this).attr('id')
+
+  hideAppTitle: (title)->
+    title.removeClass('show')
+    title.next('.app-list').removeClass('show')
+
+  showAppTitle: (title)->
+    title.addClass('show')
+    title.next('.app-list').addClass('show')
 
   ajaxVersion: (urn, master, elem)->
     url = "//#{urn}.herokuapp.com/g5_ops/health"
