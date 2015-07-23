@@ -240,6 +240,12 @@ hr {
   }
   .success {
     color: $c-green;
+    a {
+      color: $c-green;
+      &:hover {
+        color: darken($c-green, 10%);
+      }
+    }
   }
 }
 
