@@ -10,6 +10,27 @@
     <input type="text" name="target-widget" id="target-widget" value="" placeholder="Enter Widget name or slug here">
     <input type="submit" name="target-widget-submit" id="target-widget-submit" class="btn" value="Find Widgets">
   </form>
+  <form id="target-status-form">
+    <label for="target-status">Status Search:</label>
+    <select name="target-status" id="target-status">
+      <option value="Live">Live</option>
+      <option value="Pending">Pending</option>
+      <option value="Deleted">Deleted</option>
+    </select>
+    <input type="submit" name="target-status-submit" id="target-status-submit" class="btn" value="Find Status">
+  </form>
+
+  <fieldset id="cms-search-results">
+    <legend>Search Results</legend>
+    <div class="results-percentage">
+      <div class="percentage-sent"></div>
+      <div class="percentage-returned"></div>
+    </div>
+    <div class="results-count">
+      <div class="results-stats locations-found">Matching Locations: <span>...</span></div>
+      <div class="results-stats page-found">Matching Pages: <span>...</span></div>
+    </div>
+  </fieldset>
 
   <div class="app-group">
     <%= content_tag :h3, class: "app-title", id: 'cms' do %>
