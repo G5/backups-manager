@@ -1,4 +1,9 @@
 $(document).ready ->
+  cmsReady()
+$(document).on 'page:load', ->
+  cmsReady()
+
+cmsReady = ->
   new CmsReporter if $('.cms').length
 
 class CmsReporter
