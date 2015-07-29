@@ -240,12 +240,6 @@ hr {
   }
   .success {
     color: $c-green;
-    a {
-      color: $c-green;
-      &:hover {
-        color: darken($c-green, 10%);
-      }
-    }
   }
 }
 
@@ -402,6 +396,7 @@ hr {
       height: 100%;
       max-width: 100%;
       background-color: $c-gray;
+      @include transition(100ms all ease-in-out);
     }
     .percentage-returned {
       display: block;
@@ -409,7 +404,11 @@ hr {
       width: 0;
       height: 100%;
       max-width: 100%;
-      background-color: $c-green;
+      background-color: $c-blue;
+      @include transition(100ms all ease-in-out);
+      &.done {
+        background-color: $c-green;
+      }
     }
   }
   .results-count {
@@ -418,7 +417,10 @@ hr {
       width: 48%;
       margin: 1%;
       margin-bottom: 0;
-      font-weight: bold;
+      label {
+        font-weight: bold;
+      }
+      float: left;
       span {
         font-weight: normal;
       }

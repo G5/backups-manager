@@ -5,6 +5,7 @@ class CmsReporter
   cmsCount: 0
   cmsSent: 0
   cmsReturned: 0
+  cmsFound: 0
   locationCount: 0
   locationFound: 0
   pageCount: 0
@@ -87,9 +88,10 @@ class CmsReporter
         @ajaxSuccess(res, type, elem)
       error: (xhr, status, err)=>
         @ajaxError(elem)
+      complete: (xhr, status)=>
+        @incCmsReturned()
 
   ajaxSuccess: (result, type, elem)->
-    @incCmsReturned()
     res_slug = if type == 'status' then 'web_themes' else type
     if result[res_slug]
       @findSearchResults(result[res_slug], type, elem)
@@ -97,7 +99,6 @@ class CmsReporter
       @ajaxError(elem)
 
   ajaxError: (elem)->
-    @incCmsReturned()
     @setCmsNotFound(elem)
     @setSearchResults(elem, "<b class='error'>not set up</i>")
 
@@ -117,6 +118,7 @@ class CmsReporter
       if validator(res, target)
         results.push(res)
     if results.length
+      @incCmsFound()
       @setSearchFoundResults(results, elem, type, target)
     else
       @setSearchNotFoundResults(elem)
@@ -204,33 +206,46 @@ class CmsReporter
 
   initResultStats: ()->
     @cmsSearchResults = $('#cms-search-results')
-    @percSent = @cmsSearchResults.find(".percentage-sent")
-    @percReturned = @cmsSearchResults.find(".percentage-returned")
-    @locFound = @cmsSearchResults.find(".locations-found span")
-    @pgFound = @cmsSearchResults.find(".page-found span")
+    @percSentDiv = @cmsSearchResults.find(".percentage-sent")
+    @percReturnedDiv = @cmsSearchResults.find(".percentage-returned")
+    @clientsFoundSpan = @cmsSearchResults.find(".clients-found span")
+    @locationsFoundSpan = @cmsSearchResults.find(".locations-found span")
+    @pagesFoundSpan = @cmsSearchResults.find(".pages-found span")
 
   resetResultStats: (type)->
     @cmsSent = 0
     @cmsReturned = 0
+    @cmsFound = 0
     @locationCount = 0
     @locationFound =  0
     @pageCount = 0
     @pageFound = 0
-    if type == 'widgets' then @pgFound.parent('div').show() else @pgFound.parent('div').hide()
+    if type == 'widgets'
+      @pagesFoundSpan.parent('div').show()
+    else 
+      @pagesFoundSpan.parent('div').hide()
     @updateResultStats()
 
   updateResultStats: ->
     @cmsSearchResults.show()
-    @percSent.css
+
+    if @cmsReturned == @cmsCount
+      @percReturnedDiv.addClass('done')
+    else
+      @percReturnedDiv.removeClass('done')
+
+    @percSentDiv.css
       width: "#{(@cmsSent/@cmsCount)*100}%"
-    @percReturned.css
+    @percReturnedDiv.css
       width: "#{(@cmsReturned/@cmsCount)*100}%"
-    
-    locPerc = ((@locationFound/@locationCount)*100).toFixed(4)
-    @locFound.html "#{@locationFound} / #{@locationCount} (#{locPerc}%)"
-    
-    pagePerc = ((@pageFound/@pageCount)*100).toFixed(4)
-    @pgFound.html "#{@pageFound} / #{@pageCount} (#{pagePerc}%)"
+
+    @clientsFoundSpan.html @percentLabel(@cmsFound, @cmsCount) 
+    @locationsFoundSpan.html @percentLabel(@locationFound, @locationCount)
+    @pagesFoundSpan.html @percentLabel(@pageFound, @pageCount)
+
+  percentLabel: (found, total)->
+    perc = ((found/total)*100) || 0
+    "#{found} / #{total} (#{perc.toFixed(4)}%)"
 
   incCmsSent: ->
     @cmsSent += 1
@@ -238,6 +253,10 @@ class CmsReporter
 
   incCmsReturned: ->
     @cmsReturned += 1
+    @updateResultStats()
+
+  incCmsFound: ->
+    @cmsFound += 1
     @updateResultStats()
 
   incLocationCount: ->
