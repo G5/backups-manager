@@ -1,4 +1,6 @@
 class AppList
+  APP_TYPES = [ :cau, :cls, :clw, :cms, :cpas, :cxm, :dsh, :nae, :other ]
+
   def self.get
     app_list_uri = "https://api.heroku.com/apps"
     headers = default_headers 
@@ -18,11 +20,13 @@ class AppList
 
   def self.sorted
     app_list = self.get
-    sorted_apps = { :cau=>[], :cls=>[], :clw=>[], :cms=>[],:cpas=>[],:cxm=>[],:dsh=>[],:nae=>[],:other=>[] }
-    tits = ["cau","cls","clw","cms","cpas","cxm","dsh","nae"]
+    sorted_apps = {}
+    APP_TYPES.each do |app_type|
+      sorted_apps[app_type] = []
+    end
     app_list.each do |app|
       split_name = app["name"].split("-")
-      if split_name.length > 3 && tits.include?(split_name[1])
+      if split_name.length > 3 && APP_TYPES.include?(split_name[1].to_sym)
         grouping = split_name[1]
       else 
         grouping = "other"

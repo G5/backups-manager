@@ -1,14 +1,11 @@
-<div class="app"> 
-  <h2>rate check: <%= RateCheck.usage %></h2>
-  <ul>
+<div class="app-group"> 
+  <h2>API check: <%= RateCheck.usage %></h2>
   <% @app_list.keys.each do |key| %>
-    <br /><br />
-    <h3><%= key %></h3>
-    <ul>
+    <h3 class="app-title"><%= key.upcase %></h3>
+    <ul class="app-list">
       <% @app_list[key].each do |app| %>
         <li><%= app["name"] %></li>
       <% end %>
     </ul>
   <% end %>
-  </ul>
 </div>
