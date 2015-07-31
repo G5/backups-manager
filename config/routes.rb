@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'real_time_apps/index'
+
+  get 'real_time_apps/show'
+
   mount G5Authenticatable::Engine => '/g5_auth'
   mount G5Ops::Engine => '/g5_ops'
   require 'resque/server'
@@ -12,6 +16,7 @@ Rails.application.routes.draw do
   resources :apps do
     get 'live_summary', to: 'live_summaries#index'
   end
+  resources :real_time_apps
   resources :admin
 
   post 'admin/batch_delete', to: 'admin#batch_delete'

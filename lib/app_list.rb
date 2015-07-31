@@ -15,6 +15,22 @@ class AppList
 
     data
   end
+
+  def self.sorted
+    app_list = self.get
+    sorted_apps = { :cau=>[], :cls=>[], :clw=>[], :cms=>[],:cpas=>[],:cxm=>[],:dsh=>[],:nae=>[],:other=>[] }
+    tits = ["cau","cls","clw","cms","cpas","cxm","dsh","nae"]
+    app_list.each do |app|
+      split_name = app["name"].split("-")
+      if split_name.length > 3 && tits.include?(split_name[1])
+        grouping = split_name[1]
+      else 
+        grouping = "other"
+      end
+      sorted_apps[grouping.to_sym] << app
+    end
+    sorted_apps
+  end
   
   def self.default_headers
     { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
