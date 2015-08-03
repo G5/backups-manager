@@ -40,8 +40,9 @@ class CmsReporter
       @themeAjax()
       window.noEvent(e)
     )
-    @themeInput.on 'keydown', =>
+    @themeInput.on 'focus', =>
       @widgetInput.val('')
+      @statusInput.val('')
 
   initWidgetForm: ()->
     @widgetForm = @cms.find('#target-widget-form')
@@ -51,8 +52,9 @@ class CmsReporter
       @widgetAjax()
       window.noEvent(e)
     )
-    @widgetInput.on 'keydown', =>
+    @widgetInput.on 'focus', =>
       @themeInput.val('')
+      @statusInput.val('')
 
   initStatusForm: ()->
     @statusForm = @cms.find('#target-status-form')
@@ -62,7 +64,7 @@ class CmsReporter
       @statusAjax()
       window.noEvent(e)
     )
-    @statusInput.on 'focus', =>
+    @statusInput.on 'click', =>
       @themeInput.val('')
       @widgetInput.val('')
 
@@ -97,6 +99,10 @@ class CmsReporter
         @incCmsReturned()
 
   ajaxSuccess: (result, type, elem)->
+    ## TODO: return here and figure out what endpoints are screwed
+    if result['web_themes'] && result['widgets'] && result['web_themes'].length != result['widgets'].length
+      debugger
+
     res_slug = if type == 'status' then 'web_themes' else type
     if result[res_slug]
       @findSearchResults(result[res_slug], type, elem)
@@ -117,8 +123,9 @@ class CmsReporter
   parseSearchResults: (resultSet, elem, input, validator, type)->
     results = []
     target = @getTarget(input)
+    return @setSearchNotFoundResults(elem) unless resultSet.length
+    @addLocationCount(resultSet)
     $.each resultSet, (idx, res)=>
-      @incLocationCount()
       @addToPageCount(res) if type == 'widgets'
       if validator(res, target)
         results.push(res)
@@ -130,9 +137,10 @@ class CmsReporter
 
   setSearchFoundResults: (resultSet, elem, type, target)->
     html = ""
-    $.each resultSet, (idx, res)=>
-      @incLocationFound()
-      html += @formatSearchFoundResults(elem, res, type, target)
+    if resultSet.length
+      $.each resultSet, (idx, res)=>
+        @incLocationFound()
+        html += @formatSearchFoundResults(elem, res, type, target)
     @setSearchResults(elem, "<ul>#{html}</ul>")
     @setCmsFound(elem)
 
@@ -168,10 +176,11 @@ class CmsReporter
   ## Search Result Validation Functions
 
   hasGardenTheme: (res, target)->
-    res['theme_slug'].toLowerCase() == target || res['theme'].toLowerCase() == target
+    res['theme_slug'] && (res['theme_slug'].toLowerCase() == target || res['theme'].toLowerCase() == target)
 
   hasGardenWidget: (res, target)->
     ret = false
+    return false if (!res['garden_widgets'] || !res['garden_widget_slugs'])
     $.each res['garden_widgets'], (idx, widget)->
       if !ret && widget.toLowerCase() == target
         ret = true
@@ -182,7 +191,7 @@ class CmsReporter
     ret
 
   hasStatus: (res, target)->
-    res['status'].toLowerCase() == target
+    res['status'] && res['status'].toLowerCase() == target
 
   getAppName: (elem)->
     $.trim(elem.find('.app-name').text())
@@ -227,7 +236,7 @@ class CmsReporter
     @pageFound = 0
     if type == 'widgets'
       @pagesFoundSpan.parent('div').show()
-    else 
+    else
       @pagesFoundSpan.parent('div').hide()
     @updateResultStats()
 
@@ -264,8 +273,8 @@ class CmsReporter
     @cmsFound += 1
     @updateResultStats()
 
-  incLocationCount: ->
-    @locationCount += 1
+  addLocationCount: (resultSet)->
+    @locationCount += resultSet.length
     @updateResultStats()
 
   incLocationFound: ->
@@ -273,7 +282,7 @@ class CmsReporter
     @updateResultStats()
 
   addToPageCount: (res)->
-    @pageCount += res['widget_page_configs'].length
+    @pageCount += if res['widget_page_configs'] then res['widget_page_configs'].length else 0
     @updateResultStats()
 
   incPageFound: ->

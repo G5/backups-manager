@@ -11,8 +11,11 @@
 <form id="target-status-form">
   <label for="target-status">Status Search:</label>
   <select name="target-status" id="target-status">
+    <option value="">[select a status]</option>
     <option value="Live">Live</option>
     <option value="Pending">Pending</option>
+    <option value="Suspended">Suspended</option>
+    <option value="No Deploy">No Deploy</option>
     <option value="Deleted">Deleted</option>
   </select>
   <input type="submit" name="target-status-submit" id="target-status-submit" class="btn" value="Find Status">
