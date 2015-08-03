@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'real_time_apps/index'
-
-  get 'real_time_apps/show'
-
   mount G5Authenticatable::Engine => '/g5_auth'
   mount G5Ops::Engine => '/g5_ops'
   require 'resque/server'
