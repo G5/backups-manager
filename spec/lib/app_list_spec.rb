@@ -27,4 +27,27 @@ describe AppList do
       expect(subject).to eq([{"thing" => "one"}, {"thing" => "two"}])
     end
   end
+
+  describe "#sorted" do
+    let(:dummy_data) {[ {"name" => "g5-cau-test-one"},
+                        {"name" => "g5-cau-test-two"},
+                        {"name" => "g5-cls-test-app"},
+                        {"name" => "g5-clw-test-test-app"},
+                        {"name" => "whatever"} ]}
+
+    let(:expected) { {:cau   => [{"name"=>"g5-cau-test-one"}, {"name"=>"g5-cau-test-two"}],
+                      :cls   => [{"name"=>"g5-cls-test-app"}],
+                      :clw   => [{"name"=>"g5-clw-test-test-app"}],
+                      :cms   => [],
+                      :cpas  => [],
+                      :cxm   => [],
+                      :dsh   => [],
+                      :nae   => [],
+                      :other => [{"name"=>"whatever"}]} }
+
+    it "uses app name to sort apps according to type" do
+      AppList.stub(:get) {dummy_data}
+      expect(AppList.sorted).to eq( expected )
+    end
+  end
 end

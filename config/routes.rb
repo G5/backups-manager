@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   resources :apps do
     get 'live_summary', to: 'live_summaries#index'
   end
+
   resources :cms, only: [:index]
+  resources :real_time_apps
   resources :admin
 
   post 'admin/batch_delete', to: 'admin#batch_delete'
