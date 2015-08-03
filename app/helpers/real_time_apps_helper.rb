@@ -1,0 +1,2 @@
+module RealTimeAppsHelper
+end
