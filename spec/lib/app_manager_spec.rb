@@ -4,6 +4,9 @@ describe AppManager do
   let(:success_response) { response = Struct.new(:code)
                            response.new(200) }
 
+  let(:failure_response) { response = Struct.new(:code)
+                           response.new(422) }
+
   let(:test_uri) { "https://api.heroku.com/apps/some-app-name" }
 
   let(:default_headers) { { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}", 
@@ -15,6 +18,7 @@ describe AppManager do
 
   describe "#delete" do
     it "correctly calls the delete method on the heroku api via RestClient" do
+      RestClient.stub(:delete) { failure_response }
       RestClient.stub(:delete).with(test_uri, default_headers) { success_response }
       expect(test_app.delete).to eq(true)
     end
@@ -24,6 +28,7 @@ describe AppManager do
     let(:test_data) { {updates:[{process:"web", quantity: 0, size: "1X"},{process:"worker", quantity: 0, size: "1X"}]}.to_json }
 
     it "correctly calls the formation method on the heroku api via RestClient" do
+      RestClient.stub(:patch) { failure_response }
       RestClient.stub(:patch).with("#{test_uri}/formation", test_data, json_headers) { success_response }
       expect(test_app.spin_down).to eq(true)
     end
@@ -31,6 +36,7 @@ describe AppManager do
 
   describe "#set_config_variable" do
     it "correctly calls the config-vars method on the heroku api via RestClient" do
+      RestClient.stub(:patch) { failure_response }
       RestClient.stub(:patch).with("#{test_uri}/config-vars", {"GIGITY": "goo"}.to_json, json_headers) { success_response }
       expect(test_app.set_config_variable("GIGITY", "goo")).to eq(true)
     end
