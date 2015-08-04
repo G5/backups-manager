@@ -1,7 +1,7 @@
 <h1>Heroku App Admin</h1>
 
 <h3>Batch Config</h3>
-<p>Enter a comma separated list of Heroku app names in the field below. Those apps will be shut down, but not deleted. Costs associated with web and worker dynos will stop accruing, but other services like DB's will continue to rack up charges.</p>
+<p>Enter a comma separated list of Heroku app names in the field below. Then enter your config variable key and value. All apps in your list will have the specified config variable added or updated.</p>
 
 <%= form_tag("/admin/batch_config", method: "post") do %>
   <%= label_tag(:apps, "Comma Separated List of apps to configure:") %>
