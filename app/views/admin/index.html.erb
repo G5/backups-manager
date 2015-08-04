@@ -1,5 +1,24 @@
 <h1>Heroku App Admin</h1>
 
+<h3>Batch Config</h3>
+<p>Enter a comma separated list of Heroku app names in the field below. Those apps will be shut down, but not deleted. Costs associated with web and worker dynos will stop accruing, but other services like DB's will continue to rack up charges.</p>
+
+<%= form_tag("/admin/batch_config", method: "post") do %>
+  <%= label_tag(:apps, "Comma Separated List of apps to configure:") %>
+  <%= text_field_tag(:apps) %>
+
+  <%= label_tag(:config_variable, "Name of Config Variable:") %>
+  <%= text_field_tag(:config_variable) %>
+
+  <%= label_tag(:config_value, "Value:") %>
+  <%= text_field_tag(:config_value) %>
+
+  <%= submit_tag("Set Config Variable") %>
+<% end %>
+
+<br /><br /><br /><br /><br /><br /><br />
+
+<h3>Batch Shut Down</h3>
 <p>Enter a comma separated list of Heroku app names in the field below. Those apps will be shut down, but not deleted. Costs associated with web and worker dynos will stop accruing, but other services like DB's will continue to rack up charges.</p>
 
 <%= form_tag("/admin/batch_spin_down", method: "post") do %>
@@ -10,6 +29,7 @@
 
 <br /><br /><br /><br /><br /><br /><br />
 
+<h3>Batch Delete</h3>
 <p><strong>DANGER:</strong> You are about to permanently delete some Heroku apps. Enter a comma separated list of Heroku app names in the field below. Then when you hit "Delete", those apps and all their data, addons, and environment variables will be deleted. This cannont be undone!</p>
 
 <p>Be safe...</p>

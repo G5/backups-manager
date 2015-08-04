@@ -19,7 +19,13 @@ class AppManager
     data = { updates: [ {process:"web", quantity: 0, size: "1X"}, {process:"worker", quantity: 0, size: "1X"} ] }
     @headers[:content_type] = 'application/json'
     response = RestClient.patch "#{@uri}/formation", data.to_json, @headers
+    success = response.code == 200 ? true : false
+  end
 
+  def set_config_variable(var, val)
+    data = {"#{var}": "#{val}"}
+    @headers[:content_type] = 'application/json'
+    response = RestClient.patch "#{@uri}/config-vars", data.to_json, @headers
     success = response.code == 200 ? true : false
   end
 end

@@ -1,0 +1,8 @@
+<h1>Configuring Apps</h1>
+
+<p>The following apps have been queued for setting the <%= @config_var %> variable to a value of <%= @config_val %>:</p>
+<ul>
+  <% @config_apps.each do |app| %>
+    <li><%= app %></li>
+  <% end %>
+</ul>
