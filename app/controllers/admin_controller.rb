@@ -9,7 +9,7 @@ class AdminController < ApplicationController
     @death_row_apps = params['apps'].split(',').map(&:strip)
 
     @death_row_apps.each do |app|
-      Resque.enqueue(AppDelete, app)
+      AppDeleteWorker.perform_async(app)
     end
   end
 
@@ -17,7 +17,7 @@ class AdminController < ApplicationController
     @sleepy_apps = params['apps'].split(',').map(&:strip)
 
     @sleepy_apps.each do |app|
-      Resque.enqueue(AppSpinDown, app)
+      AppSpinDownWorker.perform_async(app)
     end
   end
 end
