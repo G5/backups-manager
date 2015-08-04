@@ -8,10 +8,10 @@
   <%= text_field_tag(:apps) %>
 
   <%= label_tag(:config_variable, "Name of Config Variable:") %>
-  <%= text_field_tag(:config_variable) %>
+  <%= text_field_tag(:config_variable, "", placeholder: "SOME_CONFIG_VAR") %>
 
   <%= label_tag(:config_value, "Value:") %>
-  <%= text_field_tag(:config_value) %>
+  <%= text_field_tag(:config_value, "", placeholder: "some-config-value") %>
 
   <%= submit_tag("Set Config Variable") %>
 <% end %>
