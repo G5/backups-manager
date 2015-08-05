@@ -19,7 +19,7 @@ gem 'coffee-rails', '~> 4.0.0'
 
 gem 'httpclient'
 gem 'g5_authenticatable'
-
+gem 'rest-client'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'whenever', :require => false

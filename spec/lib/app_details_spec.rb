@@ -46,11 +46,4 @@ describe AppDetails do
     end
   end
 
-  describe "#delete" do
-    pending
-  end
-
-  describe "#spin_down" do
-    pending
-  end
 end
