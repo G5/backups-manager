@@ -100,8 +100,8 @@ class CmsReporter
 
   ajaxSuccess: (result, type, elem)->
     ## TODO: return here and figure out what endpoints are screwed
-    if result['web_themes'] && result['widgets'] && result['web_themes'].length != result['widgets'].length
-      debugger
+#    if result['web_themes'] && result['widgets'] && result['web_themes'].length != result['widgets'].length
+#      debugger
 
     res_slug = if type == 'status' then 'web_themes' else type
     if result[res_slug]
