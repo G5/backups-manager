@@ -1,0 +1,8 @@
+<li class="app-item">
+  <span class="app-name">
+    <%= link_to app.name, app_path(app)  %>
+  </span>
+  <%= link_to "Dashboard |", "https://dashboard.heroku.com/apps/#{app.name}/", target: "blank" %>
+  <%= link_to "App", "https://#{app.name}.herokuapp.com", target: "blank" %>
+  <span class="search-results"></span>
+</li>

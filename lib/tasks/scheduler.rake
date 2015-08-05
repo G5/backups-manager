@@ -23,3 +23,7 @@ end
 task :remove_deleted_apps => :environment do
   RemoveDeletedAppWorker.perform_async
 end
+
+task :update_cms_configs => :environment do
+  CmsConfigWorker.new.perform
+end
