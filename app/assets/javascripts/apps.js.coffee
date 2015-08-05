@@ -25,7 +25,7 @@ class BaseController
       $('html, body').animate { scrollTop: activeTitle.offset().top }, 400
 
   toggleAppsGroups: ->
-    $(".app-title").on 'click', ->
+    $(".app-title").on 'click', =>
       if $(this).hasClass('show')
         @hideAppTitle($(this))
       else
