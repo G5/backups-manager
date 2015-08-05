@@ -19,5 +19,6 @@ Rails.application.routes.draw do
 
   post 'admin/batch_delete', to: 'admin#batch_delete'
   post 'admin/batch_spin_down', to: 'admin#batch_spin_down'
+  post 'admin/batch_config', to: 'admin#batch_config'
 
 end

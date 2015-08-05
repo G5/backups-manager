@@ -26,19 +26,6 @@ class AppDetails
       accept: "application/vnd.heroku+json; version=3" }
   end
 
-  def delete
-    response = HTTPClient.delete uri, nil, header
-    success = response.code == 200 ? true : false
-  end
-
-  def spin_down
-    data = { updates: [ { process:"web", quantity: 0, size: "1X"}, { process:"worker", quantity: 0, size: "1X"} ] }
-    @headers[:content_type] = 'application/json'
-    response = HTTPClient.request(:patch, "#{uri}/formation", nil, data.to_json, header)
-
-    success = response.code == 200 ? true : false
-  end
-
   private
 
   def get_detail(type)
