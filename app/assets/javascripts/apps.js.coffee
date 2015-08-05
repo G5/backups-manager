@@ -25,12 +25,13 @@ class BaseController
       $('html, body').animate { scrollTop: activeTitle.offset().top }, 400
 
   toggleAppsGroups: ->
-    $(".app-title").on 'click', =>
-      if $(this).hasClass('show')
-        @hideAppTitle($(this))
+    $(".app-title").on 'click', (e)=>
+      elem = $(e.currentTarget)
+      if elem.hasClass('show')
+        @hideAppTitle(elem)
       else
-        @showAppTitle($(this))
-        window.location.hash = $(this).attr('id')
+        @showAppTitle(elem)
+        window.location.hash = elem.attr('id')
 
   hideAppTitle: (title)->
     title.removeClass('show')
@@ -44,7 +45,7 @@ class BaseController
     url = "//#{urn}.herokuapp.com/g5_ops/health"
     _this = this
     @setVersionValue(elem, "...")
-    $.ajax url, 
+    $.ajax url,
       method: 'GET'
       success: (res, status, xhr) ->
         _this.ajaxSuccess(res, master, elem, url)
