@@ -25,5 +25,5 @@ task :remove_deleted_apps => :environment do
 end
 
 task :update_cms_configs => :environment do
-  CmsConfigWorker.new.perform
+  CmsConfigWorker.perform_async
 end
