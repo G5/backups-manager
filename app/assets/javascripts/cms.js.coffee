@@ -20,7 +20,6 @@ class CmsReporter
   constructor: ()->
     @cms = $('.cms')
     @cmsCount = @cms.find('.app-item').length
-    @initAppTitle()
     @initForm()
     @initSelectField('widgets', @widgetInput)
     @initSelectField('web_themes', @themeInput)
@@ -28,7 +27,7 @@ class CmsReporter
 
   ## Initializer Functions
 
-  initAppTitle: ()->
+  openCmsList: ()->
     title = @cms.find('.app-title')
     title.addClass('show')
     title.next('.app-list').addClass('show')
@@ -62,6 +61,7 @@ class CmsReporter
   doAjax: ()->
     @resetCmsRows()
     @resetResultStats()
+    @openCmsList()
     @cmsList().each (idx, elem)=>
       @appConfigAjax($(elem))
 
@@ -104,7 +104,6 @@ class CmsReporter
   parseSearchResults: (locations, elem)->
     results = []
     $.each locations, (idx, res)=>
-      @addToPageCount(res) if @hasWidgetValue()
       results.push(res)
     if results.length
       @incCmsFound()
@@ -171,7 +170,7 @@ class CmsReporter
   formatWidgetsFoundResults: (elem, res)->
     results = ""
     $.each res['page_configs'], (idx, config)=>
-      if @hasGardenWidget(config)
+      if @hasGardenWidget(config, @getWidgetValue())
         @incPageFound()
         url = @searchResultsUrl(elem, res['location_slug'], config['page_slug'])
         link = "<a href='#{url}' target='_blank'>#{config['page']}</a>"
@@ -209,27 +208,8 @@ class CmsReporter
 
   ## Search Result Validation Functions
 
-  validateResults: (res)->
-    ## TODO: make this work
-    false
-
-  hasGardenTheme: (res, target)->
-    res['theme_slug'] && (res['theme_slug'].toLowerCase() == target || res['theme'].toLowerCase() == target)
-
-  hasGardenWidget: (res, target)->
-    ret = false
-    return false if (!res['garden_widgets'] || !res['garden_widget_slugs'])
-    $.each res['garden_widgets'], (idx, widget)->
-      if !ret && widget.toLowerCase() == target
-        ret = true
-    return ret if ret
-    $.each res['garden_widget_slugs'], (idx, slug)->
-      if !ret && slug.toLowerCase() == target
-        ret = true
-    ret
-
-  hasStatus: (res, target)->
-    res['status'] && res['status'].toLowerCase() == target
+  hasGardenWidget: (res, widget)->
+    $.inArray(widget, res['garden_widget_slugs'])
 
   getAppName: (elem)->
     $.trim(elem.find('.app-name').text())
@@ -310,6 +290,9 @@ class CmsReporter
 
   addLocationCount: (locations)->
     @locationCount += locations.length
+    if @hasWidgetValue()
+      $.each locations, (idx, l)=>
+        @addToPageCount(l)
     @updateResultStats()
 
   incLocationFound: ->
@@ -317,7 +300,7 @@ class CmsReporter
     @updateResultStats()
 
   addToPageCount: (res)->
-    @pageCount += if res['widget_page_configs'] then res['widget_page_configs'].length else 0
+    @pageCount += if res['page_configs'] then res['page_configs'].length else 0
     @updateResultStats()
 
   incPageFound: ->
