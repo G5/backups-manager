@@ -1,22 +1,47 @@
-<form id="target-theme-form">
-  <label for="target-theme">Web Theme Search:</label>
-  <input type="text" name="target-theme" id="target-theme" value="" placeholder="Enter Theme name or slug here">
-  <input type="submit" name="target-theme-submit" id="target-theme-submit" class="btn" value="Find Themes">
-</form>
-<form id="target-widget-form">
-  <label for="target-widget">Widget Search:</label>
-  <input type="text" name="target-widget" id="target-widget" value="" placeholder="Enter Widget name or slug here">
-  <input type="submit" name="target-widget-submit" id="target-widget-submit" class="btn" value="Find Widgets">
-</form>
-<form id="target-status-form">
-  <label for="target-status">Status Search:</label>
-  <select name="target-status" id="target-status">
-    <option value="">[select a status]</option>
-    <option value="Live">Live</option>
-    <option value="Pending">Pending</option>
-    <option value="Suspended">Suspended</option>
-    <option value="No Deploy">No Deploy</option>
-    <option value="Deleted">Deleted</option>
-  </select>
-  <input type="submit" name="target-status-submit" id="target-status-submit" class="btn" value="Find Status">
+<form id="cms-search-form">
+  <div class="cms-form cms-form-3">
+    <label for="target-type">Client Type:</label>
+    <select name="target-type" id="target-type">
+      <option value="all">All Clients</option>
+      <option value="real">Real Clients Only</option>
+      <option value="internal">Internal Clients Only</option>
+    </select>
+  </div>
+
+  <div class="cms-form cms-form-3">
+    <label for="target-vertical">Client Vertical:</label>
+    <select name="target-vertical" id="target-vertical">
+      <option value="all">All Verticals</option>
+      <option value="apartments">Multifamily</option>
+      <option value="self-storage">Self Storage</option>
+      <option value="senior-living">Senior Living</option>
+    </select>
+  </div>
+
+  <div class="cms-form cms-form-3">
+    <label for="target-status">Location Status:</label>
+    <select name="target-status" id="target-status">
+      <option value="">[select a status]</option>
+      <option value="Live">Live</option>
+      <option value="No Deploy">No Deploy</option>
+      <option value="Live No Deploy">Live or No Deploy</option>
+      <option value="Pending">Pending</option>
+      <option value="Suspended">Suspended</option>
+      <option value="Deleted">Deleted</option>
+    </select>
+  </div>
+
+  <div class="cms-form cms-form-2">
+    <label for="target-theme">Web Theme:</label>
+    <select name="target-theme" id="target-theme">
+    </select>
+  </div>
+
+  <div class="cms-form cms-form-2">
+    <label for="target-widget">Widget:</label>
+    <select name="target-widget" id="target-widget">
+    </select>
+  </div>
+
+  <input type="submit" name="cms-search-submit" id="cms-search-submit" class="btn" value="Search">
 </form>
