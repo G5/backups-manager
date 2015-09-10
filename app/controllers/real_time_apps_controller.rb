@@ -1,4 +1,6 @@
 class RealTimeAppsController < ApplicationController
+  skip_before_filter :authenticate_user!, if: :format_json?
+
   def index
     @app_list = AppList.sorted
 
@@ -12,6 +14,10 @@ class RealTimeAppsController < ApplicationController
   end
 
   private
+
+  def format_json?
+    request.format.json?
+  end
 
   def stripped_app_list
     stripped_list = {}
