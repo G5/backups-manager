@@ -46,8 +46,6 @@ gem 'neat', '~> 1.5.1'
 
 group :development, :test do
   gem 'rspec-rails'
-  gem 'fabrication'
-  gem 'faker'
   gem 'factory_girl_rails'
   gem 'better_errors'
   gem 'binding_of_caller'
