@@ -1,4 +1,8 @@
 class App < ActiveRecord::Base
+  belongs_to :organization
+
+  validates :name, :organization, presence: true
+
   def type
     App.type_from_name(name)
   end

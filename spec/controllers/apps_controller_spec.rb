@@ -1,11 +1,5 @@
 describe AppsController do
-  let!(:app) do
-    App.create(
-      id: 1, name: "App",
-      app_details: {"web_url" => "_", "git_url" => "_", "updated_at" => "_"},
-      addons: {}, config_variables: {}, dynos: {}, domains: {} )
-  end
-
+  let!(:app) { FactoryGirl.create(:app) }
   before { allow(RateCheck).to receive(:usage).and_return(2300) }
 
   describe 'GET index', auth_controller: true do
@@ -33,8 +27,9 @@ describe AppsController do
     end
 
     context "when showing a clw app" do
+      let!(:app) { FactoryGirl.create(:clw_app) }
+
       it "assigns the domains instance var" do
-        app.update_attributes(name: "g5-clw-1sjhz1kl-holland-reside")
         get :show, id: app.id
         expect(assigns(:domains)).to eq(app.domains)
       end

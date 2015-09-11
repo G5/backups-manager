@@ -1,6 +1,6 @@
 describe OrgsController do
   describe 'GET index', auth_controller: true do
-    let!(:app)  { App.create(id: 1, name: "App 1", app_details: { "owner" => {"email" => "group2@herokumanager.com"} }) }
+    let!(:app) { FactoryGirl.create(:app) }
     before { allow(RateCheck).to receive(:usage).and_return(2300) }
 
     it "correctly assigns data to @app_list" do
