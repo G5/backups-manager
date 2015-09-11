@@ -46,7 +46,7 @@ describe AppList do
                       :other => [{"name"=>"whatever"}]} }
 
     it "uses app name to sort apps according to type" do
-      AppList.stub(:get) {dummy_data}
+      allow(AppList).to receive(:get).and_return(dummy_data)
       expect(AppList.sorted).to eq( expected )
     end
   end
