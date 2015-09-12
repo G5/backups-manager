@@ -21,17 +21,12 @@ class AppDetails
     get_detail("domains")
   end
 
-  def self.default_headers
-    { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-      accept: "application/vnd.heroku+json; version=3" }
-  end
-
   private
 
   def get_detail(type)
     begin
-      response = HTTPClient.get "#{uri}/#{type}", nil, AppDetails.default_headers
-      data = JSON.parse response.body
+      response = HTTPClient.get("#{uri}/#{type}", nil, HerokuApiHelpers.default_headers)
+      JSON.parse response.body
     rescue => e
       e.response
     end

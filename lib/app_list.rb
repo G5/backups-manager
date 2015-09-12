@@ -3,7 +3,7 @@ class AppList
 
   def self.get
     app_list_uri = "https://api.heroku.com/apps"
-    headers = default_headers 
+    headers = HerokuApiHelpers.default_headers(range: "name ..; max=1000;")
     response = HTTPClient.get app_list_uri, nil, headers
     data = JSON.parse response.body
     # Heroku returns up to 1000 records at a time. A response code 
@@ -34,11 +34,5 @@ class AppList
       sorted_apps[grouping.to_sym] << app
     end
     sorted_apps
-  end
-  
-  def self.default_headers
-    { authorization: "Bearer #{ENV['HEROKU_AUTH_TOKEN']}",
-      accept: "application/vnd.heroku+json; version=3",
-      range: "name ..; max=1000;" }
   end
 end
