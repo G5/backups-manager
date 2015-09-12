@@ -11,10 +11,6 @@ class App < ActiveRecord::Base
     App.prefix_from_name(name)
   end
 
-  def owner_name
-    app_details["owner"]["email"].split('@').first rescue nil
-  end
-
   def self.prefixes
     [ 'g5-cau', 'g5-cls', 'g5-clw', 'g5-cms', 'g5-cpas', 'g5-cpns', 'g5-cxm', 'g5-dsh', 'g5-inv', 'g5-jobs', 'g5-nae',
       'g5-hub', 'g5-configurator', 'g5-client-app-creator', 'g5-app-wrangler', 'g5-layout-garden', 'g5-theme-garden',
@@ -35,10 +31,6 @@ class App < ActiveRecord::Base
     # add caret to only match beginning of string
     regex_str = prefixes.map {|p| "^#{p}"}.join("|")
     name.try(:[], /#{regex_str}/)
-  end
-
-  def self.group_by_owner(apps)
-    apps.group_by(&:owner_name).sort.to_h
   end
 
   def self.group_by_type(apps)
