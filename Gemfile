@@ -57,6 +57,7 @@ group :development do
   gem 'spring'
   gem 'pry'
   gem 'spring-commands-rspec'
+  gem 'rack-mini-profiler'
 end
 
 gem 'rails_12factor', group: :production

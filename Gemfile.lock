@@ -195,6 +195,8 @@ GEM
     pundit (1.0.1)
       activesupport (>= 3.0.0)
     rack (1.5.5)
+    rack-mini-profiler (0.9.7)
+      rack (>= 1.1.3)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -349,6 +351,7 @@ DEPENDENCIES
   normalize-rails (~> 3.0.1)
   pg
   pry
+  rack-mini-profiler
   rails (~> 4.1.11)
   rails_12factor
   resque
