@@ -6,10 +6,11 @@ Rails.application.routes.draw do
   mount Resque::Server.new, at: "/resque"
   mount Sidekiq::Web => '/sidekiq'
 
-  root 'apps#index'
+  root 'app_types#index'
 
-  resources :orgs
-  resources :apps do
+  resources :orgs, only: [ :index, :show ]
+  resources :app_types, only: [ :index, :show ]
+  resources :apps, only: :show do
     get 'live_summary', to: 'live_summaries#index'
   end
 

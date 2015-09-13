@@ -1,0 +1,12 @@
+<div class="app"> 
+  <%= render 'shared/wrangler_header', grouped: "Type", group_by: "owner", view_link: orgs_path %>
+  <div class="app-group">
+    <% @app_types.each do |type, apps| %>
+      <% unless apps.blank? %>
+        <%= link_to app_type_path(type), class: "app-title" do %>
+          <%= render 'summary', type: type, apps: apps %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

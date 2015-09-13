@@ -1,10 +1,4 @@
 class AppsController < ApplicationController
-
-  def index
-    @app_list = App.all
-    @rate_limit = RateCheck.usage
-  end
-
   def show
     @app = App.find params[:id]
     details = @app.app_details
@@ -20,5 +14,4 @@ class AppsController < ApplicationController
 
     @rate_limit = RateCheck.usage
   end
-
 end

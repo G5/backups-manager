@@ -1,0 +1,15 @@
+<span class="app-name"><%= organization.name %></span>
+<span>
+  App Count:
+  <span class='counter'><%= organization.apps.length %></span> 
+  |
+</span>
+<span>
+  Avg dynos per app:
+  <span class="counter"><%= average_dynos_per_app(organization.apps) %></span>
+  |
+</span>
+<span>
+  Projected Month:
+  <span class="counter"><%= projected_monthly_cost(organization) %></span>
+</span>

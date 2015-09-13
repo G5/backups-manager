@@ -1,0 +1,27 @@
+<div class="app"> 
+  <%= link_to "Back to Applications by Type", app_types_path, class: "btn" %>
+
+  <div class="app-group">
+    <% unless @apps.blank? %>
+      <div class="app-title">
+        <%= render 'summary', type: @type, apps: @apps %>
+
+        <% if AppVersions.is_versioned?(@type) %>
+          <span class='version'>
+            Master: 
+            <span class="version-value">
+              <%= get_mv(@type) %>
+            </span>
+          </span>
+          <a href='#' class='version-refresh'><%= image_tag('reload.png', class: 'version-refresh-icon', alt: 'Refresh Versions') %></a>
+        <% end %>
+      </div>
+
+      <ul class="app-list">
+        <% @apps.each do |app| %>
+          <%= render 'shared/app_row', app: app, type: @type %>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>

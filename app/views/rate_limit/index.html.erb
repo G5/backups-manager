@@ -3,7 +3,7 @@
     <h1>API Rate Limit Check</h1>
     <p class="app-count"><span class="rate-limit"><%= @remaining %></span> out of 2400 requests per hour remaining.</p>
     <% if @remaining > 1000 %>
-      <p class="app-btn"><%= link_to "Continue To App Lists", apps_path, class: 'btn' %></p>
+      <p class="app-btn"><%= link_to "Continue To App Lists", app_types_path, class: 'btn' %></p>
     <% end %>
     <p class="app-count">Refreshing this page will not count toward the API quota of 2400 requests/hr, but continuing to the app lists will.</p>
   </div>

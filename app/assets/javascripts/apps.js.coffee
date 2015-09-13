@@ -1,7 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-
 window.documentReady = ->
   if $('.app').hasClass('orgs')
     window.orgsController = new OrgsController
@@ -13,33 +9,7 @@ $(document).on 'ready page:load', window.documentReady
 
 class BaseController
   constructor: ->
-    @toggleAppsGroups()
     @appTitles = $(".app-title")
-    @openHash()
-
-  openHash: ->
-    hash = window.location.hash
-    activeTitle = $(".app-title#{hash}") if hash
-    if activeTitle && activeTitle.length
-      activeTitle.click()
-      $('html, body').animate { scrollTop: activeTitle.offset().top }, 400
-
-  toggleAppsGroups: ->
-    $(".app-title").on 'click', (e)=>
-      elem = $(e.currentTarget)
-      if elem.hasClass('show')
-        @hideAppTitle(elem)
-      else
-        @showAppTitle(elem)
-        window.location.hash = elem.attr('id')
-
-  hideAppTitle: (title)->
-    title.removeClass('show')
-    title.next('.app-list').removeClass('show')
-
-  showAppTitle: (title)->
-    title.addClass('show')
-    title.next('.app-list').addClass('show')
 
   ajaxVersion: (urn, master, elem)->
     url = "//#{urn}.herokuapp.com/g5_ops/health"
@@ -53,7 +23,6 @@ class BaseController
         _this.ajaxError(elem)
 
   ajaxSuccess: (res, master, elem, url)->
-
     # Accounting for old versions
     if(res.status)
       res = res.status
