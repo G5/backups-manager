@@ -29,7 +29,7 @@ describe OrganizationInvoiceWorker do
       it "persists historical invoices for each org" do
         OrganizationInvoiceWorker.perform_async
         expect(organization.invoices.count).to eq(2)
-        invoices = organization.invoices.order(:period_start)
+        invoices = organization.invoices.reorder(:period_start)
         expect(invoices[0].total).to eq(200)
         expect(invoices[1].total).to eq(100)
       end
@@ -44,7 +44,7 @@ describe OrganizationInvoiceWorker do
         it "updates those invoices" do
           OrganizationInvoiceWorker.perform_async
           expect(organization.invoices.count).to eq(2)
-          expect(organization.invoices.order(:period_start).first.total).to eq(200)
+          expect(organization.invoices.reorder(:period_start).first.total).to eq(200)
         end
       end
     end

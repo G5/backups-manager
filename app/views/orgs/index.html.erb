@@ -6,8 +6,20 @@
       <% if o.apps.present? %>
         <%= content_tag :h3, class: "app-title", id: o.name do %>
           <span class="app-name"><%= o.name %></span>
-          <span><%= "Group App Count: <span class='counter'>#{o.apps.length}</span>".html_safe %> | </span>
-            <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(o.apps)}</span>".html_safe %> | </span>
+          <span>
+            App Count:
+            <span class='counter'><%= o.apps.length %></span> 
+            |
+          </span>
+          <span>
+            Avg dynos per app:
+            <span class="counter"><%= average_dynos_per_app(o.apps) %></span>
+            |
+          </span>
+          <span>
+            Projected Month:
+            <span class="counter"><%= projected_monthly_cost(o) %></span>
+          </span>
         <% end %>
         <ul class="app-list">
           <% o.apps.each do |app| %>
