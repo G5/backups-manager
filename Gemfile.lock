@@ -172,6 +172,7 @@ GEM
     netrc (0.10.3)
     newrelic_rpm (3.12.1.298)
     normalize-rails (3.0.3)
+    nprogress-rails (0.1.6.7)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -349,6 +350,7 @@ DEPENDENCIES
   neat (~> 1.5.1)
   newrelic_rpm
   normalize-rails (~> 3.0.1)
+  nprogress-rails
   pg
   pry
   rack-mini-profiler
