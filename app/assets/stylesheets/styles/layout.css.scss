@@ -360,8 +360,14 @@ hr {
 .cms {
   margin-bottom: 20px;
   @include clearfix;
-  form {
-    width: 31%;
+  .cms-form {
+    width: 98%;
+    &.cms-form-2 {
+      width: 48%;
+    }
+    &.cms-form-3 {
+      width: 31%;
+    }
     margin: 1%;
     float: left;
     display: block;

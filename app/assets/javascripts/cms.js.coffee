@@ -15,97 +15,75 @@ class CmsReporter
   locationFound: 0
   pageCount: 0
   pageFound: 0
+  cmsMaster: "https://g5-cms-master.herokuapp.com"
 
   constructor: ()->
     @cms = $('.cms')
     @cmsCount = @cms.find('.app-item').length
-    @initAppTitle()
-    @initThemeForm()
-    @initWidgetForm()
-    @initStatusForm()
+    @initForm()
+    @initSelectField('widgets', @widgetInput)
+    @initSelectField('web_themes', @themeInput)
     @initResultStats()
 
   ## Initializer Functions
 
-  initAppTitle: ()->
+  openCmsList: ()->
     title = @cms.find('.app-title')
     title.addClass('show')
     title.next('.app-list').addClass('show')
-    
-  initThemeForm: ()->
-    @themeForm = @cms.find('#target-theme-form')
-    @themeInput = @themeForm.find('#target-theme')
-    @themeSubmit = @themeForm.find('#target-theme-submit')
-    @themeSubmit.on 'click', ((e)=>
-      @themeAjax()
-      window.noEvent(e)
-    )
-    @themeInput.on 'focus', =>
-      @widgetInput.val('')
-      @statusInput.val('')
 
-  initWidgetForm: ()->
-    @widgetForm = @cms.find('#target-widget-form')
-    @widgetInput = @widgetForm.find('#target-widget')
-    @widgetSubmit = @widgetForm.find('#target-widget-submit')
-    @widgetSubmit.on 'click', ((e)=>
-      @widgetAjax()
+  initForm: ()->
+    @form = @cms.find('#cms-search-form')
+    @typeInput = @cms.find('#target-type')
+    @verticalInput = @cms.find('#target-vertical')
+    @themeInput = @cms.find('#target-theme')
+    @widgetInput = @cms.find('#target-widget')
+    @statusInput = @cms.find('#target-status')
+    @submit = @cms.find('#cms-search-submit')
+    @submit.on 'click', ((e)=>
+      @doAjax()
       window.noEvent(e)
     )
-    @widgetInput.on 'focus', =>
-      @themeInput.val('')
-      @statusInput.val('')
 
-  initStatusForm: ()->
-    @statusForm = @cms.find('#target-status-form')
-    @statusInput = @statusForm.find('#target-status')
-    @statusSubmit = @statusForm.find('#target-status-submit')
-    @statusSubmit.on 'click', ((e)=>
-      @statusAjax()
-      window.noEvent(e)
-    )
-    @statusInput.on 'click', =>
-      @themeInput.val('')
-      @widgetInput.val('')
+  initSelectField: (garden, elem)->
+    $.ajax "#{@cmsMaster}/garden_#{garden}.json",
+      method: 'GET'
+      success: (res, status, xhr)=>
+        str = "<option value=''>[select a #{garden.replace('_',' ').slice(0,-1)}]</option>"
+        $.each res["garden_#{garden}"], ((idx, g)=>
+          str += "<option value='" + g['slug'] + "'>" + g['name'] + "</option>"
+        )
+        elem.html(str)
+      error: (xhr, status, err)=>
+        elem.html("<option value=''>NOT FOUND</option>")
 
   ## AJAX Functions
+  doAjax: ()->
+    @resetCmsRows()
+    @resetResultStats()
+    @openCmsList()
+    @cmsList().each (idx, elem)=>
+      @appConfigAjax($(elem))
 
-  themeAjax: ()->
-    @doAjax(@themeInput, 'web_themes')
-
-  widgetAjax: ()->
-    @doAjax(@widgetInput, 'widgets')
-
-  statusAjax: ()->
-    @doAjax(@statusInput, 'status')
-
-  doAjax: (input, type)->
-    if @getTarget(input).length
-      @resetCmsRows()
-      @resetResultStats(type)
-      @cmsList().each (idx, elem)=>
-        @appConfigAjax(type, $(elem))
-
-  appConfigAjax: (type, elem)->
+  appConfigAjax: (elem)->
     @incCmsSent()
     @setSearchResults(elem, '...')
     $.ajax @cmsConfigUrl(@getAppName(elem)),
       method: 'GET'
       success: (res, status, xhr)=>
-        @ajaxSuccess(res, type, elem)
+        @ajaxSuccess(res, elem)
       error: (xhr, status, err)=>
         @ajaxError(elem)
       complete: (xhr, status)=>
         @incCmsReturned()
 
-  ajaxSuccess: (result, type, elem)->
+  ajaxSuccess: (result, elem)->
     ## TODO: return here and figure out what endpoints are screwed
 #    if result['web_themes'] && result['widgets'] && result['web_themes'].length != result['widgets'].length
 #      debugger
 
-    res_slug = if type == 'status' then 'web_themes' else type
-    if result[res_slug]
-      @findSearchResults(result[res_slug], type, elem)
+    if result['client'] && result['locations']
+      @findSearchResults(result, elem)
     else
       @ajaxError(elem)
 
@@ -115,32 +93,64 @@ class CmsReporter
 
   ## Search Results Functions
 
-  findSearchResults: (resultSet, type, elem)->
-    @parseSearchResults(resultSet, elem, @themeInput, @hasGardenTheme, type) if type == 'web_themes'
-    @parseSearchResults(resultSet, elem, @widgetInput, @hasGardenWidget, type) if type == 'widgets'
-    @parseSearchResults(resultSet, elem, @statusInput, @hasStatus, type) if type == 'status'
+  findSearchResults: (results, elem)->
+    @addLocationCount(results['locations'])
+    locations = @filterByTypeAndVertical(results)
+    locations = @filterByStatus(locations)
+    locations = @filterByTheme(locations)
+    locations = @filterByWidget(locations)
+    @parseSearchResults(locations, elem)
 
-  parseSearchResults: (resultSet, elem, input, validator, type)->
+  parseSearchResults: (locations, elem)->
     results = []
-    target = @getTarget(input)
-    return @setSearchNotFoundResults(elem) unless resultSet.length
-    @addLocationCount(resultSet)
-    $.each resultSet, (idx, res)=>
-      @addToPageCount(res) if type == 'widgets'
-      if validator(res, target)
-        results.push(res)
+    $.each locations, (idx, res)=>
+      results.push(res)
     if results.length
       @incCmsFound()
-      @setSearchFoundResults(results, elem, type, target)
+      @setSearchFoundResults(results, elem)
     else
       @setSearchNotFoundResults(elem)
 
-  setSearchFoundResults: (resultSet, elem, type, target)->
+  filterByTypeAndVertical: (results)->
+    client = results['client']
+    type = @getTypeValue()
+    vert = @getVerticalValue()
+    isValid = true
+    if type != 'all'
+      if (type == 'real' && client['g5_internal']) || (type == 'internal' && !client['g5_internal'])
+        isValid = false
+    if vert != 'all' && vert != client['vertical_slug']
+      isValid = false
+    return if isValid then results['locations'] else []
+
+  filterByStatus: (locations)->
+    status = @getStatusValue()
+    return locations unless status.length
+    return locations.filter (l)->
+      l_status = l['status'].toLowerCase()
+      if status == 'live no deploy'
+        return l_status == 'live' || l_status == 'no deploy'
+      else
+        return l_status == status
+
+  filterByTheme: (locations)->
+    theme = @getThemeValue()
+    return locations unless theme.length
+    return locations.filter (l)->
+      return l['theme_slug'] == theme
+
+  filterByWidget: (locations)->
+    widget = @getWidgetValue()
+    return locations unless widget.length
+    return locations.filter (l)->
+      return $.inArray(widget, l['garden_widget_slugs']) != -1
+
+  setSearchFoundResults: (resultSet, elem)->
     html = ""
     if resultSet.length
       $.each resultSet, (idx, res)=>
         @incLocationFound()
-        html += @formatSearchFoundResults(elem, res, type, target)
+        html += @formatSearchFoundResults(elem, res)
     @setSearchResults(elem, "<ul>#{html}</ul>")
     @setCmsFound(elem)
 
@@ -151,16 +161,16 @@ class CmsReporter
   setSearchResults: (elem, html)->
     elem.find('.search-results').html(html)
 
-  formatSearchFoundResults: (elem, res, type, target)->
+  formatSearchFoundResults: (elem, res)->
     url = @searchResultsUrl(elem, res['location_slug'])
     link = "<a href='#{url}' target='_blank'>#{res['location']} (#{res['urn']})</a>"
-    extras = if type == 'widgets' then @formatWidgetsFoundResults(elem, res, target) else ''
+    extras = if @hasWidgetValue() then @formatWidgetsFoundResults(elem, res) else ''
     "<li class='success'>#{link}#{extras}</li>"
 
-  formatWidgetsFoundResults: (elem, res, target)->
+  formatWidgetsFoundResults: (elem, res)->
     results = ""
-    $.each res['widget_page_configs'], (idx, config)=>
-      if @hasGardenWidget(config, target)
+    $.each res['page_configs'], (idx, config)=>
+      if @hasGardenWidget(config, @getWidgetValue())
         @incPageFound()
         url = @searchResultsUrl(elem, res['location_slug'], config['page_slug'])
         link = "<a href='#{url}' target='_blank'>#{config['page']}</a>"
@@ -173,33 +183,38 @@ class CmsReporter
     url += "/#{pageSlug}/edit" if pageSlug.length
     url
 
+  ## Target Accessors
+
+  getTarget: (input)->
+    $.trim(input.val()).toLowerCase()
+
+  getTypeValue: ->
+    @getTarget(@typeInput)
+
+  getVerticalValue: ->
+    @getTarget(@verticalInput)
+
+  getStatusValue: ->
+    @getTarget(@statusInput)
+
+  getWidgetValue: ->
+    @getTarget(@widgetInput)
+
+  getThemeValue: ->
+    @getTarget(@themeInput)
+
+  hasWidgetValue: ->
+    !!(@getWidgetValue().length > 0)
+
   ## Search Result Validation Functions
 
-  hasGardenTheme: (res, target)->
-    res['theme_slug'] && (res['theme_slug'].toLowerCase() == target || res['theme'].toLowerCase() == target)
-
-  hasGardenWidget: (res, target)->
-    ret = false
-    return false if (!res['garden_widgets'] || !res['garden_widget_slugs'])
-    $.each res['garden_widgets'], (idx, widget)->
-      if !ret && widget.toLowerCase() == target
-        ret = true
-    return ret if ret
-    $.each res['garden_widget_slugs'], (idx, slug)->
-      if !ret && slug.toLowerCase() == target
-        ret = true
-    ret
-
-  hasStatus: (res, target)->
-    res['status'] && res['status'].toLowerCase() == target
+  hasGardenWidget: (res, widget)->
+    $.inArray(widget, res['garden_widget_slugs'])
 
   getAppName: (elem)->
     $.trim(elem.find('.app-name').text())
 
   ## CMS Row Accessor Functions
-
-  getTarget: (input)->
-    $.trim(input.val()).toLowerCase()
 
   cmsList: ->
     @cList ||= @cms.find('.app-list .app-item')
@@ -226,7 +241,7 @@ class CmsReporter
     @locationsFoundSpan = @cmsSearchResults.find(".locations-found span")
     @pagesFoundSpan = @cmsSearchResults.find(".pages-found span")
 
-  resetResultStats: (type)->
+  resetResultStats: ()->
     @cmsSent = 0
     @cmsReturned = 0
     @cmsFound = 0
@@ -234,7 +249,7 @@ class CmsReporter
     @locationFound =  0
     @pageCount = 0
     @pageFound = 0
-    if type == 'widgets'
+    if @hasWidgetValue()
       @pagesFoundSpan.parent('div').show()
     else
       @pagesFoundSpan.parent('div').hide()
@@ -273,8 +288,11 @@ class CmsReporter
     @cmsFound += 1
     @updateResultStats()
 
-  addLocationCount: (resultSet)->
-    @locationCount += resultSet.length
+  addLocationCount: (locations)->
+    @locationCount += locations.length
+    if @hasWidgetValue()
+      $.each locations, (idx, l)=>
+        @addToPageCount(l)
     @updateResultStats()
 
   incLocationFound: ->
@@ -282,7 +300,7 @@ class CmsReporter
     @updateResultStats()
 
   addToPageCount: (res)->
-    @pageCount += if res['widget_page_configs'] then res['widget_page_configs'].length else 0
+    @pageCount += if res['page_configs'] then res['page_configs'].length else 0
     @updateResultStats()
 
   incPageFound: ->
