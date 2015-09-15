@@ -27,3 +27,7 @@ end
 task :update_cms_configs => :environment do
   CmsConfigWorker.perform_async
 end
+
+task :update_organization_invoices => :environment do
+  OrganizationInvoiceWorker.perform_async
+end

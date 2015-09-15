@@ -1,6 +1,10 @@
 class OrgsController < ApplicationController
   def index
-    @organizations = Organization.includes(:apps).all
+    @organizations = Organization.
+      order(:email).
+      includes(:apps).
+      includes(:invoices).
+      all
     @rate_limit = RateCheck.usage
   end
 end

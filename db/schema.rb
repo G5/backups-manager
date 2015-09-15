@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910210403) do
+ActiveRecord::Schema.define(version: 20150912201433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,18 @@ ActiveRecord::Schema.define(version: 20150910210403) do
   end
 
   add_index "g5_authenticatable_users_roles", ["user_id", "role_id"], name: "index_g5_authenticatable_users_roles_on_user_id_and_role_id", using: :btree
+
+  create_table "invoices", force: true do |t|
+    t.integer  "organization_id"
+    t.date     "period_start"
+    t.date     "period_end"
+    t.integer  "total"
+    t.float    "dyno_units"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invoices", ["organization_id"], name: "index_invoices_on_organization_id", using: :btree
 
   create_table "organizations", force: true do |t|
     t.string   "email"

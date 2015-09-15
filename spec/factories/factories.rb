@@ -87,4 +87,12 @@ FactoryGirl.define do
       ]
     }
   end
+
+  factory :invoice do
+    organization
+    period_start "2015-09-12"
+    period_end "2015-09-12"
+    total 1000
+    dyno_units 20.5
+  end
 end
