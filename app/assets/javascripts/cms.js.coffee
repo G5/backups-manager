@@ -77,13 +77,9 @@ class CmsReporter
       complete: (xhr, status)=>
         @incCmsReturned()
 
-  ajaxSuccess: (result, elem)->
-    ## TODO: return here and figure out what endpoints are screwed
-#    if result['web_themes'] && result['widgets'] && result['web_themes'].length != result['widgets'].length
-#      debugger
-
-    if result['client'] && result['locations']
-      @findSearchResults(result, elem)
+  ajaxSuccess: (results, elem)->
+    if @isValidResults(results)
+      @findSearchResults(results, elem)
     else
       @ajaxError(elem)
 
@@ -92,6 +88,9 @@ class CmsReporter
     @setSearchResults(elem, "<b class='error'>not set up</i>")
 
   ## Search Results Functions
+
+  isValidResults: (results)->
+    return results['client'] && results['locations'] && !results['client']['original_exception'] && !results['locations']['original_exception']
 
   findSearchResults: (results, elem)->
     @addLocationCount(results['locations'])
@@ -268,7 +267,7 @@ class CmsReporter
     @percReturnedDiv.css
       width: "#{(@cmsReturned/@cmsCount)*100}%"
 
-    @clientsFoundSpan.html @percentLabel(@cmsFound, @cmsCount) 
+    @clientsFoundSpan.html @percentLabel(@cmsFound, @cmsCount)
     @locationsFoundSpan.html @percentLabel(@locationFound, @locationCount)
     @pagesFoundSpan.html @percentLabel(@pageFound, @pageCount)
 
