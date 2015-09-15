@@ -1,14 +1,14 @@
 class App < ActiveRecord::Base
+  belongs_to :organization
+
+  validates :name, :organization, presence: true
+
   def type
     App.type_from_name(name)
   end
 
   def prefix
     App.prefix_from_name(name)
-  end
-
-  def owner_name
-    app_details["owner"]["email"].split('@').first rescue nil
   end
 
   def self.prefixes
@@ -31,10 +31,6 @@ class App < ActiveRecord::Base
     # add caret to only match beginning of string
     regex_str = prefixes.map {|p| "^#{p}"}.join("|")
     name.try(:[], /#{regex_str}/)
-  end
-
-  def self.group_by_owner(apps)
-    apps.group_by(&:owner_name).sort.to_h
   end
 
   def self.group_by_type(apps)

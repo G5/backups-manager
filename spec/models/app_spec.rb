@@ -1,18 +1,4 @@
 describe App do
-  describe "#owner_name" do
-    it "returns the portion of owner email before the @ sign" do
-      input = [ "foo@foo.com", "bar", "123@word@up.to", "", nil]
-      expected = ["foo", "bar", "123", nil, nil]
-
-      actual = input.map do |i|
-        app = App.new(app_details: {"owner" => {"email" => i}})
-        app.owner_name
-      end
-
-      expect(actual).to eq(expected)
-    end
-  end
-
   describe ".type_from_name" do
     it "finds app types based on prefixes in app names" do
 
@@ -62,18 +48,6 @@ describe App do
       expect(grouped["cms"].count).to eq(2)
       expect(grouped["cls"].count).to eq(2)
       expect(grouped["misc"].first.name).to eq("somejunk-cms")
-    end
-  end
-
-  describe ".group_by_owner" do
-    it "groups apps keyed by email name" do
-      emails = ["alpha@foo.com", "beta@foo.com", "alpha@foo.com", "beta@foo.com", "alpha@foo.com"]
-      apps = emails.map { |e| App.new(app_details: {"owner" => {"email" => e}}) }
-      grouped = App.group_by_owner(apps)
-
-      expect(grouped.keys).to eq(["alpha", "beta"])
-      expect(grouped["alpha"].count).to eq(3)
-      expect(grouped["beta"].count).to eq(2)
     end
   end
 end

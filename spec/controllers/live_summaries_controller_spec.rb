@@ -1,6 +1,6 @@
 describe LiveSummariesController do
   describe 'GET index', auth_controller: true do
-    let(:app) { App.create(id: 1, name: "appster") }
+    let(:app) { FactoryGirl.create(:app, name: "appster") }
 
     before do
       stub_request(:get, "https://api.heroku.com/apps/appster/formation")

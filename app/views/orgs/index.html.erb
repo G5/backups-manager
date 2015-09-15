@@ -2,15 +2,27 @@
   <%= render 'shared/wrangler_header', grouped: "Owner", group_by: "type", view_link: apps_path %>
   <%= AppVersions.master_version_inputs %>
   <div class="app-group">
-    <% App.group_by_owner(@app_list).each do |owner, apps| %>
-      <% unless apps.blank? %>
-        <%= content_tag :h3, class: "app-title", id: owner do %>
-          <span class="app-name"><%= owner %></span>
-          <span><%= "Group App Count: <span class='counter'>#{apps.count}</span>".html_safe %> | </span>
-            <span><%= "Average dynos per app: <span class='counter'>#{average_dynos_per_app(apps)}</span>".html_safe %> | </span>
+    <% @organizations.each do |o| %>
+      <% if o.apps.present? %>
+        <%= content_tag :h3, class: "app-title", id: o.name do %>
+          <span class="app-name"><%= o.name %></span>
+          <span>
+            App Count:
+            <span class='counter'><%= o.apps.length %></span> 
+            |
+          </span>
+          <span>
+            Avg dynos per app:
+            <span class="counter"><%= average_dynos_per_app(o.apps) %></span>
+            |
+          </span>
+          <span>
+            Projected Month:
+            <span class="counter"><%= projected_monthly_cost(o) %></span>
+          </span>
         <% end %>
         <ul class="app-list">
-          <% apps.each do |app| %>
+          <% o.apps.each do |app| %>
             <% type = app.type %>
             <%= render 'shared/app_row', app: app, type: type, show_master: true %>
           <% end %>

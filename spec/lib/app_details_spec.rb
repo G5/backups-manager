@@ -5,7 +5,7 @@ describe AppDetails do
   describe "#get_app_dynos" do
     it "hits the api and parses json" do
       stub_request(:get, "https://api.heroku.com/apps/#{app_name}/formation")
-        .with(:headers => AppDetails.default_headers)
+        .with(:headers => HerokuApiHelpers.default_headers)
         .to_return(:status => 200, :body => json.to_json)
 
       app_dynos = AppDetails.new(app_name).get_app_dynos
@@ -16,7 +16,7 @@ describe AppDetails do
   describe "#get_app_addons" do
     it "hits the api and parses json" do
       stub_request(:get, "https://api.heroku.com/apps/#{app_name}/addons")
-        .with(:headers => AppDetails.default_headers)
+        .with(:headers => HerokuApiHelpers.default_headers)
         .to_return(:status => 200, :body => json.to_json)
 
       app_addons = AppDetails.new(app_name).get_app_addons
@@ -27,7 +27,7 @@ describe AppDetails do
   describe "#get_app_config_variables" do
     it "hits the api and parses json" do
       stub_request(:get, "https://api.heroku.com/apps/#{app_name}/config-vars")
-        .with(:headers => AppDetails.default_headers)
+        .with(:headers => HerokuApiHelpers.default_headers)
         .to_return(:status => 200, :body => json.to_json)
 
       app_config_vars = AppDetails.new(app_name).get_app_config_variables
@@ -38,7 +38,7 @@ describe AppDetails do
   describe "#get_app_domains" do
     it "hits the api and parses json" do
       stub_request(:get, "https://api.heroku.com/apps/#{app_name}/domains")
-        .with(:headers => AppDetails.default_headers)
+        .with(:headers => HerokuApiHelpers.default_headers)
         .to_return(:status => 200, :body => json.to_json)
 
       app_domains = AppDetails.new(app_name).get_app_domains
