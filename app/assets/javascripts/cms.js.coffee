@@ -208,7 +208,7 @@ class CmsReporter
   ## Search Result Validation Functions
 
   hasGardenWidget: (res, widget)->
-    $.inArray(widget, res['garden_widget_slugs'])
+    $.inArray(widget, res['garden_widget_slugs']) != -1
 
   getAppName: (elem)->
     $.trim(elem.find('.app-name').text())
