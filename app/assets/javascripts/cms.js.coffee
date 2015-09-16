@@ -27,11 +27,6 @@ class CmsReporter
 
   ## Initializer Functions
 
-  openCmsList: ()->
-    title = @cms.find('.app-title')
-    title.addClass('show')
-    title.next('.app-list').addClass('show')
-
   initForm: ()->
     @form = @cms.find('#cms-search-form')
     @typeInput = @cms.find('#target-type')
@@ -61,7 +56,6 @@ class CmsReporter
   doAjax: ()->
     @resetCmsRows()
     @resetResultStats()
-    @openCmsList()
     @cmsList().each (idx, elem)=>
       @appConfigAjax($(elem))
 

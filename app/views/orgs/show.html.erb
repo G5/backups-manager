@@ -1,0 +1,17 @@
+<div class="app orgs">
+  <div class="app-group">
+    <%= link_to "Back to Organizations", orgs_path, class: "btn" %>
+
+    <div class="app-group">
+      <div class="app-title" id="<%= @organization.name %>">
+        <%= render 'summary', organization: @organization %>
+      </div>
+
+      <ul class="app-list">
+        <% @organization.apps.each do |app| %>
+          <%= render 'shared/app_row', app: app, type: app.type, show_master: true %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

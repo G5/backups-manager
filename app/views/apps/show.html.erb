@@ -6,6 +6,7 @@
   <h1>App Name: <%= @app_name %><span class='master-value-show'><%= " v#{mv}" if mv %></span></h1>
   <%= link_to "Live Summary", app_live_summary_path(@app), class: "live-summary-link" %>
   <p><strong>Last Upated:</strong> <%= @updated_at.to_time.in_time_zone("Pacific Time (US & Canada)") %></p>
+  <p><strong>Organization:</strong> <%= link_to @app.organization.name, org_path(@app.organization) %></p>
   <p>Current API requests remaining: <%= @rate_limit %> out of 2400 </p>
   <h3 class="app-title">URL's:</h3>
   <p><%= link_to "<strong>App URL: </strong>#{@app_url}".html_safe, @app_url, target: 'blank' %></a></p>

@@ -1,0 +1,10 @@
+<span class="app-name"><%= type %></span>
+<span>
+  Group App Count:
+  <span class='counter'><%= apps.count %></span>
+  | 
+</span>
+<span>
+  Average dynos per app:
+  <span class='counter'><%= average_dynos_per_app(apps) %></span>
+</span>

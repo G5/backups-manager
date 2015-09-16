@@ -40,4 +40,17 @@ class App < ActiveRecord::Base
       .merge({ "misc" => misc_apps })
       .sort.to_h
   end
+
+  def has_ssl_addon?
+    addons.any? do |h|
+      h["addon_service"]["name"] == "ssl" && h["plan"]["name"] == "ssl:endpoint"
+    end
+  end
+
+  def database_plans
+    return [] if addons.nil?
+    addons.
+      select { |h| h["addon_service"]["name"] == "heroku-postgresql" }.
+      map { |h| h["plan"]["name"].split(":").last }
+  end
 end

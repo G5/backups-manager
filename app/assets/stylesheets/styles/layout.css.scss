@@ -131,8 +131,6 @@ hr {
     display: block;
     margin: 0;
     border: 1px solid $color5;
-    max-height: 0;
-    opacity: 0;
     overflow:hidden;
     @include transition(400ms all ease-in-out);
     > li {
@@ -162,10 +160,6 @@ hr {
         height: 0;
         display: none;
       }
-    }
-    &.show {
-      opacity: 1;
-      max-height: 9999em;
     }
     a:hover {
       text-decoration: underline;

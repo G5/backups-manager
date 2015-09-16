@@ -50,4 +50,37 @@ describe App do
       expect(grouped["misc"].first.name).to eq("somejunk-cms")
     end
   end
+
+  describe "#has_ssl_addon?" do
+    subject { app.has_ssl_addon? }
+
+    context "when it actually does" do
+      let(:app) { FactoryGirl.build(:ssl_app) }
+      it { should be_truthy }
+    end
+
+    context "when it doesn't have the addon" do
+      let(:app) { FactoryGirl.build(:app) }
+      it { should be_falsey }
+    end
+  end
+
+  describe "#database_plans" do
+    subject { app.database_plans }
+
+    context "when no addon metadata exists" do
+      let(:app) { App.new }
+      it { should be_empty }
+    end
+
+    context "when addon metadata contains no database addons" do
+      let(:app) { FactoryGirl.build(:app) }
+      it { should be_empty }
+    end
+
+    context "with associated database plans" do
+      let(:app) { FactoryGirl.build(:paid_db_app) }
+      it { should eq([ "hobby-basic", "hobby-dev" ]) }
+    end
+  end
 end

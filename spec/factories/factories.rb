@@ -88,6 +88,56 @@ FactoryGirl.define do
     }
   end
 
+  factory :ssl_app, parent: :app do
+    addons {
+      [
+        {
+          "config_vars" => [],
+          "created_at" => "2015-06-30T19:56:20Z",
+          "id" => "whatevs",
+          "name" => "dont-matter",
+          "addon_service" =>  { "id" => "whatevs", "name" => "ssl" },
+          "plan" => { "id" => "whatevs", "name" => "ssl:endpoint" },
+          "app" => { "id" => "whatevs", "name" => "g5-cms-12345-test" },
+          "provider_id" => "testing@heroku.com",
+          "updated_at" => "2015-06-30T19:56:21Z",
+          "web_url" => nil
+        },
+      ]
+    }
+  end
+
+  factory :paid_db_app, parent: :app do
+    addons {
+      [
+        {
+          "config_vars" => ["DATABASE_URL", "HEROKU_POSTGRESQL_PINK_URL"],
+          "created_at" => "2015-09-08T17:22:12Z",
+          "id" => "noooope",
+          "name" => "postgresql-angular-1",
+          "addon_service" =>  { "id" => "noooope", "name" => "heroku-postgresql" },
+          "plan" => { "id" => "noooope", "name" => "heroku-postgresql:hobby-basic" },
+          "app" => { "id" => "noooope", "name" => "g5-cms-12345-testing" },
+          "provider_id" => "9629603",
+          "updated_at" => "2015-09-08T17:22:12Z",
+          "web_url" => "https://postgres.heroku.com/discover?hid=testing@heroku.com"
+        },
+        {
+          "config_vars" => ["DATABASE_URL", "HEROKU_POSTGRESQL_PINK_URL"],
+          "created_at" => "2015-09-08T17:22:12Z",
+          "id" => "noooope",
+          "name" => "postgresql-angular-2",
+          "addon_service" =>  { "id" => "noooope", "name" => "heroku-postgresql" },
+          "plan" => { "id" => "noooope", "name" => "heroku-postgresql:hobby-dev" },
+          "app" => { "id" => "noooope", "name" => "g5-cms-12345-testing" },
+          "provider_id" => "9629603",
+          "updated_at" => "2015-09-08T17:22:12Z",
+          "web_url" => "https://postgres.heroku.com/discover?hid=testing@heroku.com"
+        }
+      ]
+    }
+  end
+
   factory :invoice do
     organization
     period_start "2015-09-12"
