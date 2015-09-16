@@ -83,4 +83,11 @@ describe App do
       it { should eq([ "hobby-basic", "hobby-dev" ]) }
     end
   end
+
+  describe ".all_by_database_plan" do
+    let!(:sql_app) { FactoryGirl.create(:paid_db_app) }
+    before { FactoryGirl.create(:app) }
+    subject { App.all_by_database_plan("hobby-dev") }
+    it { should eq([ sql_app ]) }
+  end
 end

@@ -3,6 +3,13 @@ class App < ActiveRecord::Base
 
   validates :name, :organization, presence: true
 
+  APPS_WITH_DATABASE_PLAN_ID_SQL = <<-EOS
+    SELECT *
+    FROM apps a, json_array_elements(a.addons) obj
+    WHERE obj#>>'{addon_service,name}' = 'heroku-postgresql'
+    AND obj#>>'{plan,name}' = ?;
+  EOS
+
   def type
     App.type_from_name(name)
   end
@@ -52,5 +59,10 @@ class App < ActiveRecord::Base
     addons.
       select { |h| h["addon_service"]["name"] == "heroku-postgresql" }.
       map { |h| h["plan"]["name"].split(":").last }
+  end
+
+  def self.all_by_database_plan(plan)
+      proper_plan_id = "heroku-postgresql:" + plan
+      App.find_by_sql([ APPS_WITH_DATABASE_PLAN_ID_SQL, proper_plan_id ])
   end
 end
