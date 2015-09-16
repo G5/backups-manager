@@ -7,22 +7,42 @@
   <%= link_to "App", "https://#{app.name}.herokuapp.com", target: "blank" %>
   <%= link_to "https://dashboard.heroku.com/apps/#{app.name}/resources" do %>
     <div class="dynos">
-      <span>Dynos: </span>
+      <span>Services: </span>
       <section>
         <% if app.dynos.present? %>
           <% app.dynos.each do |dyno| %>
-            <% if dyno.class == Hash && dyno["quantity"] >= 1 %>
-              <%= content_tag :span, "#{dyno['quantity']}", class: "dyno-info", id: ("alert-flag" if dyno["quantity"] >= 3) %>
-              <%= content_tag :span, class: "dyno-info" do %>
-                <%= dyno["quantity"] > 1 ? "#{dyno['type']}s @" : "#{dyno['type']} @" %>
-              <% end %>
-              <%= content_tag :span, "#{dyno['size']}", class: "dyno-info" %><br>
+            <% if dyno_has_metadata?(dyno) %>
+              <span class="dyno-info" id="<%= dyno_info_id(dyno) %>">
+                <%= dyno["quantity"] %>
+              </span>
+              <span class="dyno-info">
+                <%= dyno["type"].pluralize(dyno["quantity"]) %> 
+                @
+              </span>
+              <span class="dyno-info"><%= dyno['size'] %></span>
+              <br/>
             <% end %>
           <% end %>
         <% end %>
+
+        <% app.database_plans.each do |plan| %>
+          <span class="dyno-info" id="<%= db_plan_id(plan) %>">
+            <i class='fa fa-database'></i>
+            <%= plan %>
+            <br/>
+          </span>
+        <% end %>
+
+        <% if app.has_ssl_addon? %>
+          <span class="dyno-info" id="alert-flag">
+            <i class='fa fa-lock'></i>
+            SSL Addon
+          </span>
+        <% end %>
       </section>
-      <% end %>
     </div>
+  <% end %>
+
   <% if AppVersions.is_versioned?(type) %>
     <% mv = get_mv(type) %>
     <span class="version">
