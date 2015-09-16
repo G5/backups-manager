@@ -84,10 +84,10 @@ describe App do
     end
   end
 
-  describe ".all_by_database_plan" do
-    let!(:sql_app) { FactoryGirl.create(:paid_db_app) }
+  describe ".all_with_addon" do
+    let!(:sql_app) { FactoryGirl.create(:ssl_app) }
     before { FactoryGirl.create(:app) }
-    subject { App.all_by_database_plan("hobby-dev") }
+    subject { App.all_with_addon("ssl", "ssl:endpoint") }
     it { should eq([ sql_app ]) }
   end
 end

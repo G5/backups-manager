@@ -1,6 +1,7 @@
 describe CashController, auth_controller: true do
   let!(:app) { FactoryGirl.create(:app) }
   let!(:sql_app) { FactoryGirl.create(:paid_db_app) }
+  let!(:ssl_app) { FactoryGirl.create(:ssl_app) }
 
   describe "GET index" do
     it "assigns an array of known database plans" do
@@ -17,6 +18,13 @@ describe CashController, auth_controller: true do
       it "assigns apps filtered by database plan" do
         get :index, database_plan_id: "hobby-dev"
         expect(assigns(:apps)).to eq([ sql_app ])
+      end
+    end
+
+    describe "filtering by ssl addon" do
+      it "assigns apps filtered by ssl addon" do
+        get :index, commit: "Has SSL Add-on?"
+        expect(assigns(:apps)).to eq([ ssl_app ])
       end
     end
   end

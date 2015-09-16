@@ -4,11 +4,12 @@
     select_tag(
       :database_plan_id,
       options_for_select(@database_plans, params[:database_plan_id]),
-      include_blank: true
+      include_blank: true,
+      onchange: "this.form.submit()" # Me write pretty JS one day...
     )
   %>
 
-  <%= submit_tag "Search" %>
+  <%= submit_tag "Has SSL Add-on?" %>
 <% end %>
 
 <% if @apps.nil? %>
