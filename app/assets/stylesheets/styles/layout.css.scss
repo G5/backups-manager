@@ -168,6 +168,11 @@ hr {
   .app-dyno-alert {
     background:#f39c12;
   }
+
+  .app-unhealthy {
+    background-color: #d88
+  }
+
   hr {
     margin:0;
   }
@@ -335,7 +340,6 @@ hr {
     color: $c-gray;
   }
 }
-
 
 // MQ
 @include media($single-column){
