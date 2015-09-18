@@ -12,7 +12,7 @@ class BaseController
     @appTitles = $(".app-title")
 
   ajaxVersion: (urn, master, elem)->
-    url = "//#{urn}.herokuapp.com/g5_ops/health"
+    url = "//#{urn}.herokuapp.com/g5_ops/status"
     _this = this
     @setVersionValue(elem, "...")
     $.ajax url,
@@ -41,8 +41,10 @@ class BaseController
 
     markup = "<b class='#{klass}'>#{version}</b>"
     if health != 'UNKNOWN'
-      healthClass = if health then 'fa-smile-o healthy' else 'fa-frown-o unhealthy'
-      markup += " <a href='#{url}' target='_blank'><i class='fa #{healthClass}'></i></a>"
+      healthButtonClass = if health then 'fa-smile-o healthy' else 'fa-frown-o unhealthy'
+      healthWrapperClass = if health then 'app-healthy' else 'app-unhealthy'
+      markup += " <a href='#{url}.html' target='_blank'><i class='fa #{healthButtonClass}'></i></a>"
+      elem.closest('li').addClass(healthWrapperClass)
 
     @setVersionValue(elem, markup)
 
