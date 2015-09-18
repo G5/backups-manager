@@ -83,4 +83,11 @@ describe App do
       it { should eq([ "hobby-basic", "hobby-dev" ]) }
     end
   end
+
+  describe ".all_with_addon" do
+    let!(:sql_app) { FactoryGirl.create(:ssl_app) }
+    before { FactoryGirl.create(:app) }
+    subject { App.all_with_addon("ssl", "ssl:endpoint") }
+    it { should eq([ sql_app ]) }
+  end
 end

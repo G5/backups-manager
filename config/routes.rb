@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :cms, only: [:index]
   resources :real_time_apps
   resources :admin
+  get 'cash', to: 'cash#index', as: "cash"
 
   post 'admin/batch_delete', to: 'admin#batch_delete'
   post 'admin/batch_spin_down', to: 'admin#batch_spin_down'

@@ -1,0 +1,31 @@
+<%= form_tag(cash_path, method: :get) do %>
+  <%= label_tag :database_plan_id %>
+  <%=
+    select_tag(
+      :database_plan_id,
+      options_for_select(@database_plans, params[:database_plan_id]),
+      include_blank: true,
+      onchange: "this.form.submit()" # Me write pretty JS one day...
+    )
+  %>
+
+  <%= submit_tag "Has SSL Add-on?" %>
+<% end %>
+
+<% if @apps.nil? %>
+  <h3>Choose some search criteria.</h3>
+<% elsif @apps.empty? %>
+  <h3>No results.</h3>
+<% else %>
+  <h4><%= @apps.length %> matching apps</h4>
+
+  <div class="app">
+    <div class="app-group">
+      <ul class="app-list">
+        <% @apps.each do |app| %>
+          <%= render 'shared/app_row', app: app, type: app.type, show_master: true %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
