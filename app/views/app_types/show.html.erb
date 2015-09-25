@@ -1,6 +1,6 @@
 <div class="app"> 
   <%= link_to "Back to Applications by Type", app_types_path, class: "btn" %>
-
+  <%= link_to "Text Formatted List", app_type_path(@type, format: 'txt'), class: "btn" %>
   <div class="app-group">
     <% unless @apps.blank? %>
       <div class="app-title">
