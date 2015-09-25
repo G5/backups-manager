@@ -25,5 +25,15 @@ describe AppTypesController do
         expect { get :show, id: "your-mom" }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+    
+    context "when the format is txt" do
+      render_views
+
+      it "renders the txt template" do
+        get :show, id: "clw", format: "txt"
+        expect(response.body.strip).to eq("Text Formatted List\ng5-clw-testing")
+        expect(response.content_type).to eq("text/plain")
+      end
+    end
   end
 end
