@@ -51,7 +51,7 @@ class App < ActiveRecord::Base
   def has_ssl_addon?
     addons.any? do |h|
       h["addon_service"]["name"] == "ssl" && h["plan"]["name"] == "ssl:endpoint"
-    end
+    end unless addons.nil?
   end
 
   def database_plans
