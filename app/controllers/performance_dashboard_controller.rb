@@ -1,0 +1,2 @@
+class PerformanceDashboardController < ApplicationController
+end

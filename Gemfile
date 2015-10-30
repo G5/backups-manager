@@ -25,6 +25,7 @@ gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'whenever', :require => false
 gem 'newrelic_rpm'
+gem 'redis'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 

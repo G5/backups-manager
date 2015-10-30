@@ -356,6 +356,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 4.1.11)
   rails_12factor
+  redis
   resque
   rest-client
   rspec-rails
