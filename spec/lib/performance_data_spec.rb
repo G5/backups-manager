@@ -40,10 +40,9 @@ describe PerformanceData do
 
     context "#new_relic_data" do
       it "hits the api and parses json" do
-        stub_request(:get, "https://api.newrelic.com/v2/applications.json")
-          .with(:headers => required_headers)
-          .to_return(:status => 200, :body => response_body.to_json)
-
+        stub_request(:get, "https://api.newrelic.com/v2/applications.json").
+                   with(:headers => { 'X-Api-Key'=>ENV['NEW_RELIC_API_KEY']}).
+                   to_return(:status => 200, :body => response_body.to_json)
         response = PerformanceData.get_new_relic_data("https://api.newrelic.com/v2/applications.json")
         expect(response).to eq(JSON.parse response_body.to_json) 
       end
