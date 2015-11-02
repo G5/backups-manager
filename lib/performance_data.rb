@@ -10,25 +10,33 @@ class PerformanceData
     end
   end
 
-  def self.get_pagerduty_data(uri)
+  def self.get_pagerduty_oncall(uri)
     begin
-      on_call = HTTPClient.
+      response = HTTPClient.
         get("https://ey-g5search.pagerduty.com/api/v1/escalation_policies/on_call",
             nil,
             { 
               "Content-type" => "application/json",
-               "Authoization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}" 
+               "Authorization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}" 
             }
         )
+        JSON.parse response.body
+    rescue => e
+      e.response
+    end
+  end
 
-      incidents = HTTPClient.
-        get("https://ey-g5search.pagerduty.com/api/v1/escalation_policies/incidents",
+  def self.get_pagerduty_incidents(uri)
+    begin
+      response = HTTPClient.
+        get("https://ey-g5search.pagerduty.com/api/v1/incidents",
             nil,
             { 
               "Content-type" => "application/json",
-               "Authoization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}" 
+               "Authorization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}" 
             }
         )
+        JSON.parse response.body
     rescue => e
       e.response
     end
