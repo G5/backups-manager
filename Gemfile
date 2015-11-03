@@ -56,6 +56,7 @@ end
 group :test do
   gem 'rspec-sidekiq'
   gem 'webmock', '~> 1.20.3'
+  gem "fakeredis", :require => "fakeredis/rspec"
 end
 
 group :development do

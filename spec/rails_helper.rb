@@ -6,6 +6,7 @@ require 'g5_authenticatable/rspec'
 require 'webmock/rspec'
 require 'sidekiq/testing'
 require 'pry'
+require 'fakeredis'
 
 Sidekiq::Testing.inline!
 
