@@ -1,0 +1,9 @@
+<%= form_tag("/cms_deploys", method: "post") do %>
+  <%= label_tag(:cms, "CMS:") %>
+  <%= text_field_tag(:cms) %>
+
+  <%= label_tag(:branch, "Branch Name:") %>
+  <%= text_field_tag(:branch) %>
+
+  <%= submit_tag("Deploy") %>
+<% end %>
