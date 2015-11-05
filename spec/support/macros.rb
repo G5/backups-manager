@@ -29,6 +29,14 @@ def fake_new_relic_response
           "enable_real_user_monitoring": true,
           "use_server_side_config": true
         }
+      },
+      {
+        "id": 2,
+        "name": "Non Reporting Test App 2",
+        "language": "ruby",
+        "health_status": "gray",
+        "reporting": false,
+        "last_reported_at": "2015-10-28T22:48:42+00:00",
       }
     ]
   }
@@ -36,32 +44,151 @@ end
 
 def fake_pagerduty_oncall
   {
-    "on_call": [
+    "escalation_policies": [
       {
-        "level": 1,
-        "start": "2014-03-03T20:00:00Z",
-        "end": "2014-03-07T20:00:00Z",
-        "user": {
-          "id": "P9TX7YH",
-          "name": "Cordell Simonis",
-          "email": "email_1@acme.pagerduty.dev",
-          "time_zone": "Pacific Time (US & Canada)",
-          "color": "dark-goldenrod"
-        }
+        "id": "PAM4FGS",
+        "name": "All",
+        "escalation_rules": [
+          {
+            "id": "PZ8X4N7",
+            "escalation_delay_in_minutes": 30,
+            "rule_object": {
+              "id": "PEPV0NJ",
+              "name": "Cordell Simonis",
+              "type": "user",
+              "email": "simonis_cordell@acme.com",
+              "time_zone": "Eastern Time (US & Canada)",
+              "color": "dark-slate-blue"
+            }
+          },
+          {
+            "id": "POQA264",
+            "escalation_delay_in_minutes": 34,
+            "rule_object": {
+              "id": "PF9KMXH",
+              "name": "Layered",
+              "type": "schedule"
+            }
+          }
+        ],
+        "services": [
+          {
+            "id": "PBAZLIU",
+            "name": "Service Alpha",
+            "integration_email": "alpha@acme.pagerduty.dev",
+            "html_url": "https://acme.pageduty.com/services/PBAZLIU",
+            "escalation_policy_id": "PAM4FGS"
+          },
+          {
+            "id": "PIJ90N7",
+            "name": "Service Mail",
+            "integration_email": "email_1@acme.pagerduty.dev",
+            "html_url": "https://acme.pageduty.com/services/PIJ90N7",
+            "escalation_policy_id": "PAM4FGS"
+          }
+        ],
+        "on_call": [
+          {
+            "level": 1,
+            "start": "2014-03-03T20:00:00Z",
+            "end": "2014-03-07T20:00:00Z",
+            "user": {
+              "id": "P9TX7YH",
+              "name": "Cordell Simonis",
+              "email": "email_1@acme.pagerduty.dev",
+              "time_zone": "Pacific Time (US & Canada)",
+              "color": "dark-goldenrod"
+            }
+          },
+          {
+            "level": 2,
+            "start": "2014-03-04T19:00:00Z",
+            "end": "2014-03-11T18:00:00Z",
+            "user": {
+              "id": "P5NKEIA",
+              "name": "John Smith",
+              "email": "jsmith@example.com",
+              "time_zone": "Pacific Time (US & Canada)",
+              "color": "purple"
+            }
+          }
+        ],
+        "num_loops": 0
       },
       {
-        "level": 2,
-        "start": "2014-03-04T19:00:00Z",
-        "end": "2014-03-11T18:00:00Z",
-        "user": {
-          "id": "P5NKEIA",
-          "name": "John Smith",
-          "email": "jsmith@example.com",
-          "time_zone": "Pacific Time (US & Canada)",
-          "color": "purple"
-        }
+        "id": "P29NBY9",
+        "name": "Beta",
+        "escalation_rules": [
+          {
+            "id": "PP3NI0M",
+            "escalation_delay_in_minutes": 30,
+            "rule_object": {
+              "id": "PF9KMXH",
+              "name": "Layered",
+              "type": "schedule"
+            }
+          }
+        ],
+        "services": [
+          {
+            "id": "P2KFHAO",
+            "name": "BetaDense",
+            "service_key": "665ee8b4ab8446d1b7a8675b40047a2f",
+            "html_url": "https://acme.pageduty.com/services/P2KFHAO",
+            "escalation_policy_id": "P29NBY9"
+          },
+          {
+            "id": "PUS0KTE",
+            "name": "Note of Keys",
+            "integration_email": "note-of-keys@acme.pagerduty.com",
+            "html_url": "https://acme.pageduty.com/services/PUS0KTE",
+            "escalation_policy_id": "P29NBY9"
+          }
+        ],
+        "on_call": [
+          {
+            "level": 1,
+            "start": "2014-03-03T20:00:00Z",
+            "end": "2014-03-07T20:00:00Z",
+            "user": {
+              "id": "P9TX7YH",
+              "name": "John Smith",
+              "email": "john@example.com",
+              "time_zone": "Pacific Time (US & Canada)",
+              "color": "dark-goldenrod"
+            }
+          },
+          {
+            "level": 2,
+            "start": "2014-03-04T19:00:00Z",
+            "end": "2014-03-11T18:00:00Z",
+            "user": {
+              "id": "P5NKEIA",
+              "name": "Aliya Bradtke",
+              "email": "email_1@acme.pagerduty.dev",
+              "time_zone": "Pacific Time (US & Canada)",
+              "color": "purple"
+            }
+          },
+          {
+            "level": 3,
+            "start": nil,
+            "end": nil,
+            "user": {
+              "id": "P3IMGZ3",
+              "name": "Aliya Bradtke",
+              "email": "email_1@acme.pagerduty.dev",
+              "time_zone": "Pacific Time (US & Canada)",
+              "color": "brown"
+            }
+          }
+        ],
+        "num_loops": 1
       }
-    ]
+    ],
+    "limit": 25,
+    "offset": 0,
+    "total": 14
   }
 end
 
@@ -111,7 +238,7 @@ end
 def new_relic_get_request(url)
   stub_request(:get, url).
     with(:headers => { 'X-Api-Key'=>ENV['NEW_RELIC_API_KEY']}).
-    to_return(:status => 200, :body =>new_relic_response .to_json)
+    to_return(:status => 200, :body => fake_new_relic_response.to_json)
 end
 
 def pagerduty_get_request(url, fake_response)

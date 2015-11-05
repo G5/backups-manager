@@ -1,9 +1,9 @@
-describe PerformanceDashboardWorker do
-  describe :perform do
+describe PerformanceDashboardWorker do describe :perform do
     let(:new_relic_response) { fake_new_relic_response }
     let(:pagerduty_oncall_response) { fake_pagerduty_oncall }
     let(:pagerduty_incidents_response) { fake_pagerduty_incidents }
     let(:redis) { Redis.new }
+
     before do
       new_relic_get_request("https://api.newrelic.com/v2/applications.json")
       pagerduty_get_request("https://ey-g5search.pagerduty.com/api/v1/escalation_policies/on_call", pagerduty_oncall_response)
@@ -19,15 +19,20 @@ describe PerformanceDashboardWorker do
         expect(JSON.parse(redis.get("1"))[3]).to eq(parsed_response["applications"][0]["application_summary"]["apdex_score"])
         expect(JSON.parse(redis.get("1"))[4]).to eq(parsed_response["applications"][0]["application_summary"]["error_rate"])
       end
+
+      it "does not set redis for an app that is not reporting" do
+        PerformanceDashboardWorker.perform_async
+        redis.get("2").should be_nil
+      end
     end
     context "when getting PagerDuty on call data" do
       it "sets the appropriate redis keys and values" do
         PerformanceDashboardWorker.perform_async
-        oncall_parsed_response = JSON.parse fake_pagerduty_oncall.to_json
-        expect(JSON.parse(redis.get("P9TX7YH"))[0]).to eq(oncall_parsed_response["on_call"].first["user"]["name"])
-        expect(JSON.parse(redis.get("P9TX7YH"))[1]).to eq(oncall_parsed_response["on_call"].first["level"])
-        expect(JSON.parse(redis.get("P9TX7YH"))[2]).to eq(oncall_parsed_response["on_call"].first["start"])
-        expect(JSON.parse(redis.get("P9TX7YH"))[3]).to eq(oncall_parsed_response["on_call"].first["end"])
+        oncall_parsed_response = JSON.parse pagerduty_oncall_response.to_json
+        expect(JSON.parse(redis.get("P9TX7YH"))[0]).to eq(oncall_parsed_response["escalation_policies"][0]["on_call"].first["user"]["name"])
+        expect(JSON.parse(redis.get("P9TX7YH"))[1]).to eq(oncall_parsed_response["escalation_policies"][0]["on_call"].first["level"])
+        expect(JSON.parse(redis.get("P9TX7YH"))[2]).to eq(oncall_parsed_response["escalation_policies"][0]["on_call"].first["start"])
+        expect(JSON.parse(redis.get("P9TX7YH"))[3]).to eq(oncall_parsed_response["escalation_policies"][0]["on_call"].first["end"])
       end
     end
     context "when getting PagerDuty incident data" do
