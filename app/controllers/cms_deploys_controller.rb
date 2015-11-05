@@ -10,8 +10,10 @@ class CmsDeploysController < ApplicationController
 
     cmses = @cms.split(",").map(&:strip)
 
+    blob_url = CmsDeployer.new(cmses, @branch).blob_url
+
     cmses.each do |cms|
-      CmsDeployWorker.perform_async(cms, @branch)
+      CmsDeployWorker.perform_async(blob_url, cms)
     end
   end
 end

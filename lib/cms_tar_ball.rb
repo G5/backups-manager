@@ -1,4 +1,4 @@
-class CmsTarBall
+class CmsDeployer
 
   def initialize(apps, branch_name = 'master')
     @branch_name = branch_name
@@ -10,13 +10,19 @@ class CmsTarBall
     upload_to_heroku
   end
 
-  def deploy(cms_name)
-    heroku_build_endpoint = "https://api.heroku.com/apps/#{cms_name}/builds"
-    system "curl -n -X POST \"#{@heroku_build_endpoint}\" \
-            -d '{\"source_blob\":{\"url\":\"#{@heroku_get_url}\"}}' \
+  def blob_url
+    @heroku_get_url
+  end
+
+  def self.deploy(source_url, app)
+    heroku_build_endpoint = "https://api.heroku.com/apps/#{app}/builds"
+    system "curl -n -X POST \"#{heroku_build_endpoint}\" \
+            -d '{\"source_blob\":{\"url\":\"#{source_url}\"}}' \
             -H 'Accept: application/vnd.heroku+json; version=3' \
             -H \"Content-Type: application/json\""
   end
+
+
 
   private
 
