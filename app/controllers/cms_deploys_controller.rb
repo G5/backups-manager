@@ -8,6 +8,10 @@ class CmsDeploysController < ApplicationController
     @cms = params[:cms]
     @branch = params[:branch]
 
-    CmsDeployWorker.perform_async(@cms, @branch)
+    cmses = @cms.split(",").map(&:strip)
+
+    cmses.each do |cms|
+      CmsDeployWorker.perform_async(cms, @branch)
+    end
   end
 end

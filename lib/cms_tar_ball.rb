@@ -3,7 +3,7 @@ class CmsTarBall
   def initialize(app_name, branch_name = 'master')
     @branch_name = branch_name
     @github_file_location = "https://api.github.com/repos/g5search/g5-content-management-system/tarball/#{branch_name}"
-    @local_file_location = "#{Rails.root.to_s}/tmp/#{@branch_name}.tar.gz"
+    @local_file_location = "#{Rails.root.to_s}/tmp/#{@branch_name}-#{Time.now.to_i}.tar.gz"
     @heroku_app_sources_endpoint = "https://api.heroku.com/apps/#{app_name}/sources"
     @heroku_build_endpoint = "https://api.heroku.com/apps/#{app_name}/builds"
     generate_sources_endpoints
