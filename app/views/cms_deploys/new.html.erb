@@ -1,9 +1,21 @@
-<%= form_tag("/cms_deploys", method: "post") do %>
-  <%= label_tag(:cms, "CMS:") %>
+<h2>CMS Deployer</h2>
+
+<p>Please enter a comma separated list of Heroku app names in the field below, and a branch name that is currently up on Github (<strong>master</strong>, or  <strong>RC-11.9.15</strong> for example).</p>
+
+<p>This works for <strong>CMS apps only</strong> at this point, but should be easily extensible down the road to include any of our other non-centralized apps. Also, please take 'er easy for now. This handles a half dozen simultaneous deploys pretty quickly, but I'm not sure what will happen at this point if we try to deploy 200 apps all at once.</p>
+
+
+
+<%= form_tag("/cms_deploys", method: "post", class: "cms-deploys-form") do %>
+  <%= label_tag(:cms, "Comma separated list of apps:") %>
   <%= text_field_tag(:cms) %>
 
   <%= label_tag(:branch, "Branch Name:") %>
   <%= text_field_tag(:branch) %>
 
   <%= submit_tag("Deploy") %>
+
+  <p class="post-deploy-message">
+    Please wait while we donwload the correct source blob from Github (If you aren't forwarded within about a minute, something probably went wrong)
+  </p>
 <% end %>

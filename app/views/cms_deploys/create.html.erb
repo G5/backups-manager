@@ -1,1 +1,11 @@
-<h3>Deploying the "<%= @branch %>" branch to <%= @cms %></h3>
+<h3>Deploying the "<%= @branch %>" branch to the following apps</h3>
+
+<p><strong>Note:</strong> Small deploys will usually complete within 2 minutes, but larger lists might take longer. To see if an app has finished deploying, click on any link below to go to the latest build logs.</p>
+
+<p>You might also find it helpful to reference the <a class="sidekiq-dashboard-link" href="https://g5-app-wrangler.herokuapp.com/sidekiq/" target="_blank">Sidekiq Dasboard</a>.<p>
+
+<ul>
+<% @cmses.each do |cms| %>
+  <li><%= link_to cms, "https://dashboard.heroku.com/apps/#{cms}/activity", target: "blank" %></li>
+<% end %>
+</ul>

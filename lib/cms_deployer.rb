@@ -10,6 +10,9 @@ class CmsDeployer
     upload_to_heroku
   end
 
+  # Apparently, Sidekiq doesn't want you to pass an object as a parameter. So, we have this
+  # method so the controller can pass the @heroku_get_url string to Sidekiq, which in turn
+  # uses it to call the self.deploy method below.
   def blob_url
     @heroku_get_url
   end
@@ -22,8 +25,6 @@ class CmsDeployer
             -H \"Content-Type: application/json\" \
             -H \"Authorization: Bearer #{ENV['HEROKU_AUTH_TOKEN']}\""
   end
-
-
 
   private
 
