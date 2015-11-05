@@ -12,7 +12,7 @@ class PerformanceDashboardWorker
     data = PerformanceData.get_new_relic_data("https://api.newrelic.com/v2/applications.json")
     data["applications"].each do |app|
       unless app["reporting"] == false
-        redis.set(app["id"], 
+        redis.set("new_relic_#{app["id"]}", 
                   [app["name"],
                    app["health_status"],
                    app["application_summary"]["response_time"],
@@ -26,7 +26,7 @@ class PerformanceDashboardWorker
   def pagerduty_oncall
     data = PerformanceData.get_pagerduty_oncall("https://ey-g5search.pagerduty.com/api/v1/escalation_policies/on_call")
     data["escalation_policies"][0]["on_call"].each do |goat|
-      redis.set(goat["user"]["id"],
+      redis.set("pager_duty_level_#{goat["level"]}",
                 [goat["user"]["name"],
                  goat["level"],
                  goat["start"],
@@ -42,8 +42,7 @@ class PerformanceDashboardWorker
                 [
                   inci["status"],
                   inci["created_on"],
-                  inci["service"]["name"],
-                  inci["assigned_to_user"]["name"]
+                  inci["trigger_summary_data"]["description"]
       ].to_json)
     end
   end

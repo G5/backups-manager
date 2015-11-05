@@ -29,7 +29,7 @@ class PerformanceData
     begin
       response = HTTPClient.
         get(uri,
-            nil,
+            {"status"=>"triggered,acknowledged"},
             { 
               "Content-type" => "application/json",
               "Authorization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}" 
