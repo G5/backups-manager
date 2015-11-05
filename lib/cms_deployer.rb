@@ -20,7 +20,8 @@ class CmsDeployer
     system "curl -n -X POST \"#{heroku_build_endpoint}\" \
             -d '{\"source_blob\":{\"url\":\"#{source_url}\"}}' \
             -H 'Accept: application/vnd.heroku+json; version=3' \
-            -H \"Content-Type: application/json\""
+            -H \"Content-Type: application/json\" \
+            -H \"Authorization: Bearer #{ENV['HEROKU_AUTH_TOKEN']}\""
     puts "\n\n\n\n*****\n  End deploy \n*****\n\n\n\n"
   end
 
