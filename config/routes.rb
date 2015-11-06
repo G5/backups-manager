@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :cms, only: [:index]
   resources :real_time_apps
+  resources :performance_dashboard
   resources :admin
   get 'cash', to: 'cash#index', as: "cash"
 

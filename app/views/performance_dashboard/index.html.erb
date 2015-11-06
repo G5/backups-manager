@@ -1,0 +1,20 @@
+<div class="grid-items-lines">
+  <% @new_relic_data.each do |app| %>
+    <% if app %>
+      <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", class: 'grid-item' do %>
+        <%#= icon('smile-0', class: 'fa-4x') %>
+        <%= content_tag :h1, app["name"] %>
+        <%= content_tag :p, "Response Time: #{app["response_time"]}" %>
+        <%= content_tag :p, "Apdex Score: #{app["apdex_score"]}" %>
+        <%= content_tag :p, "Error Rate: #{app["error_rate"]}" %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <div class="right-cover"></div>
+  <div class="bottom-cover"></div>
+</div>
+<%#= icon('meh-o', class: 'fa-5x') %>
+<%#= icon('frown-o', class: 'fa-5x') %>
+
+<%= @goat %>
+<%= @incidents %>
