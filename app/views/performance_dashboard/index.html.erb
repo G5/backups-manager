@@ -1,12 +1,28 @@
 <div class="grid-items-lines">
+  <h1 class="column-header">Goat Duty</h1>
+  <hr>
+  <div class="stats">
+    <% @goat.each do |goat| %>
+      <% unless goat["level"] > 2 %>
+        <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<%#= @incidents %>
+
+<div class="grid-items-lines">
+  <h1 class="column-header">New Relic Statistics <span>(Centralized or Critical)</span></h1>
+  <hr>
   <% @new_relic_data.each do |app| %>
     <% if app %>
-      <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", class: 'grid-item' do %>
-        <%#= icon('smile-0', class: 'fa-4x') %>
+      <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", target: 'blank', class: 'grid-item' do %>
         <%= content_tag :h1, app["name"] %>
-        <%= content_tag :p, "Response Time: #{app["response_time"]}" %>
-        <%= content_tag :p, "Apdex Score: #{app["apdex_score"]}" %>
-        <%= content_tag :p, "Error Rate: #{app["error_rate"]}" %>
+        <div class="stats">
+          <%= content_tag :li, "#{app["response_time"]} ms<span>Response Time</span>".html_safe %>
+          <%= content_tag :li, "#{app["apdex_score"]}<span>Apdex</span>".html_safe %>
+          <%= content_tag :li, "#{app["error_rate"]}%<span>Error Rate</span>".html_safe %>
+        </div>
       <% end %>
     <% end %>
   <% end %>
@@ -16,5 +32,4 @@
 <%#= icon('meh-o', class: 'fa-5x') %>
 <%#= icon('frown-o', class: 'fa-5x') %>
 
-<%= @goat %>
-<%= @incidents %>
+

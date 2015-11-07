@@ -1,3 +1,11 @@
+.column-header {
+  font-size: 20px;
+  span {
+    color: $base-font-color;
+    font-size: 0.7em;
+    font-weight: normal;
+  }
+}
 @mixin grid-item-columns($columns) {
   width: (100% / 12) * $columns;
 }
@@ -17,6 +25,7 @@
   $grid-item-color: $base-font-color;
   $grid-item-height: 7em;
   width:33%;
+  padding:0 0.5% 0 0.5%;
   float:right;
   @include clearfix;
   position: relative;
@@ -37,68 +46,108 @@
 
     @include media($large-screen) {
       @include grid-item-columns($grid-item-columns);
+}
+
+&:focus,
+&:hover {
+  background: transparentize($grid-item-color, 0.95);
+}
+}
+
+.grid-item {
+  position:relative; 
+ }
+
+ .grid-item:after {
+   font-family: FontAwesome;
+   content: "\f118";
+   color:green;
+   font-size:3em;
+   position:absolute;
+   top: 5px;
+   right: 2%;
+}
+
+.grid-item h1 {
+  color: $grid-item-color;
+  font-size: 1em;
+  margin-bottom: 0.4em;
+}
+
+.grid-item p {
+  color: transparentize($grid-item-color, 0.4);
+  line-height: 0.6em;
+
+  @include media($medium-screen) {
+    max-width: 70%;
+}
+}
+
+.grid-item-big {
+  @include media($large-screen) {
+    @include grid-item-columns($grid-item-big-columns);
+}
+p {
+  @include media($medium-screen) {
+    max-width: 60%;
+  }  
+}
+}
+
+// this, below, might not be the most beautiful solution but it removes the outer borders by using the background color.
+.bottom-cover {
+  background: $grid-items-background;
+  bottom: 0px;
+  height: 3px;
+  position: absolute;
+  width: 100%;
+}
+
+.right-cover {
+  background: $grid-items-background;
+  height: 100%;
+  position: absolute;
+  right: 0px;
+  width: 4px;
+}
+}
+
+.stats {
+  $base-spacing: 1.5em !default;
+  $dark-gray: #333 !default;
+  $base-font-color: $dark-gray !default;
+  $action-color: #477dca !default;
+  $stats-color: lighten($action-color, 10%);
+
+  padding: $base-spacing / 2;
+
+  ul {
+    padding: 0;
+}
+
+li {
+  border-right: 1px solid transparentize($base-font-color, 0.8);
+  color: $stats-color;
+  display: inline;
+  float: left;
+  font-size: 1.2em;
+  line-height: 1.1em;
+  padding: 0 0.7em;
+
+    &:first-child {
+      padding-left: 0;
     }
 
-    &:focus,
-    &:hover {
-      background: transparentize($grid-item-color, 0.95);
-    }
+    &:last-child {
+      border-right: 0;
+    } 
   }
 
-    .grid-item {
-      position:relative; 
-     }
-
-    .grid-item:after {
-      font-family: FontAwesome;
-      content: "\f118";
-      color:green;
-      font-size:3em;
-      position:absolute;
-      top: 5px;
-      right: 2%;
-    }
-
-    .grid-item h1 {
-      color: $grid-item-color;
-      font-size: 1em;
-      margin-bottom: 0.4em;
-    }
-
-    .grid-item p {
-      color: transparentize($grid-item-color, 0.4);
-      line-height: 0.6em;
-
-      @include media($medium-screen) {
-        max-width: 70%;
-      }
-    }
-
-    .grid-item-big {
-      @include media($large-screen) {
-        @include grid-item-columns($grid-item-big-columns);
-      }
-      p {
-        @include media($medium-screen) {
-          max-width: 60%;
-        }  
-      }
+  span {
+    color: $base-font-color;
+    display: block;
+    font-size: 0.7em;
+    font-weight: normal;
   }
+}
 
-    // this, below, might not be the most beautiful solution but it removes the outer borders by using the background color.
-    .bottom-cover {
-      background: $grid-items-background;
-      bottom: 0px;
-      height: 3px;
-      position: absolute;
-      width: 100%;
-    }
-
-    .right-cover {
-      background: $grid-items-background;
-      height: 100%;
-      position: absolute;
-      right: 0px;
-      width: 4px;
-    }
-  }
