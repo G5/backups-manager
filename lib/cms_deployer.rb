@@ -10,9 +10,6 @@ class CmsDeployer
     upload_to_heroku
   end
 
-  # Apparently, Sidekiq doesn't want you to pass an object as a parameter. So, we have this
-  # method so the controller can pass the @heroku_get_url string to Sidekiq, which in turn
-  # uses it to call the self.deploy method below.
   def blob_url
     @heroku_get_url
   end
@@ -24,6 +21,17 @@ class CmsDeployer
             -H 'Accept: application/vnd.heroku+json; version=3' \
             -H \"Content-Type: application/json\" \
             -H \"Authorization: Bearer #{ENV['HEROKU_AUTH_TOKEN']}\""
+  end
+
+  def self.capture_backup(app)
+    `#{self.heroku_command_prefix} pgbackups:capture --app #{app}`
+  end
+
+  def self.post_deploy_tasks(app)
+    `#{self.heroku_command_prefix} run rake db:migrate --app #{app}`
+    `#{self.heroku_command_prefix} restart --app #{app}`
+    `#{self.heroku_command_prefix} run rake widget:update --app #{app}`
+    `#{self.heroku_command_prefix} run rake theme:update --app #{app}`
   end
 
   private
@@ -45,5 +53,9 @@ class CmsDeployer
   # Upload tar.gz to S3
   def upload_to_heroku
     system("curl \"#{@heroku_put_url}\" -X PUT -H 'Content-Type:' --data-binary @#{@local_file_location}")
+  end
+
+  def self.heroku_command_prefix
+    Rails.env.production? ? "vendor/heroku-toolbelt/bin/heroku" : "heroku"
   end
 end
