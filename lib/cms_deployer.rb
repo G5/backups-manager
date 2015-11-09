@@ -56,6 +56,6 @@ class CmsDeployer
   end
 
   def self.heroku_command_prefix
-    Rails.env.production? ? "vendor/heroku-toolbelt/bin/heroku" : "heroku"
+    Rails.env.production? ? "#{Rails.root.to_s}/vendor/heroku-toolbelt/bin/heroku" : "heroku"
   end
 end
