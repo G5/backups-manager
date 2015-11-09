@@ -28,10 +28,10 @@ class CmsDeployer
   end
 
   def self.post_deploy_tasks(app)
-    `#{self.heroku_command_prefix} run rake db:migrate --app #{app}`
-    `#{self.heroku_command_prefix} restart --app #{app}`
-    `#{self.heroku_command_prefix} run rake widget:update --app #{app}`
-    `#{self.heroku_command_prefix} run rake theme:update --app #{app}`
+    system("#{self.heroku_command_prefix} run rake db:migrate --app #{app}")
+    system("#{self.heroku_command_prefix} restart --app #{app}")
+    system("#{self.heroku_command_prefix} run rake widget:update --app #{app}")
+    system("#{self.heroku_command_prefix} run rake theme:update --app #{app}")
   end
 
   private
