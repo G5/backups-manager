@@ -24,14 +24,14 @@ class CmsDeployer
   end
 
   def self.capture_backup(app)
-    `#{self.heroku_command_prefix} pgbackups:capture --app #{app}`
+    `#{self.heroku_command_prefix} pg:backups capture --app #{app}`
   end
 
   def self.post_deploy_tasks(app)
-    system("#{self.heroku_command_prefix} run rake db:migrate --app #{app}")
-    system("#{self.heroku_command_prefix} restart --app #{app}")
-    system("#{self.heroku_command_prefix} run rake widget:update --app #{app}")
-    system("#{self.heroku_command_prefix} run rake theme:update --app #{app}")
+    `#{self.heroku_command_prefix} run rake db:migrate --app #{app}`
+    `#{self.heroku_command_prefix} restart --app #{app}`
+    `#{self.heroku_command_prefix} run rake widget:update --app #{app}`
+    `#{self.heroku_command_prefix} run rake theme:update --app #{app}`
   end
 
   private
@@ -56,6 +56,6 @@ class CmsDeployer
   end
 
   def self.heroku_command_prefix
-    Rails.env.production? ? "#{Rails.root.to_s}/vendor/heroku-toolbelt/bin/heroku" : "heroku"
+    Rails.env.production? ? "vendor/heroku-toolbelt/bin/heroku" : "heroku"
   end
 end
