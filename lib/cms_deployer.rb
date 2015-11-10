@@ -40,7 +40,6 @@ class CmsDeployer
   end
 
   def self.build_status(app, build_id)
-    # "failed" or "pending" or "succeeded"
     build_status_endpoint = "https://api.heroku.com/apps/#{app}/builds/#{build_id}"
     response = HTTPClient.get build_status_endpoint, nil, HerokuApiHelpers.default_headers
     JSON.parse(response.body)["status"]
@@ -57,12 +56,10 @@ class CmsDeployer
     @heroku_put_url = data["source_blob"]["put_url"]
   end
 
-  # Download tar.gz from Github
   def download_from_gihub
     system("curl -H 'Authorization: token #{ENV['GITHUB_TOKEN']}' -L #{@github_file_location} > #{@local_file_location}")
   end
 
-  # Upload tar.gz to S3
   def upload_to_heroku
     system("curl \"#{@heroku_put_url}\" -X PUT -H 'Content-Type:' --data-binary @#{@local_file_location}")
   end
