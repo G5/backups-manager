@@ -11,7 +11,7 @@ class CmsPostDeployWorker
     status = "pending"
 
     while attempts < 30 && status == "pending" do
-      sleep(30.seconds)
+      sleep(10.seconds)
       status = CmsDeployer.build_status(app, build_id)
       attempts += 1
     end
