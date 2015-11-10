@@ -439,6 +439,7 @@ hr {
     background-color: #dff0d8;
     color: #333;
   }
+  .deploy-option{ margin: 1em 0; }
 }
 
 .sidekiq-dashboard-link{
@@ -446,4 +447,4 @@ hr {
   text-decoration: underline;
 }
 
-
+label.for-checkbox{ display:inline; }

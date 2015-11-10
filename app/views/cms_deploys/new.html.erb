@@ -13,6 +13,16 @@
   <%= label_tag(:branch, "Branch Name:") %>
   <%= text_field_tag(:branch) %>
 
+  <div class="deploy-option">
+    <%= check_box_tag(:capture_pg_backup) %>
+    <%= label_tag(:capture_pg_backup, " Capture PG Backup before deploy", class: "for-checkbox") %>
+  </div>
+
+  <div class="deploy-option">
+    <%= check_box_tag(:run_migrations) %>
+    <%= label_tag(:run_migrations, " Run Migrations", class: "for-checkbox") %>
+  </div>
+
   <%= submit_tag("Deploy") %>
 
   <p class="post-deploy-message">

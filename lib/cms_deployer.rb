@@ -16,11 +16,16 @@ class CmsDeployer
 
   def self.deploy(source_url, app)
     heroku_build_endpoint = "https://api.heroku.com/apps/#{app}/builds"
-    system "curl -n -X POST \"#{heroku_build_endpoint}\" \
-            -d '{\"source_blob\":{\"url\":\"#{source_url}\"}}' \
-            -H 'Accept: application/vnd.heroku+json; version=3' \
-            -H \"Content-Type: application/json\" \
-            -H \"Authorization: Bearer #{ENV['HEROKU_AUTH_TOKEN']}\""
+
+    headers = { 'Accept': 'application/vnd.heroku+json; version=3', 
+                'Content-Type': 'application/json', 
+                'Authorization': "Bearer #{ENV['HEROKU_AUTH_TOKEN']}" }
+    data = {source_blob: {url: source_url} }.to_json
+    response = HTTPClient.post heroku_build_endpoint, data, headers
+
+    parsed_response = JSON.parse response.body
+
+    build_id = parsed_response['id']
   end
 
   def self.capture_backup(app)
@@ -32,6 +37,13 @@ class CmsDeployer
     `#{self.heroku_command_prefix} restart --app #{app}`
     `#{self.heroku_command_prefix} run rake widget:update --app #{app}`
     `#{self.heroku_command_prefix} run rake theme:update --app #{app}`
+  end
+
+  def self.build_status(app, build_id)
+    # "failed" or "pending" or "succeeded"
+    build_status_endpoint = "https://api.heroku.com/apps/#{app}/builds/#{build_id}"
+    response = HTTPClient.get build_status_endpoint, nil, HerokuApiHelpers.default_headers
+    JSON.parse(response.body)["status"]
   end
 
   private
