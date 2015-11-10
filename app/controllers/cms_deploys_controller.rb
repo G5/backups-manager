@@ -10,6 +10,7 @@ class CmsDeploysController < ApplicationController
     @cmses = @cms.split(",").map(&:strip)
     @capture_backup = params.key?(:capture_pg_backup)
     @run_migrations = params.key?(:run_migrations)
+    @pusher_channel = "cms-deploy-#{Time.now.to_i}"
 
     blob_url = CmsDeployer.new(@cmses, @branch).blob_url
 
@@ -17,7 +18,8 @@ class CmsDeploysController < ApplicationController
       deploy_params = { app: cms,
                         blob_url: blob_url,
                         capture_backup: @capture_backup,
-                        run_migrations: @run_migrations }
+                        run_migrations: @run_migrations,
+                        pusher_channel: @pusher_channel }
 
       CmsDeployWorker.perform_async(deploy_params)
     end

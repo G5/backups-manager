@@ -1,11 +1,21 @@
 <h3>Deploying the "<%= @branch %>" branch to the following apps</h3>
 
-<p><strong>Note:</strong> Small deploys will usually complete within 2 minutes, but larger lists might take longer. To see if an app has finished deploying, click on any link below to go to the latest build logs.</p>
+<p>Leave this page open to monitor real time deploy status</p>
 
-<p>You might also find it helpful to reference the <a class="sidekiq-dashboard-link" href="https://g5-app-wrangler.herokuapp.com/sidekiq/" target="_blank">Sidekiq Dasboard</a>.<p>
+<p>Click on any app name below to see the build logs. You might also find it helpful to reference the <a class="sidekiq-dashboard-link" href="https://g5-app-wrangler.herokuapp.com/sidekiq/" target="_blank">Sidekiq Dasboard</a>.<p>
 
 <ul>
 <% @cmses.each do |cms| %>
-  <li><%= link_to cms, "https://dashboard.heroku.com/apps/#{cms}/activity", target: "blank" %></li>
+  <li class="<%= cms %>">
+    <%= link_to cms, "https://dashboard.heroku.com/apps/#{cms}/activity", target: "blank", class: "build-log-link" %>
+  </li>
 <% end %>
 </ul>
+
+<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+
+<script id="pusher-config" type="application/json">
+  {
+    "channel": "<%= @pusher_channel %>"
+  }
+</script>

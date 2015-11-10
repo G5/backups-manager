@@ -448,3 +448,14 @@ hr {
 }
 
 label.for-checkbox{ display:inline; }
+
+span.finished-task{
+  display: inline-block;
+  margin: 0 1em;
+  &.successful-task{ color:green; }
+  &.failed-task{ color:red; }
+}
+a.build-log-link{
+  display: inline-block;
+  width: 275px;
+}
