@@ -25,10 +25,17 @@
   $grid-item-color: $base-font-color;
   $grid-item-height: 7em;
   width:33%;
-  padding:0 0.5% 0 0.5%;
+  padding:0 0 0 0.5%;
   float:right;
   @include clearfix;
+  margin-right: 1%;
   position: relative;
+  &.middle-column {
+    background:#f5f5f5;
+    .grid-item {
+      background:#f5f5f5;
+    }
+  }
 
   .grid-item {
     @include transition (all 0.2s ease-in-out);
@@ -58,14 +65,24 @@
   position:relative; 
  }
 
- .grid-item:after {
+ .grid-item.status:after {
    font-family: FontAwesome;
    content: "\f118";
    color:green;
+   font-size:2em;
+   position:absolute;
+   top: 33px;
+   right: 2%;
+}
+
+ .comment.alert:after {
+   font-family: FontAwesome;
+   content: "\f12a";
+   color:red;
    font-size:3em;
    position:absolute;
-   top: 5px;
-   right: 2%;
+   top: 33px;
+   right: 4%;
 }
 
 .grid-item h1 {

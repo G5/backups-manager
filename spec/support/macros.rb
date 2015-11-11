@@ -333,6 +333,48 @@ def fake_pagerduty_incidents
   }
 end
 
+def unhealthy_app_response
+  {
+    "version": "2.4.5",
+    "master_version": "GITHUB_MASTER_VERSION not configured",
+    "health": {
+      "database": {
+        "is_healthy": true,
+        "message": ""
+      },
+      "widgets": {
+        "is_healthy": false,
+        "message": "Has 1 Orphan Widgets"
+      },
+      "OVERALL": {
+        "is_healthy": false,
+        "message": ""
+      }
+    }
+  }
+end
+
+def healthy_app_response
+  {
+    "version": "2.4.5",
+    "master_version": "GITHUB_MASTER_VERSION not configured",
+    "health": {
+      "database": {
+        "is_healthy": true,
+        "message": ""
+      },
+      "widgets": {
+        "is_healthy": true,
+        "message": ""
+      },
+      "OVERALL": {
+        "is_healthy": true,
+        "message": ""
+      }
+    }
+  }
+end
+
 def new_relic_get_request(url)
   stub_request(:get, url).
     with(:headers => { 'X-Api-Key'=>ENV['NEW_RELIC_API_KEY']}).
@@ -343,4 +385,8 @@ def pagerduty_get_request(url, fake_response)
   stub_request(:get, url).
     with(:headers => {'Authorization'=>"Token token=#{ENV['PAGER_DUTY_API_KEY']}"}).
     to_return(:status => 200, :body => fake_response.to_json)
+end
+
+def g5_ops_health_request(url, fake_response)
+  stub_request(:get, url).to_return(:status => 200, :body => fake_response.to_json)
 end

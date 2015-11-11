@@ -1,22 +1,41 @@
-<div class="grid-items-lines">
-  <h1 class="column-header">Goat Duty</h1>
+<div class="grid-items-lines right-column">
+  <h1 class="column-header">Pager Duty<br><span>Goat and Open Incidents</span></h1>
   <hr>
-  <div class="stats">
-    <% @goat.each do |goat| %>
-      <% unless goat["level"] > 2 %>
-        <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
+  <section class='grid-item'>
+    <div class="stats">
+      <% @goat.each do |goat| %>
+        <% unless goat["level"] > 2 %>
+          <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-</div>
-<%#= @incidents %>
+    </div>
+  </section>
+  <section class='grid-item'>
+      <div class='comment alert'>
+        <div class='comment-image'>
 
-<div class="grid-items-lines">
-  <h1 class="column-header">New Relic Statistics <span>(Centralized or Critical)</span></h1>
+        </div>
+        <div class='comment-content'>
+          <%= content_tag :h1, "Incident 1" %>
+          <%= content_tag :p, "Test App Incident tigger summary" %>
+          <%= content_tag :p, "2012-09-11T22:49:21Z", class: 'comment-detail' %>
+        </div>
+      </div>
+    <% if @incidents.present? %>
+
+    <% else %>
+      <h1>Incidents</h1>
+      <p id='no-incidents'>There are no incidents at this time.</p>
+    <% end %>
+  </section>
+</div>
+
+<div class="grid-items-lines middle-column">
+  <h1 class="column-header">New Relic Statistics<br><span>Centralized or Critical</span></h1>
   <hr>
   <% @new_relic_data.each do |app| %>
     <% if app %>
-      <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", target: 'blank', class: 'grid-item' do %>
+      <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", target: 'blank', class: 'grid-item status' do %>
         <%= content_tag :h1, app["name"] %>
         <div class="stats">
           <%= content_tag :li, "#{app["response_time"]} ms<span>Response Time</span>".html_safe %>
@@ -26,10 +45,12 @@
       <% end %>
     <% end %>
   <% end %>
-  <div class="right-cover"></div>
-  <div class="bottom-cover"></div>
+</div>
+
+<div class="grid-items-lines left-column">
+  <h1 class="column-header">Ops Health<br><span>Apps with G5 Ops Gem</span></h1>
+  <hr>
 </div>
 <%#= icon('meh-o', class: 'fa-5x') %>
 <%#= icon('frown-o', class: 'fa-5x') %>
-
 

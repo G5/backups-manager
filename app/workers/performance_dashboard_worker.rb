@@ -49,6 +49,7 @@ class PerformanceDashboardWorker
     end
     redis.set("pagerduty:incidents", incidents.to_json)
   end
+  
 
   private
 

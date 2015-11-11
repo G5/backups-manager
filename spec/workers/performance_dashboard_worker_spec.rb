@@ -1,4 +1,5 @@
-describe PerformanceDashboardWorker do describe :perform do
+describe PerformanceDashboardWorker do
+  describe :perform do
     let(:new_relic_response) { fake_new_relic_response }
     let(:pagerduty_oncall_response) { fake_pagerduty_oncall }
     let(:pagerduty_incidents_response) { fake_pagerduty_incidents }
