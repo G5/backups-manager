@@ -13,9 +13,10 @@ $(document).ready( () ->
 
 class PusherListener
   constructor: () ->
-    @configs = JSON.parse($('#pusher-config').html())
-    @pusher = new Pusher('fdda70c3d83954241af5', { encrypted: true })
-    @channel = @pusher.subscribe("#{@configs.channel}")
+    if $('#pusher-config').length
+      @configs = JSON.parse($('#pusher-config').html())
+      @pusher = new Pusher('fdda70c3d83954241af5', { encrypted: true })
+      @channel = @pusher.subscribe("#{@configs.channel}")
 
     that = this
     @channel.bind('my_event', (data) -> 
