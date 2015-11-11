@@ -18,10 +18,10 @@ class PusherListener
       @pusher = new Pusher('fdda70c3d83954241af5', { encrypted: true })
       @channel = @pusher.subscribe("#{@configs.channel}")
 
-    that = this
-    @channel.bind('my_event', (data) -> 
-      that.taskCompleted(data)
-    )
+      that = this
+      @channel.bind('my_event', (data) -> 
+        that.taskCompleted(data)
+      )
 
   taskCompleted: (data) ->
     appWrapper = $("li.#{data.app}")
