@@ -432,3 +432,30 @@ hr {
   }
 }
 
+.cms-deploys-form{
+  .post-deploy-message{
+    display:none;
+    padding: 15px; margin: 0 0 10px;
+    background-color: #dff0d8;
+    color: #333;
+  }
+  .deploy-option{ margin: 1em 0; }
+}
+
+.sidekiq-dashboard-link{
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+label.for-checkbox{ display:inline; }
+
+span.finished-task{
+  display: inline-block;
+  margin: 0 1em;
+  &.successful-task{ color:green; }
+  &.failed-task{ color:red; }
+}
+a.build-log-link{
+  display: inline-block;
+  width: 275px;
+}

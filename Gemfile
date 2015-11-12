@@ -72,3 +72,5 @@ gem 'resque'
 
 gem 'font-awesome-sass'
 gem 'g5_ops'
+
+gem 'pusher'

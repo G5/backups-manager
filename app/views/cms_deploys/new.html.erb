@@ -1,0 +1,27 @@
+<h2>CMS Deployer</h2>
+
+<p>Please enter a comma separated list of Heroku app names in the field below, and a branch name that is currently up on Github (<strong>master</strong>, or  <strong>RC-11.9.15</strong> for example).</p>
+
+<%= form_tag("/cms_deploys", method: "post", class: "cms-deploys-form") do %>
+  <%= label_tag(:cms, "Comma separated list of apps:") %>
+  <%= text_field_tag(:cms) %>
+
+  <%= label_tag(:branch, "Branch Name:") %>
+  <%= text_field_tag(:branch, "master", placeholder: 'Please enter a branch name') %>
+
+  <div class="deploy-option">
+    <%= check_box_tag(:capture_pg_backup) %>
+    <%= label_tag(:capture_pg_backup, " Capture PG Backup before deploy", class: "for-checkbox") %>
+  </div>
+
+  <div class="deploy-option">
+    <%= check_box_tag(:run_migrations) %>
+    <%= label_tag(:run_migrations, " Run Migrations", class: "for-checkbox") %>
+  </div>
+
+  <%= submit_tag("Deploy") %>
+
+  <p class="post-deploy-message">
+    Please wait while we donwload the correct source blob from Github (If you aren't forwarded within about a minute, something probably went wrong)
+  </p>
+<% end %>
