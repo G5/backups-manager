@@ -5,7 +5,7 @@ class AppHealthStatusWorker
   def perform
     cache_unhealthy_apps
   end
-  
+
   def cache_unhealthy_apps
     unhealthy_apps = g5_unhealthy_apps
     redis.set("g5ops:health", unhealthy_apps.to_json)
@@ -17,17 +17,15 @@ class AppHealthStatusWorker
         response = HTTPClient.
                    get("#{app["app_details"]["web_url"]}g5_ops/status.json")
         parsed_body = JSON.parse response.body
-        puts "mapping *******#{app['name']}***********"
-        {
-          name: app["name"],
-          health: parsed_body["database"],
-          widgets: parsed_body["widgets"],
-          overall: parsed_body["OVERALL"]
-        }
+        if parsed_body["health"]["OVERALL"]["is_healthy"] == false
+          {
+            name: app["app_details"]["name"],
+            health: parsed_body["health"]
+          }
+        end
       rescue => e
         puts "#{e}"
       end
-      puts "#{unhealthy_apps}"
     end
     unhealthy_apps
   end
