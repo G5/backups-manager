@@ -1,7 +1,42 @@
 describe CmsDeploysController, auth_controller: true do
 
-  before do
-    # CmsDeployer.stub_chain(:new, :blob_url).and_return("http://blob-yo.com")
+  describe "deploy configuration" do
+    let(:basic_deploy_params) { { cms: "g5-cms-123abc-clown", 
+                                  branch: "master" } }
+
+    let(:full_deploy_params)  { { cms: "g5-cms-123abc-clown", 
+                                  branch: "master",
+                                  capture_pg_backup: "1",
+                                  run_migrations: "1" } }
+
+    let(:time_now) { Time.parse("1997-08-29 02:14:00 -0500") }
+
+    before { 
+      CmsDeployer.stub_chain(:new, :blob_url) {"http://blob-yo.com"} 
+      allow(Time).to receive(:now).and_return(time_now)
+    }
+
+    it "Queues up a CmsDeployWorker with the correct args for basic deploys" do
+      expected_args = { app: "g5-cms-123abc-clown",
+                        blob_url: "http://blob-yo.com",
+                        capture_backup: false,
+                        run_migrations: false,
+                        pusher_channel: "cms-deploy-#{time_now.to_i}" }
+  
+      expect(CmsDeployWorker).to receive(:perform_async).with(expected_args)
+      post :create, basic_deploy_params
+    end
+
+    it "Queues up a CmsDeployWorker with the correct args for full deploys" do
+      expected_args = { app: "g5-cms-123abc-clown",
+                        blob_url: "http://blob-yo.com",
+                        capture_backup: true,
+                        run_migrations: true,
+                        pusher_channel: "cms-deploy-#{time_now.to_i}" }
+  
+      expect(CmsDeployWorker).to receive(:perform_async).with(expected_args)
+      post :create, full_deploy_params
+    end
   end
 
   describe "deploying multiple CMSs" do
@@ -25,14 +60,4 @@ describe CmsDeploysController, auth_controller: true do
       post :create, deploy_params
     end
   end
-
-  # describe "deploy configuration" do
-  #   let(:basic_deploy_params) { { cms: "g5-cms-123abc-clown", 
-  #                                 branch: "master" } }
-
-  #   let(:full_deploy_params)  { { cms: "g5-cms-123abc-clown", 
-  #                                 branch: "master",
-  #                                 capture_pg_backup: "1",
-  #                                 run_migrations: "1" } }
-  # end
 end
