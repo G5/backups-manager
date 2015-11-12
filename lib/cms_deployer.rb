@@ -14,6 +14,13 @@ class CmsDeployer
     @heroku_get_url
   end
 
+  def head_sha
+    github_endpoint = "https://api.github.com/repos/g5search/g5-content-management-system/git/refs/heads/#{@branch_name}"
+    response = HTTPClient.get github_endpoint, nil, { 'Authorization': "token #{ENV['GITHUB_TOKEN']}" }
+    data = JSON.parse(response.body)
+    data['object']['sha']
+  end
+
   def self.deploy(source_url, app)
     heroku_build_endpoint = "https://api.heroku.com/apps/#{app}/builds"
 

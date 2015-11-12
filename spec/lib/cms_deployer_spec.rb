@@ -26,6 +26,18 @@ describe CmsDeployer do
     end
   end
 
+  describe "getting the head sha" do
+    let(:github_response) {
+      { ref: "refs/heads/master", object: { sha: "c6ff6d2ce73d5f4ce82c8cafb1ccfcbd64b425cb" } }.to_json
+    }
+
+    it "fetches head sha from github api" do
+      branch_name = deployer.instance_variable_get(:@branch_name)
+      stub_request(:get, "https://api.github.com/repos/g5search/g5-content-management-system/git/refs/heads/#{branch_name}").to_return(:status => 200, :body => github_response, :headers => {})
+      expect(deployer.head_sha).to eq('c6ff6d2ce73d5f4ce82c8cafb1ccfcbd64b425cb')
+    end
+  end
+
   describe "deploy" do
     let(:app_name) { "app-name" }
     let(:source_url) {"http://some-source-url.com"}

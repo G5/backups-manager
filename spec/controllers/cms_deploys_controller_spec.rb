@@ -41,7 +41,7 @@ describe CmsDeploysController, auth_controller: true do
 
   describe "deploying multiple CMSs" do
     let(:deploy_params) { { cms: "g5-cms-123abc-clown, g5-cms-987xyz-monkey, g5-cms-666dps-joker", 
-                          branch: "master" } }
+                            branch: "master" } }
 
     let(:cms_deployer) { OpenStruct.new(blob_url: "http://blob-yo.com") }
 
