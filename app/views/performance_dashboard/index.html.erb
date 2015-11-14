@@ -51,18 +51,21 @@
   <h1 class="column-header">Ops Health<br><span>Unhealthy Applications</span></h1>
   <hr>
   <% @unhealthy_apps.each do |app| %>
-    <% app.each do |key, value| %>
-      <%= value if key == "name" %>
-      <% if value.is_a?(Hash) %>
-        <% value.each do |component, vitals| %>
-          <% if vitals["is_healthy"] == false %>
-            <%= component %>
-            <%= vitals["message"] %>
-          <% end %>
+    <div class="tooltip-item">
+      <% app.each do |key, value| %>
+        <%= value if key == "name" %>
+        <% if value.is_a?(Hash) %>
+          <div class="tooltip">
+            <% value.each do |component, vitals| %>
+              <% if vitals["is_healthy"] == false %>
+                <h6><%= "Component: #{component}" unless component == 'OVERALL' %></h6>
+                <p><%= vitals["message"] %></p>
+              <% end %>
+            <% end %>
+          </div>
         <% end %>
       <% end %>
-    <% end %>
-    <hr>
+    </div>
   <% end %>
 </div>
 <%#= icon('meh-o', class: 'fa-5x') %>
