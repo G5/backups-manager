@@ -12,9 +12,6 @@
   </section>
   <section class='grid-item'>
       <div class='comment alert'>
-        <div class='comment-image'>
-
-        </div>
         <div class='comment-content'>
           <%= content_tag :h1, "Incident 1" %>
           <%= content_tag :p, "Test App Incident Trigger Summary" %>
@@ -48,26 +45,13 @@
 </div>
 
 <div class="grid-items-lines left-column">
-  <h1 class="column-header">Ops Health<br><span>Unhealthy Applications</span></h1>
+  <h1 class="column-header">Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps.count %></span></h1>
   <hr>
-  <% @unhealthy_apps.each do |app| %>
-    <div class="tooltip-item">
-      <% app.each do |key, value| %>
-        <%= value if key == "name" %>
-        <% if value.is_a?(Hash) %>
-          <div class="tooltip">
-            <% value.each do |component, vitals| %>
-              <% if vitals["is_healthy"] == false %>
-                <h6><%= "Component: #{component}" unless component == 'OVERALL' %></h6>
-                <p><%= vitals["message"] %></p>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
+  <ul class="accordion">
+    <%= wrangle_unhealthy_apps(@unhealthy_apps).html_safe %>
+  </ul>
 </div>
+
 <%#= icon('meh-o', class: 'fa-5x') %>
 <%#= icon('frown-o', class: 'fa-5x') %>
 
