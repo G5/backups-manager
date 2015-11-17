@@ -137,7 +137,7 @@
       }
     }
   }
-  
+
   .bottom-cover {
     background: $grid-items-background;
     bottom: 0px;
@@ -235,7 +235,7 @@
     border-radius: $base-border-radius;
     box-shadow: $tooltip-shadow;
     color: $tooltip-color;
-    font-size: 0.9em; // Make sure you use -webkit-backface-visibility: hidden; on the body element to prevent 1px nudging bugs.
+    font-size: 0.9em;
     line-height: 1.5em;
     margin: 0 auto;
     opacity: 0;
