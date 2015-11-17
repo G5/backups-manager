@@ -38,6 +38,7 @@
   }
 
   .grid-item {
+    position:relative; 
     @include transition (all 0.2s ease-in-out);
     background: $grid-item-background;
     border-bottom: $grid-item-border;
@@ -53,19 +54,13 @@
 
     @include media($large-screen) {
       @include grid-item-columns($grid-item-columns);
-}
+    }
 
-&:focus,
-&:hover {
-  background: transparentize($grid-item-color, 0.95);
-}
-}
+    &:focus,
+    &:hover {
+     background: transparentize($grid-item-color, 0.95);
+    }
 
-.grid-item {
-  position:relative; 
- }
-
- .grid-item {
    &.green:after {
      font-family: FontAwesome;
      content: "\f118";
@@ -102,6 +97,9 @@
      top: 33px;
      right: 2%;
    }
+  }
+
+ .grid-item {
 }
 
  .comment.alert:after {
