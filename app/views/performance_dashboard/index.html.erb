@@ -32,7 +32,8 @@
   <hr>
   <% @new_relic_data.each do |app| %>
     <% if app %>
-      <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", target: 'blank', class: 'grid-item status' do %>
+      <% status = new_relic_app_status(app["health_status"]) %>
+      <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", target: 'blank', class: "grid-item #{status}" do %>
         <%= content_tag :h1, app["name"] %>
         <div class="stats">
           <%= content_tag :li, "#{app["response_time"]} ms<span>Response Time</span>".html_safe %>
@@ -45,7 +46,7 @@
 </div>
 
 <div class="grid-items-lines left-column">
-  <h1 class="column-header">Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps.count %></span></h1>
+  <h1 class="column-header">G5 Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps.count %></span></h1>
   <hr>
   <ul class="accordion">
     <%= wrangle_unhealthy_apps(@unhealthy_apps).html_safe %>

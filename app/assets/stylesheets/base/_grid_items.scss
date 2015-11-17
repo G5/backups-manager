@@ -65,14 +65,43 @@
   position:relative; 
  }
 
- .grid-item.status:after {
-   font-family: FontAwesome;
-   content: "\f118";
-   color:green;
-   font-size:2em;
-   position:absolute;
-   top: 33px;
-   right: 2%;
+ .grid-item {
+   &.green:after {
+     font-family: FontAwesome;
+     content: "\f118";
+     color:green;
+     font-size:2em;
+     position:absolute;
+     top: 33px;
+     right: 2%;
+   }
+   &.orange:after {
+     font-family: FontAwesome;
+     content: "\f11a";
+     color:orange;
+     font-size:2em;
+     position:absolute;
+     top: 33px;
+     right: 2%;
+   }
+   &.red:after {
+     font-family: FontAwesome;
+     content: "\f119";
+     color:red;
+     font-size:2em;
+     position:absolute;
+     top: 33px;
+     right: 2%;
+   }
+   &.gray:after {
+     font-family: FontAwesome;
+     content: "\f119";
+     color:gray;
+     font-size:2em;
+     position:absolute;
+     top: 33px;
+     right: 2%;
+   }
 }
 
  .comment.alert:after {

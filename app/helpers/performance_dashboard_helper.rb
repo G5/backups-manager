@@ -7,7 +7,7 @@ module PerformanceDashboardHelper
       app[1].each do |data|
         if data.is_a?(Hash)
           markup << %q(<div class='tooltip-item'>)
-          markup << %Q(#{data["name"]}) ? !data["name"].nil? : "App With No Name"
+          markup << data["name"] ? !data["name"].nil? : "App With No Name"
           markup << %q(<div class='tooltip'>)
           data["health"].each do |vital, sign|
             if sign["is_healthy"] == false
@@ -15,15 +15,25 @@ module PerformanceDashboardHelper
               markup << %Q(<p>#{sign["message"]}</p>)
             end
           end
-          markup << %q(</div>)
-          markup << %q(</div>)
+          markup << %q(</div></div>)
         end
       end
-      markup << %q(</li>)
-      markup << %q(</ul>)
-      markup << %q(</li>)
+      markup << %q(</li></ul></li>)
     end
     markup
+  end
+
+  def new_relic_app_status(status)
+    case status
+    when "green"
+      "green"
+    when "orange"
+      "orange"
+    when "red"
+      "red"
+    when "gray"
+      "gray"
+    end
   end
 
   def sort_unhealthy_apps_by_type(apps)
