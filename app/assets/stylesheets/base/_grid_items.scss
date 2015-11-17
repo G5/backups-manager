@@ -30,6 +30,7 @@
   @include clearfix;
   margin-right: 1%;
   position: relative;
+  hr {margin:0;}
   &.middle-column {
     background:#f5f5f5;
     .grid-item {
@@ -123,7 +124,7 @@
     line-height: 0.6em;
 
     @include media($medium-screen) {
-      max-width: 70%;
+      max-width: 100%;
     }
   }
 

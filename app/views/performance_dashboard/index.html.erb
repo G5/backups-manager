@@ -46,13 +46,11 @@
 </div>
 
 <div class="grid-items-lines left-column">
+  <% orgs = Organization.all %>
+  <%= top_five_most_costly_apps(orgs) %>
   <h1 class="column-header">G5 Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps.count %></span></h1>
   <hr>
   <ul class="accordion">
     <%= wrangle_unhealthy_apps(@unhealthy_apps).html_safe %>
   </ul>
 </div>
-
-<%#= icon('meh-o', class: 'fa-5x') %>
-<%#= icon('frown-o', class: 'fa-5x') %>
-
