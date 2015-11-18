@@ -19,11 +19,13 @@
         </div>
       </div>
     <% if @incidents.present? %>
-      <div class='comment-content'>
-        <%= content_tag :h1, "Incident 1" %>
-        <%= content_tag :p, "Test App Incident Trigger Summary" %>
-        <%= content_tag :p, "2012-09-11T22:49:21Z", class: 'comment-detail' %>
-      </div>
+      <% @incidents.each do |inci| %>
+        <div class='comment-content'>
+          <%= content_tag :h1, "Incident #{inci["incident_number"]}" %>
+          <%= content_tag :p, inci["description"] %>
+          <%= content_tag :p, inci["created_at"], class: 'comment-detail' %>
+        </div>
+      <% end %>
     <% else %>
       <h1>Incidents</h1>
       <p id='no-incidents'>There are no incidents at this time.</p>
