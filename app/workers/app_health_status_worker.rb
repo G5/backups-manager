@@ -7,8 +7,7 @@ class AppHealthStatusWorker
   end
 
   def cache_unhealthy_apps
-    unhealthy_apps = g5_unhealthy_apps
-    redis.set("g5ops:health", unhealthy_apps.to_json)
+    redis.set("g5ops:health", g5_unhealthy_apps.to_json)
   end
 
   def g5_unhealthy_apps

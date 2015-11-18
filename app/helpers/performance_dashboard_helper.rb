@@ -37,7 +37,6 @@ module PerformanceDashboardHelper
   end
 
   def sort_unhealthy_apps_by_type(apps)
-    sorted_apps = apps.group_by { |app| app["name"].split("-")[1] } 
-    sorted_apps
+    apps.group_by { |app| app["name"].split("-")[1] } 
   end
 end
