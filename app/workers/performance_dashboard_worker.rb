@@ -42,7 +42,7 @@ class PerformanceDashboardWorker
     data = PerformanceData.get_pagerduty_incidents("https://ey-g5search.pagerduty.com/api/v1/incidents")
     incidents = data["incidents"].map do |inci|
       {
-        incident_number: inci["incident_number"]
+        incident_number: inci["incident_number"],
         status: inci["status"],
         created_at: inci["created_on"],
         description: inci["trigger_summary_data"]["description"]
