@@ -76,7 +76,7 @@ module ApplicationHelper
     totals_hash = {}
     organizations.each do |org|
       cost = projected_monthly_cost(org).gsub(/\$?/, "").to_i
-      totals_hash[org] = cost
+      totals_hash[org.name] = cost
     end
     desc_totals = totals_hash.sort_by {|k, v| v}.reverse
     desc_totals.take(5)

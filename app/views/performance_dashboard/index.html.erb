@@ -19,7 +19,11 @@
         </div>
       </div>
     <% if @incidents.present? %>
-
+      <div class='comment-content'>
+        <%= content_tag :h1, "Incident 1" %>
+        <%= content_tag :p, "Test App Incident Trigger Summary" %>
+        <%= content_tag :p, "2012-09-11T22:49:21Z", class: 'comment-detail' %>
+      </div>
     <% else %>
       <h1>Incidents</h1>
       <p id='no-incidents'>There are no incidents at this time.</p>
@@ -46,10 +50,27 @@
 </div>
 
 <div class="grid-items-lines left-column">
-  <% orgs = Organization.all %>
-  <%= top_five_most_costly_apps(orgs) %>
-  <h1 class="column-header">G5 Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps.count %></span></h1>
+  <h1 class="column-header">Top Five<br></h1>
+    <% orgs = Organization.all %>
+    <% app_cost_array = top_five_most_costly_apps(orgs) %>
+    <table class="table-minimal">
+      <thead>
+        <tr>
+          <th>Organization</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% app_cost_array.each do |app| %>
+          <tr>
+            <td><%= app[0] %></td>
+            <td><%= "$#{app[1]}" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <hr>
+  <h1 class="column-header">G5 Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps.count %></span></h1>
   <ul class="accordion">
     <%= wrangle_unhealthy_apps(@unhealthy_apps).html_safe %>
   </ul>
