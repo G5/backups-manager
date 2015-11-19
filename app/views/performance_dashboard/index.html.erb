@@ -3,9 +3,11 @@
   <hr>
   <section class='grid-item'>
     <div class="stats">
-      <% @goat.each do |goat| %>
-        <% unless goat["level"] > 2 %>
-          <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
+      <% if @goat %>
+        <% @goat.each do |goat| %>
+          <% unless goat["level"] > 2 %>
+            <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -72,7 +74,7 @@
       </tbody>
     </table>
   <hr>
-  <h1 class="column-header">G5 Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps.count %></span></h1>
+  <h1 class="column-header">G5 Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_app_count %></span></h1>
   <ul class="accordion">
     <%= wrangle_unhealthy_apps(@unhealthy_apps).html_safe %>
   </ul>

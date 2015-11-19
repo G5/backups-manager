@@ -22,7 +22,7 @@ class PerformanceDashboardWorker
         }
       end
     end
-    redis.set("newrelic:data", apps.to_json)
+    $redis.set("newrelic:data", apps.to_json)
   end
 
   def pagerduty_oncall
@@ -35,7 +35,7 @@ class PerformanceDashboardWorker
         end_date_time: goat["end"]
       }
     end
-    redis.set("pagerduty:oncall", oncall.to_json)
+    $redis.set("pagerduty:oncall", oncall.to_json)
   end
 
   def pagerduty_incidents
@@ -48,13 +48,7 @@ class PerformanceDashboardWorker
         description: inci["trigger_summary_data"]["description"]
       }
     end
-    redis.set("pagerduty:incidents", incidents.to_json)
+    $redis.set("pagerduty:incidents", incidents.to_json)
   end
 
-
-  private
-
-  def redis
-    @redis ||= Redis.new
-  end
 end
