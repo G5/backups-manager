@@ -6,7 +6,7 @@ class PerformanceDashboardController < ApplicationController
     @incidents = $redis.get("pagerduty:incidents") ? JSON.parse($redis.get("pagerduty:incidents")) : @no_data_message
     @unhealthy_apps = $redis.get("g5ops:health") ? JSON.parse($redis.get("g5ops:health")) : @no_data_message
     @unhealthy_app_count = @no_data_message
-    if @unhealthy_apps.is_a?(Hash)
+    if @unhealthy_apps.is_a?(Array)
       @unhealthy_apps = @unhealthy_apps.delete_if { |check| check.nil? }
       @unhealthy_app_count = @unhealthy_apps.count
     end
