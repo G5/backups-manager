@@ -1,6 +1,5 @@
 class AppHealthStatusWorker
   include Sidekiq::Worker
-  include WorkersHelper
 
   def perform
     cache_unhealthy_apps

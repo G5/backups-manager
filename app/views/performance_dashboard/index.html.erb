@@ -3,7 +3,7 @@
   <hr>
   <section class='grid-item'>
     <div class="stats">
-      <% if @goat %>
+      <% unless @goat == @no_data_message %>
         <% @goat.each do |goat| %>
           <% unless goat["level"] > 2 %>
             <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
@@ -20,7 +20,7 @@
           <%= content_tag :p, "2012-09-11T22:49:21Z", class: 'comment-detail' %>
         </div>
       </div>
-    <% if @incidents.present? %>
+    <% unless !@incidents.present? || @incidents == @no_data_message %>
       <% @incidents.each do |inci| %>
         <div class='comment-content'>
           <%= content_tag :h1, "Incident #{inci["incident_number"]}" %>
@@ -38,6 +38,7 @@
 <div class="grid-items-lines middle-column">
   <h1 class="column-header">New Relic Statistics<br><span>Centralized or Critical</span></h1>
   <hr>
+  <% unless @new_relic_data == @no_data_message %>
   <% @new_relic_data.each do |app| %>
     <% if app %>
       <% status = new_relic_app_status(app["health_status"]) %>
