@@ -31,3 +31,11 @@ end
 task :update_organization_invoices => :environment do
   OrganizationInvoiceWorker.perform_async
 end
+
+task :update_performance_data => :environment do
+  PerformanceDashboardWorker.perform_async
+end
+
+task :update_g5ops_health => :environment do
+  AppHealthStatusWorker.perform_async
+end
