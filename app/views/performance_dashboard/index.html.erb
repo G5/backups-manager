@@ -42,7 +42,7 @@
   <% unless @new_relic_data == @no_data_message %>
     <% @new_relic_data.each do |app| %>
       <% if app %>
-        <% status = new_relic_app_status(app["health_status"]) %>
+        <% status = app["health_status"] %>
         <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", target: 'blank', class: "grid-item #{status}" do %>
           <%= content_tag :h1, app["name"] %>
           <div class="stats">
@@ -59,7 +59,7 @@
 <div class="grid-items-lines left-column">
   <h1 class="column-header">Top Five<br></h1>
     <% orgs = Organization.all %>
-    <% app_cost_array = top_five_most_costly_apps(orgs) %>
+    <% app_cost_array = Organization.sort_cost_descending(orgs).take(5) %>
     <table class="table-minimal">
       <thead>
         <tr>

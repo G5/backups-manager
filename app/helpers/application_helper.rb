@@ -62,22 +62,4 @@ module ApplicationHelper
     Time.now.in_time_zone(zone).strftime(format)
   end
 
-  def projected_monthly_cost(organization)
-    return "?" if organization.invoices.empty?
-
-    current_invoice = organization.invoices.first
-    latest_invoice_date = current_invoice.period_end
-    month_elapsed = latest_invoice_date.day / latest_invoice_date.end_of_month.day.to_f
-    projected = (current_invoice.total / 100) / month_elapsed
-    "$#{projected.round}"
-  end
-
-  def top_five_most_costly_apps(organizations)
-    totals_hash = {}
-    organizations.each do |org|
-      cost = projected_monthly_cost(org).gsub(/\$?/, "").to_i
-      totals_hash[org.name] = cost
-    end
-    desc_totals = totals_hash.sort_by {|k, v| v}.reverse.take(5)
-  end
 end

@@ -25,19 +25,6 @@ module PerformanceDashboardHelper
     markup
   end
 
-  def new_relic_app_status(status)
-    case status
-    when "green"
-      "green"
-    when "orange"
-      "orange"
-    when "red"
-      "red"
-    when "gray"
-      "gray"
-    end
-  end
-
   def sort_unhealthy_apps_by_type(apps)
     apps.group_by { |app| app["name"].split("-")[1] }
   end

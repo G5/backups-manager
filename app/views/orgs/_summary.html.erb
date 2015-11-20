@@ -1,7 +1,7 @@
 <span class="app-name"><%= organization.name %></span>
 <span>
   App Count:
-  <span class='counter'><%= organization.apps.length %></span> 
+  <span class='counter'><%= organization.apps.length %></span>
   |
 </span>
 <span>
@@ -11,5 +11,5 @@
 </span>
 <span>
   Projected Month:
-  <span class="counter"><%= projected_monthly_cost(organization) %></span>
+  <span class="counter"><%= organization.projected_monthly_cost %></span>
 </span>
