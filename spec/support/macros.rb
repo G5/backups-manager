@@ -376,7 +376,7 @@ def healthy_app_response
 end
 
 def unhealthy_unsorted_apps
-  [{"name"=>"g5-cls-unhealthy-app1",
+  {:data => [{"name"=>"g5-cls-unhealthy-app1",
     "health"=>
     {"database"=>{"is_healthy"=>true, "message"=>""},
     "redis"=>{"is_healthy"=>true, "message"=>"PONG"},
@@ -406,7 +406,7 @@ def unhealthy_unsorted_apps
         "Call Tracking"=>{"is_healthy"=>true, "message"=>"No backfilled calls"},
         "Core Store location_urn Existence"=>{"is_healthy"=>true, "message"=>"No Stores lacking a location_urn"},
         "database"=>{"is_healthy"=>true, "message"=>""},
-        "OVERALL"=>{"is_healthy"=>false, "message"=>""}}}]
+        "OVERALL"=>{"is_healthy"=>false, "message"=>""}}}]}
 end
 
 def sorted_unhealthy_apps
