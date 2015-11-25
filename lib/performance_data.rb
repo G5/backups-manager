@@ -1,6 +1,6 @@
 class PerformanceData
   def self.new_relic_data
-    data = self.get_new_relic_data("https://api.newrelic.com/v2/applications.json")
+    data = get_new_relic_data("https://api.newrelic.com/v2/applications.json")
     apps = data["applications"].map do |app|
       unless app["reporting"] == false
         {
@@ -17,7 +17,7 @@ class PerformanceData
   end
 
   def self.pagerduty_oncall
-    data = self.get_pagerduty_oncall("https://ey-g5search.pagerduty.com/api/v1/escalation_policies/on_call")
+    data = get_pagerduty_oncall("https://ey-g5search.pagerduty.com/api/v1/escalation_policies/on_call")
     oncall = data["escalation_policies"][0]["on_call"].map do |goat|
       {
         user: goat["user"]["name"],
@@ -30,7 +30,7 @@ class PerformanceData
   end
 
   def self.pagerduty_incidents
-    data = self.get_pagerduty_incidents("https://ey-g5search.pagerduty.com/api/v1/incidents")
+    data = get_pagerduty_incidents("https://ey-g5search.pagerduty.com/api/v1/incidents")
     incidents = data["incidents"].map do |inci|
       {
         incident_number: inci["incident_number"],
