@@ -25,6 +25,7 @@ gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'whenever', :require => false
 gem 'newrelic_rpm'
+gem 'redis'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -55,6 +56,7 @@ end
 group :test do
   gem 'rspec-sidekiq'
   gem 'webmock', '~> 1.20.3'
+  gem "fakeredis", :require => "fakeredis/rspec"
 end
 
 group :development do

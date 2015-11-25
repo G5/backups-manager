@@ -12,7 +12,8 @@ FactoryGirl.define do
         "id": "11111111-2222-3333-4444-555555555555",
         "git_url": "git@heroku.com:test-app.git",
         "web_url" => "https://example.com/test-app",
-        "updated_at" => "2015-09-10T19:00:09Z"
+        "updated_at" => "2015-09-10T19:00:09Z",
+        "name": "test-app"
       }
     }
     dynos {
@@ -20,7 +21,6 @@ FactoryGirl.define do
         {
             "app": {
               "id": "11111111-2222-3333-4444-555555555555",
-              "name": "test-app"
             },
             "command": "bundle exec rails server -p $PORT -e $RACK_ENV",
             "created_at": "2015-07-02T19:06:07Z",

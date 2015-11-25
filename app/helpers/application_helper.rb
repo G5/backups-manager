@@ -47,7 +47,7 @@ module ApplicationHelper
         app.dynos.each do |dyno|
           grand_total += dyno["quantity"] if dyno.class == Hash
         end
-      end 
+      end
     end
     average = grand_total.to_f/apps.length
     average.round(1)
@@ -62,13 +62,4 @@ module ApplicationHelper
     Time.now.in_time_zone(zone).strftime(format)
   end
 
-  def projected_monthly_cost(organization)
-    return "?" if organization.invoices.empty?
-
-    current_invoice = organization.invoices.first
-    latest_invoice_date = current_invoice.period_end
-    month_elapsed = latest_invoice_date.day / latest_invoice_date.end_of_month.day.to_f
-    projected = (current_invoice.total / 100) / month_elapsed
-    "$#{projected.round}"
-  end
 end
