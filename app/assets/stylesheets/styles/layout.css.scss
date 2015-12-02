@@ -358,6 +358,9 @@ hr {
 .cms {
   margin-bottom: 20px;
   @include clearfix;
+  #cms-search-submit {
+    float: right;
+  }
   .cms-form {
     width: 98%;
     &.cms-form-2 {
@@ -365,6 +368,13 @@ hr {
     }
     &.cms-form-3 {
       width: 31%;
+    }
+    &#corp-checkbox {
+      width: 40%;
+      float: left;
+      span {
+        margin-right: 15px;
+      }
     }
     margin: 1%;
     float: left;
@@ -383,6 +393,7 @@ hr {
 
 #cms-search-results {
   display: none;
+  margin-top: 78px;
   legend {
     padding: 0 5px;
     font-weight: bold;

@@ -89,6 +89,7 @@ class CmsReporter
   findSearchResults: (results, elem)->
     @addLocationCount(results['locations'])
     locations = @filterByTypeAndVertical(results)
+    locations = @filterByCorporateSites(locations)
     locations = @filterByStatus(locations)
     locations = @filterByTheme(locations)
     locations = @filterByWidget(locations)
@@ -115,6 +116,13 @@ class CmsReporter
     if vert != 'all' && vert != client['vertical_slug']
       isValid = false
     return if isValid then results['locations'] else []
+
+  filterByCorporateSites: (locations)->
+    corpCheckbox = $('#corp-checkbox input[type=checkbox]')
+    corpOnly = corpCheckbox.prop('checked')
+    return locations unless corpOnly
+    return locations.filter (l)->
+       l['corporate']
 
   filterByStatus: (locations)->
     status = @getStatusValue()
@@ -167,7 +175,7 @@ class CmsReporter
         @incPageFound()
         url = @searchResultsUrl(elem, res['location_slug'], config['page_slug'])
         link = "<a href='#{url}' target='_blank'>#{config['page']}</a>"
-        results += "<li>#{link}</li>" 
+        results += "<li>#{link}</li>"
     "<ul>#{results}</ul>"
 
   searchResultsUrl: (elem, locationSlug="", pageSlug="")->
