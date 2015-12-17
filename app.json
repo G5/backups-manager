@@ -1,0 +1,61 @@
+{
+  "name": "g5-app-wrangler-test",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:setup"
+  },
+  "env": {
+    "CLS_GITHUB_TOKEN": {
+      "required": true
+    },
+    "DSH_GITHUB_TOKEN": {
+      "required": true
+    },
+    "FURY_AUTH": {
+      "required": true
+    },
+    "G5_AUTH_CLIENT_ID": {
+      "required": true
+    },
+    "G5_AUTH_CLIENT_SECRET": {
+      "required": true
+    },
+    "G5_AUTH_ENDPOINT": {
+      "required": true
+    },
+    "G5_AUTH_REDIRECT_URI": {
+      "required": true
+    },
+    "HEROKU_AUTH_TOKEN": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "NEW_RELIC_API_KEY": {
+      "required": true
+    },
+    "PAGER_DUTY_API_KEY": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "REDIS_PROVIDER": {
+      "required": true
+    },
+    "REDIS_URL": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    }
+  },
+  "addons": [
+    "redistogo",
+    "scheduler",
+    "heroku-postgresql"
+  ]
+}
