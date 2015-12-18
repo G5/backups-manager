@@ -29,17 +29,16 @@ class PerformanceData
     $redis.set("pagerduty:oncall", oncall.to_json)
   end
 
-  def self.pagerduty_incidents
-    data = get_pagerduty_incidents("https://ey-g5search.pagerduty.com/api/v1/incidents")
-    incidents = data["incidents"].map do |inci|
-      {
-        incident_number: inci["incident_number"],
-        status: inci["status"],
-        created_at: inci["created_on"],
-        description: inci["trigger_summary_data"]["description"]
+  def self.pagerduty_incidents(params)
+    incident = params["performance_dashboard"]["messages"][0]
+    incident_info = incident["data"]["incident"]
+    incident_data = {
+        incident_number: incident_info["incident_number"],
+        status: incident_info["status"],
+        created_at: incident["created_on"],
+        description: incident_info["trigger_summary_data"]["subject"]
       }
-    end
-    $redis.set("pagerduty:incidents", incidents.to_json)
+    $redis.set("pagerduty:incidents", incident_data.to_json)
   end
 
   def self.get_new_relic_data(uri)

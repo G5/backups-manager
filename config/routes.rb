@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   mount G5Authenticatable::Engine => '/g5_auth'
   mount G5Ops::Engine => '/g5_ops'
   require 'resque/server'
@@ -26,5 +26,7 @@ Rails.application.routes.draw do
   post 'admin/batch_delete', to: 'admin#batch_delete'
   post 'admin/batch_spin_down', to: 'admin#batch_spin_down'
   post 'admin/batch_config', to: 'admin#batch_config'
+
+  post 'wrangler_hooks/performance_data', to: 'performance_dashboard#create'
 
 end
