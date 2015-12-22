@@ -10,6 +10,6 @@ class PerformanceDashboardController < ApplicationController
 
 
   def create
-    # binding.pry
+    PerformanceData.pagerduty_incidents(params)
   end
 end

@@ -1,0 +1,10 @@
+<h2>Incidents</h2>
+<% if !@incidents[:error_status] %>
+  <div class='comment-content'>
+    <%= content_tag :h1, "Incident #{@incidents[:data]["incident_number"]}" %>
+    <%= content_tag :p, @incidents[:data]["description"] %>
+    <%= content_tag :p, @incidents[:data]["created_at"], class: 'comment-detail' %>
+  </div>
+<% else %>
+  <%= content_tag :p, @incidents[:error_message] %>
+<% end %>
