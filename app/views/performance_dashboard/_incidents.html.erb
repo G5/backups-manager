@@ -9,6 +9,7 @@
       <h3>Details</h3>
       <%= content_tag :p, data["description"] %>
     </div>
+    <%= content_tag(:hr) if @incidents.length > 1 && @incidents.keys.last != key %>
   <% end %>
 <% else %>
   <%= content_tag :p, @incidents[:error_message] %>
