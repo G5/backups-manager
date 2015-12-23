@@ -4,9 +4,9 @@
   <section class='grid-item'>
     <%= render 'goat_duty' %>
   </section>
-  <section class='grid-item'>
+  <%= content_tag :section, class: 'grid-item', id: 'incidents', data: {url: '/performance_dashboard.js'} do %>
     <%= render 'incidents' %>
-  </section>
+  <% end %>
 </div>
 
 <div class="grid-items-lines middle-column">
