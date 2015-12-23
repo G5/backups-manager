@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_redis_data(key, error_message="Data is currently unavailable.")
-    if key == "pagerduty:incidents"
+    if key == "pagerduty:incidents" && $redis.keys.select { |key| key.include?("pagerduty:incidents") }.present?
       incident_keys = $redis.keys.select { |key| key.include?("pagerduty:incidents") }
       incidents = Hash[error_status: false]
       incident_keys.each do |pd_key|
