@@ -1,10 +1,15 @@
-<h2>Incidents</h2>
+<h2>Active and Resolved Incidents</h2>
 <% if !@incidents[:error_status] %>
-  <div class='comment-content'>
-    <%= content_tag :h1, "Incident #{@incidents[:data]["incident_number"]}" %>
-    <%= content_tag :p, @incidents[:data]["description"] %>
-    <%= content_tag :p, @incidents[:data]["created_at"], class: 'comment-detail' %>
-  </div>
+  <% @incidents.delete(:error_status) %>
+  <% @incidents.each do |key, data| %>
+    <div class='comment-content'>
+      <% created_at = DateTime.parse(data["created_at"]) %>
+      <%= content_tag :h1, "Incident #{data["incident_number"]}" %>
+      <%= content_tag :p, "#{data["status"].capitalize} #{distance_of_time_in_words(created_at, Time.now)} ago." %>
+      <h3>Details</h3>
+      <%= content_tag :p, data["description"] %>
+    </div>
+  <% end %>
 <% else %>
   <%= content_tag :p, @incidents[:error_message] %>
 <% end %>

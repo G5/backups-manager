@@ -29,7 +29,7 @@ class PerformanceData
     $redis.set("pagerduty:oncall", oncall.to_json)
   end
 
-  def self.pagerduty_incidents(params)
+  def self.create_pagerduty_incident(params)
     incident = params["performance_dashboard"]["messages"][0]
     incident_info = incident["data"]["incident"]
     incident_data = {
@@ -38,7 +38,7 @@ class PerformanceData
         created_at: incident["created_on"],
         description: incident_info["trigger_summary_data"]["subject"]
       }
-    $redis.set("pagerduty:incidents", incident_data.to_json)
+    $redis.setex("pagerduty:incidents:#{incident_info["incident_number"]}", 3600, incident_data.to_json)
   end
 
   def self.get_new_relic_data(uri)

@@ -17,7 +17,17 @@ class ApplicationController < ActionController::Base
   end
 
   def get_redis_data(key, error_message="Data is currently unavailable.")
-    ($redis.get(key) && JSON.parse($redis.get(key)).present?) ? Hash[data: JSON.parse($redis.get(key)), error_status: false] : Hash[error_status: true, error_message: error_message]
+    if key == "pagerduty:incidents"
+      incident_keys = $redis.keys.select { |key| key.include?("pagerduty:incidents") }
+      incidents = Hash[error_status: false]
+      incident_keys.each do |pd_key|
+        inci_hash = { "#{pd_key}" => JSON.parse($redis.get(pd_key)) }
+        incidents.merge!(inci_hash)
+      end
+      return incidents
+    else
+      ($redis.get(key) && JSON.parse($redis.get(key)).present?) ? Hash[data: JSON.parse($redis.get(key)), error_status: false] : Hash[error_status: true, error_message: error_message]
+    end
   end
 
   def get_g5ops_data(key)

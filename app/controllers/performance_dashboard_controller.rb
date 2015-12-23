@@ -10,6 +10,7 @@ class PerformanceDashboardController < ApplicationController
 
 
   def create
-    PerformanceData.pagerduty_incidents(params)
+    PerformanceData.create_pagerduty_incident(params)
+    render nothing: true
   end
 end
