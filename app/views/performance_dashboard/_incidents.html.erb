@@ -2,7 +2,7 @@
 <% if !@incidents[:error_status] %>
   <% @incidents.delete(:error_status) %>
   <% @incidents.each do |key, data| %>
-    <%= content_tag :div, class: 'comment-content', data: {id: data["incident_number"]} do %>
+    <%= content_tag :div, class: 'comment-content incident', data: {id: data["incident_number"]} do %>
       <% created_at = DateTime.parse(data["created_at"]) %>
       <%= content_tag :h1, "Incident #{data["incident_number"]}" %>
       <%= content_tag :p, "#{data["status"].capitalize} #{distance_of_time_in_words(created_at, Time.now)} ago." %>
