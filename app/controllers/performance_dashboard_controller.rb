@@ -7,6 +7,7 @@ class PerformanceDashboardController < ApplicationController
     @incidents = get_redis_data("pagerduty:incidents", "No Incidents at this time")
     #for real time incident hotness
     @new_incidents = new_incidents(@incidents, params["after"]) if params["after"]
+
     @unhealthy_apps = get_g5ops_data("g5ops:health")
 
     respond_to do |format|
