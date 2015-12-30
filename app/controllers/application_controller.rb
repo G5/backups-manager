@@ -17,8 +17,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_redis_data(key, error_message="Data is currently unavailable.")
-    if key == "pagerduty:incidents" && $redis.keys.select { |key| key.include?("pagerduty:incidents") }.present?
-      incident_keys = $redis.keys.select { |key| key.include?("pagerduty:incidents") }
+    if key == "pagerduty:incidents" && pagerduty_redis_incidents.present?
+      incident_keys = pagerduty_redis_incidents
       incidents = Hash[error_status: false]
       incident_keys.each do |pd_key|
         inci_hash = { "#{pd_key}" => JSON.parse($redis.get(pd_key)) }
@@ -41,5 +41,9 @@ class ApplicationController < ActionController::Base
       ops_health_hash[:error_message] =  "Data is currently unavailable."
       ops_health_hash[:unhealthy_apps] = get_redis_data(key)
     end
+  end
+
+  def pagerduty_redis_incidents
+    $redis.keys.select { |key| key.include?("pagerduty:incidents") }
   end
 end

@@ -66,20 +66,4 @@ class PerformanceData
       e.response
     end
   end
-
-  def self.get_pagerduty_incidents(uri)
-    begin
-      response = HTTPClient.
-        get(uri,
-            {"status"=>"triggered,acknowledged"},
-            {
-              "Content-type" => "application/json",
-              "Authorization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}"
-            }
-        )
-        JSON.parse response.body
-    rescue => e
-      e.response
-    end
-  end
 end

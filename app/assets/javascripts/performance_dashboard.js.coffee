@@ -7,9 +7,22 @@
   request: ->
     $.get($('#incidents').data('url'), after: @getIncidentAfterId())
 
-  addIncidents: (incidents) ->
+  updateIncidents: (incidents, expired_incidents) ->
     if incidents.length > 0
-      $('#incidents .incident').first().prepend($(incidents))
+      if $('#incidents .incident').length > 0
+        $('#incidents .incident').first().prepend($(incidents))
+      else
+        $('#incidents p').replaceWith($(incidents))
+    if expired_incidents.length > 0
+      debugger
+      incidents = $('.incident')
+      if incidents.length > 0
+        debugger
+        $.each incidents, (incident) ->
+          $.each expired_incidents, (dead) ->
+            debugger
+            if incident.hasClass(dead["incident_number"])
+              incident.remove()
     @poll()
 
   getIncidentAfterId: ->

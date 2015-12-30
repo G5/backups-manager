@@ -1,1 +1,1 @@
-IncidentPoller.addIncidents("<%= j render partial: 'real_time_incidents' %>")
+IncidentPoller.updateIncidents("<%= j render partial: 'real_time_incidents' %>", "<% expired_incidents(@incidents) %>")

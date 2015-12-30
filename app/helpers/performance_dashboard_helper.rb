@@ -31,4 +31,17 @@ module PerformanceDashboardHelper
     apps[:data].delete_if {|app| app.nil?}
     apps[:data].group_by {|app| app["name"].split("-")[1]}
   end
+
+  def expired_incidents(incidents)
+    living_incidents = $redis.keys.select { |key| key.include?("pagerduty:incidents") }
+    dead_incidents = []
+    living_incidents.each do |alive|
+      incidents.each do |i|
+        unless i[1]["incident_number"].to_s == alive.split(":")[2]
+          dead_incidents << i[1]["incident_number"]
+        end
+      end
+    end
+    dead_incidents
+  end
 end
