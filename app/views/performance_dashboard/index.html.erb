@@ -5,7 +5,12 @@
     <%= render 'goat_duty' %>
   </section>
   <%= content_tag :section, class: 'grid-item', id: 'incidents', data: {url: '/performance_dashboard.js'} do %>
-    <%= render 'incidents' %>
+    <h2>Active and Resolved Incidents</h2>
+    <% if !@incidents[:error_status] %>
+      <%= render 'incidents' %>
+    <% else %>
+      <%= content_tag :p, @incidents[:error_message] %>
+    <% end %>
   <% end %>
 </div>
 
