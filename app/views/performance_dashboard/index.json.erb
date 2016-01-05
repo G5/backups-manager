@@ -1,0 +1,10 @@
+<% inci_json = [] %>
+<% @incidents.each do |incident| %>
+    inci_json << {
+      "incident_number": "<%= incident[1] %>",
+      "status": "<%= %>",
+      "triggered_at": "<%=  %>",
+      "description": "<%=  %>"
+    }
+<% end %>
+<%= inci_json %>

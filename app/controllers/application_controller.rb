@@ -16,17 +16,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_redis_data(key, error_message="Data is currently unavailable.")
-    if key == "pagerduty:incidents" && pagerduty_redis_incidents.present?
-      incident_keys = pagerduty_redis_incidents
-      incidents = Hash[error_status: false]
-      incident_keys.each do |pd_key|
-        inci_hash = { "#{pd_key}" => JSON.parse($redis.get(pd_key)) }
-        incidents.merge!(inci_hash)
+  def get_redis_data(key, status_message="Data is currently unavailable.")
+    if key == "pagerduty:incidents"
+      if pagerduty_redis_incidents.present?
+        incident_keys = pagerduty_redis_incidents
+        incidents = Hash[status_message: false]
+        incident_keys.each do |pd_key|
+          inci_hash = { "#{pd_key}" => JSON.parse($redis.get(pd_key)) }
+          incidents.merge!(inci_hash)
+        end
+        return incidents
+      else
+        return Hash[status_message: "YeeHaw! No Incidents!"]
       end
-      return incidents
     else
-      ($redis.get(key) && JSON.parse($redis.get(key)).present?) ? Hash[data: JSON.parse($redis.get(key)), error_status: false] : Hash[error_status: true, error_message: error_message]
+      ($redis.get(key) && JSON.parse($redis.get(key)).present?) ? Hash[status_message: false, data: JSON.parse($redis.get(key))] : Hash[status_message: status_message]
     end
   end
 

@@ -1,7 +1,7 @@
 module PerformanceDashboardHelper
   def wrangle_unhealthy_apps(unhealthy_apps)
     markup = ""
-    if !unhealthy_apps[:error_status]
+    if !unhealthy_apps[:status_message]
       sorted_apps = sort_unhealthy_apps_by_type(unhealthy_apps)
       sorted_apps.each do |app|
         markup << %Q(<li><a href="javascript:void(0)" class="js-accordion-trigger">#{app[0].upcase} (#{app[1].count})</a><ul class="submenu"><li>)
@@ -22,7 +22,7 @@ module PerformanceDashboardHelper
         markup << %q(</li></ul></li>)
       end
     else
-      markup << content_tag(:p, unhealthy_apps[:error_message])
+      markup << content_tag(:p, unhealthy_apps[:status_message])
     end
     markup
   end

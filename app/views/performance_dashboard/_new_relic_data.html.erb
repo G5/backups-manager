@@ -1,6 +1,6 @@
 <h1 class="column-header">New Relic Statistics<br><span>Centralized or Critical</span></h1>
 <hr>
-<% if !@new_relic_data[:error_status] %>
+<% if !@new_relic_data[:status_message] %>
   <% @new_relic_data[:data].each do |app| %>
     <% if app %>
       <% status = app["health_status"] %>
@@ -15,5 +15,5 @@
     <% end %>
   <% end %>
 <% else %>
-  <%= @new_relic_data[:error_message] %>
+  <%= @new_relic_data[:status_message] %>
 <% end %>

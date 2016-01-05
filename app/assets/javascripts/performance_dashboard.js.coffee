@@ -8,7 +8,7 @@
     latestIncident = Math.max(incidentIds...)
     $.get($('#incidents').data('url'), after: latestIncident)
 
-  updateIncidents: (incidents, new_incidents, expired_incidents, callback) ->
+  updateIncidents: (incidents, new_incidents, expired_incidents) ->
     if new_incidents.length > 0
       if $('#incidents .incident').length > 0
         $('#incidents .incident').first().prepend($(new_incidents))

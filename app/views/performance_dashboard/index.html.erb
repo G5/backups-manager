@@ -6,10 +6,10 @@
   </section>
   <%= content_tag :section, class: 'grid-item', id: 'incidents', data: {url: '/performance_dashboard.js'} do %>
     <h2>Active and Resolved Incidents</h2>
-    <% if !@incidents[:error_status] %>
+    <% if !@incidents[:status_message] %>
       <%= render 'incidents' %>
     <% else %>
-      <%= content_tag :p, @incidents[:error_message] %>
+      <%= content_tag :p, @incidents[:status_message] %>
     <% end %>
   <% end %>
 </div>
