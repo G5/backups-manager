@@ -4,7 +4,7 @@
   <section class='grid-item'>
     <%= render 'goat_duty' %>
   </section>
-  <%= content_tag :section, class: 'grid-item', id: 'incidents', data: {url: '/performance_dashboard.js'} do %>
+  <%= content_tag :section, class: 'grid-item', id: 'incidents', data: {url: '/performance_dashboard.json'} do %>
     <h2>Active and Resolved Incidents</h2>
     <% if !@incidents[:status_message] %>
       <%= render 'incidents' %>

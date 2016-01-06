@@ -1,6 +1,7 @@
 @IncidentPoller =
   poll: ->
     setTimeout @request, 10000
+    @updateIncidents()
 
   request: ->
     incidentIds = $('#incidents .incident').map (idx, elem)->
@@ -8,7 +9,7 @@
     latestIncident = Math.max(incidentIds...)
     $.get($('#incidents').data('url'), after: latestIncident)
 
-  updateIncidents: (incidents, new_incidents, expired_incidents) ->
+  updateIncidents: ->
     if new_incidents.length > 0
       if $('#incidents .incident').length > 0
         $('#incidents .incident').first().prepend($(new_incidents))

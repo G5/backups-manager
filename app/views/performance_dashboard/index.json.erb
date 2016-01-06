@@ -1,10 +1,16 @@
 <% inci_json = [] %>
-<% @incidents.each do |incident| %>
-    inci_json << {
-      "incident_number": "<%= incident[1] %>",
-      "status": "<%= %>",
-      "triggered_at": "<%=  %>",
-      "description": "<%=  %>"
-    }
+<% unless @incidents[:status_message] %>
+  <% @incidents.each do |key, data| %>
+    <% unless key == :status_message %>
+      <% inci_json << {
+        incident_number: data["incident_number"],
+        status: data["status"],
+        triggered_at: data["created_at"],
+        description: data["description"]
+      } %>
+    <% end %>
+  <% end %>
+<% else %>
+  <% inci_json << {status_message:  @incidents[:status_message]} %>
 <% end %>
-<%= inci_json %>
+<%= inci_json.to_json.html_safe %>
