@@ -4,8 +4,9 @@
   <section class='grid-item'>
     <%= render 'goat_duty' %>
   </section>
+  <h2>Active and Resolved Incidents</h2>
   <%= content_tag :section, class: 'grid-item', id: 'incidents', data: {url: '/performance_dashboard.json'} do %>
-    <h2>Active and Resolved Incidents</h2>
+    <%= image_tag("ajax_loader.gif", class: 'loader') %>
     <% if !@incidents[:status_message] %>
       <%= render 'incidents' %>
     <% else %>
