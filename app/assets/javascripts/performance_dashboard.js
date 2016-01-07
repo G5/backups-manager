@@ -12,6 +12,11 @@
       })
         .done(function( data ) {
           $('.loader').hide();
+          if (data['status_message']) {
+            $('#incidents').html(data['status_message']);
+          } else {
+            $('#incidents').html(data['html']);
+          }
           poller.poll();
         });
     }
