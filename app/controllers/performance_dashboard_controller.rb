@@ -19,4 +19,41 @@ class PerformanceDashboardController < ApplicationController
     PerformanceData.create_pagerduty_incident(params)
     render nothing: true
   end
+
+  private
+
+  def get_redis_data(key, status_message="Data is currently unavailable.")
+    if key == "pagerduty:incidents"
+      if pagerduty_redis_incidents.present?
+        incident_keys = pagerduty_redis_incidents.reverse
+        incidents = Hash[status_message: false]
+        incident_keys.each do |pd_key|
+          inci_hash = { "#{pd_key}" => JSON.parse($redis.get(pd_key)) }
+          incidents.merge!(inci_hash)
+        end
+        return incidents
+      else
+        return Hash[status_message: "YeeHaw! No Incidents!"]
+      end
+    else
+      ($redis.get(key) && JSON.parse($redis.get(key)).present?) ? Hash[status_message: false, data: JSON.parse($redis.get(key))] : Hash[status_message: status_message]
+    end
+  end
+
+  def get_g5ops_data(key)
+    ops_health_hash = {}
+    if get_redis_data(key).is_a?(Array)
+      ops_health_hash[:unhealthy_apps] = get_redis_data(key)
+      ops_health_hash[:unhealthy_apps_count] = ops_health_hash[:unhealthy_apps].count
+      ops_health_hash[:error_status] = false
+    else
+      ops_health_hash[:error_status] = true
+      ops_health_hash[:error_message] =  "Data is currently unavailable."
+      ops_health_hash[:unhealthy_apps] = get_redis_data(key)
+    end
+  end
+
+  def pagerduty_redis_incidents
+    $redis.keys.select { |key| key.include?("pagerduty:incidents") }
+  end
 end
