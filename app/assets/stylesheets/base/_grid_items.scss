@@ -38,6 +38,20 @@
     }
   }
 
+  #incident-wrapper {
+    position:relative;
+    img.loader {
+      position:absolute;
+      left:43%;
+      top:117px;
+      z-index:1;
+      display:none;
+    }
+    section.incident-wrapper {
+      min-height:100px;
+    }
+  }
+
   .grid-item {
     position:relative;
     @include transition (all 0.2s ease-in-out);

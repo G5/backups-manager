@@ -38,10 +38,6 @@ hr {
   @include pad(14px 18px);
 }
 
-img.loader {
-  display:none;
-}
-
 .app-card{
   @include span-columns(12 of 12);
   background-color: $color3;

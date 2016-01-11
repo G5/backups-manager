@@ -36,14 +36,5 @@ describe PerformanceDashboardWorker do
         expect(JSON.parse($redis.get("pagerduty:oncall"))[0]["end_date_time"]).to eq(oncall_parsed_response["escalation_policies"][0]["on_call"].first["end"])
       end
     end
-    context "when getting PagerDuty incident data" do
-      it "sets the appropriate redis keys and values" do
-        PerformanceDashboardWorker.perform_async
-        incident_parsed_response = JSON.parse pagerduty_incidents_response.to_json
-        expect(JSON.parse($redis.get("pagerduty:incidents"))[0]["status"]).to eq(incident_parsed_response["incidents"].first["status"])
-        expect(JSON.parse($redis.get("pagerduty:incidents"))[0]["created_at"]).to eq(incident_parsed_response["incidents"].first["created_on"])
-        expect(JSON.parse($redis.get("pagerduty:incidents"))[0]["description"]).to eq(incident_parsed_response["incidents"].first["trigger_summary_data"]["description"])
-      end
-    end
   end
 end

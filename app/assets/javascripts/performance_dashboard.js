@@ -11,7 +11,7 @@
         }
       })
         .done(function( data ) {
-          $('.loader').hide();
+          setTimeout(function() {$('.loader').hide();}, 3000);
           if (data['status_message']) {
             $('#incidents').html(data['status_message']);
           } else {
