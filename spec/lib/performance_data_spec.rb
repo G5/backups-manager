@@ -19,10 +19,4 @@ describe PerformanceData do
       end
     end
   end
-
-  describe "Real-time Pagerduty incidents" do
-    context "gets current incidents" do
-      it "renders current incidents starting with most recent"
-    end
-  end
 end

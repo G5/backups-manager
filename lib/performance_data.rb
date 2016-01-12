@@ -30,15 +30,16 @@ class PerformanceData
   end
 
   def self.create_pagerduty_incident(params)
-    incident = params["performance_dashboard"]["messages"][0]
-    incident_info = incident["data"]["incident"]
-    incident_data = {
-        incident_number: incident_info["incident_number"],
-        status: incident_info["status"],
-        created_at: incident["created_on"],
-        description: incident_info["trigger_summary_data"]["subject"]
-      }
-    $redis.setex("pagerduty:incidents:#{incident_info["incident_number"]}", 3600, incident_data.to_json)
+    params["messages"].each do |incident|
+      incident_info = incident["data"]["incident"]
+      incident_data = {
+          incident_number: incident_info["incident_number"],
+          status: incident_info["status"],
+          created_at: incident["created_on"],
+          description: incident_info["trigger_summary_data"]["subject"]
+        }
+      $redis.setex("pagerduty:incidents:#{incident_info["incident_number"]}", 3600, incident_data.to_json)
+    end
   end
 
   def self.get_new_relic_data(uri)

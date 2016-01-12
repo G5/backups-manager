@@ -192,147 +192,6 @@ def fake_pagerduty_oncall
   }
 end
 
-def fake_pagerduty_incidents
-  {
-    "incidents": [
-      {
-        "incident_number": 1,
-        "created_on": "2012-09-11T22:49:21Z",
-        "status": "triggered",
-        "html_url": "https://acme.pagerduty.com/incidents/P2A6J96",
-        "incident_key": nil,
-        "pending_actions": [
-          {
-            "type": "escalate",
-            "at": "2012-09-11T22:59:21Z"
-          }
-        ],
-        "service": {
-          "id": "PBF77WY",
-          "name": "Generic Api",
-          "description": "Description for Generic Api Service.",
-          "html_url": "https://acme.pagerduty.com/services/PBF77WY"
-        },
-        "assigned_to_user": {
-          "id": "PEO3O45",
-          "name": "John",
-          "email": "john@acme.com",
-          "html_url": "https://acme.pagerduty.com/users/PEO3O45"
-        },
-        "assigned_to": [
-          {
-            "at": "2012-09-11T22:49:21Z",
-            "object": {
-              "id": "PEO3O45",
-              "name": "John",
-              "email": "john@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PEO3O45",
-              "type": "us"
-            }
-          }
-        ],
-        "trigger_summary_data": {
-          "subject": "Opened on the web ui"
-        },
-        "trigger_details_html_url": "https://acme.pagerduty.com/incidents/P2A6J96/log_entries/P2NQP6P",
-        "last_status_change_on": "2012-09-11T22:49:21Z",
-        "last_status_change_by": nil,
-        "urgency": "high"
-      },
-      {
-        "incident_number": 3,
-        "created_on": "2012-09-11T22:54:08Z",
-        "status": "acknowledged",
-        "html_url": "https://acme.pagerduty.com/incidents/PBXG6JS",
-        "incident_key": "=?UTF-8?B?SnVzdCBhbiBlbWFpbCBmcm9tIOWvjOWjq+WxsSBhbmQg8J2EnvCdlaXwnZ+2IPCggoo=?=",
-        "pending_actions": [
-          {
-            "type": "unacknowledge",
-            "at": "2012-09-12T00:25:49Z"
-          }
-        ],
-        "service": {
-          "id": "PFRV88L",
-          "name": "Generic Email",
-          "description": "Description for Generic Email Service.",
-          "html_url": "https://acme.pagerduty.com/services/PFRV88L"
-        },
-        "assigned_to_user": {
-          "id": "PEO3O45",
-          "name": "John",
-          "email": "john@acme.com",
-          "html_url": "https://acme.pagerduty.com/users/PEO3O45"
-        },
-        "assigned_to": [
-          {
-            "at": "2012-09-11T22:54:08Z",
-            "object": {
-              "id": "PEO3O45",
-              "name": "John",
-              "email": "john@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PEO3O45",
-              "type": "user"
-            }
-          },
-          {
-            "at": "2012-09-11T22:54:08Z",
-            "object": {
-              "id": "PMI6007",
-              "name": "James",
-              "email": "james@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PMI6007",
-              "type": "user"
-            }
-          }
-        ],
-        "acknowledgers": [
-          {
-            "at": "2012-09-11T22:55:01Z",
-            "object": {
-              "id": "PMI6007",
-              "name": "James",
-              "email": "james@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PMI6007",
-              "type": "user"
-            }
-          },
-          {
-            "at": "2012-09-11T22:55:32Z",
-            "object": {
-              "type": "api"
-            }
-          },
-          {
-            "at": "2012-09-11T23:25:49Z",
-            "object": {
-              "id": "PMI6007",
-              "name": "James",
-              "email": "james@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PMI6007",
-              "type": "user"
-            }
-          }
-        ],
-        "trigger_summary_data": {
-          "subject": "Just an email from 富士山 and 𝄞𝕥𝟶 𠂊"
-        },
-        "trigger_details_html_url": "https://acme.pagerduty.com/incidents/PBXG6JS/log_entries/P30IVAT",
-        "last_status_change_on": "2012-09-11T22:55:01Z",
-        "last_status_change_by": {
-          "id": "PMI6007",
-          "name": "James",
-          "email": "james@acme.com",
-          "html_url": "https://acme.pagerduty.com/users/PMI6007"
-        },
-        "urgency": "high"
-      }
-    ],
-    "limit": 100,
-    "offset": 0,
-    "total": 2
-  }
-end
-
 def unhealthy_app_response
   {
     "version": "2.4.5",
@@ -463,4 +322,81 @@ end
 
 def g5_ops_health_request(url, fake_response)
   stub_request(:get, url).to_return(:status => 200, :body => fake_response.to_json)
+end
+
+def pagerduty_incident_webhook
+  {
+    "messages": [
+      {
+        "id": "bb8b8fe0-e8d5-11e2-9c1e-22000afd16cf",
+        "created_on": "2013-07-09T20:25:44Z",
+        "type": "incident.trigger",
+        "data": {
+          "incident": {
+            "id": "PIJ90N7",
+            "incident_number": 1,
+            "created_on": "2013-07-09T20:25:44Z",
+            "status": "triggered",
+            "html_url": "https://acme.pagerduty.com/incidents/PIJ90N7",
+            "incident_key": "null",
+            "service": {
+              "id": "PBAZLIU",
+              "name": "service",
+              "html_url": "https://acme.pagerduty.com/services/PBAZLIU"
+            },
+            "assigned_to_user": {
+              "id": "PPI9KUT",
+              "name": "Alan Kay",
+              "email": "alan@pagerduty.com",
+              "html_url": "https://acme.pagerduty.com/users/PPI9KUT"
+            },
+            "trigger_summary_data": {
+              "subject": "45645"
+            },
+            "trigger_details_html_url": "https://acme.pagerduty.com/incidents/PIJ90N7/log_entries/PIJ90N7",
+            "last_status_change_on": "2013-07-09T20:25:44Z",
+            "last_status_change_by": "null"
+          }
+        }
+      },
+      {
+        "id": "8a1d6420-e9c4-11e2-b33e-f23c91699516",
+        "created_on": "2013-07-09T20:25:45Z",
+        "type": "incident.resolve",
+        "data": {
+          "incident": {
+            "id": "PIJ90N7",
+            "incident_number": 2,
+            "created_on": "2013-07-09T20:25:44Z",
+            "status": "resolved",
+            "html_url": "https://acme.pagerduty.com/incidents/PIJ90N7",
+            "incident_key": "null",
+            "service": {
+              "id": "PBAZLIU",
+              "name": "service",
+              "html_url": "https://acme.pagerduty.com/services/PBAZLIU"
+            },
+            "assigned_to_user": "null",
+            "resolved_by_user": {
+              "id": "PPI9KUT",
+              "name": "Alan Kay",
+              "email": "alan@pagerduty.com",
+              "html_url": "https://acme.pagerduty.com/users/PPI9KUT"
+            },
+            "trigger_summary_data": {
+              "subject": "45645"
+            },
+            "trigger_details_html_url": "https://acme.pagerduty.com/incidents/PIJ90N7/log_entries/PIJ90N7",
+            "last_status_change_on": "2013-07-09T20:25:45Z",
+            "last_status_change_by": {
+              "id": "PPI9KUT",
+              "name": "Alan Kay",
+              "email": "alan@pagerduty.com",
+              "html_url": "https://acme.pagerduty.com/users/PPI9KUT"
+            }
+          }
+        }
+      }
+    ]
+  }
 end
