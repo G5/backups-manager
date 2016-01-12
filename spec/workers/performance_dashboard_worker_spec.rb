@@ -7,8 +7,8 @@ describe PerformanceDashboardWorker do
     before do
       new_relic_get_request("https://api.newrelic.com/v2/applications.json")
       pagerduty_get_request("https://ey-g5search.pagerduty.com/api/v1/escalation_policies/on_call", pagerduty_oncall_response)
-      pagerduty_get_request("https://ey-g5search.pagerduty.com/api/v1/incidents?status=triggered,acknowledged", pagerduty_incidents_response)
     end
+    
     context "when getting New Relic data" do
       it "sets the appropriate redis keys and values" do
         PerformanceDashboardWorker.perform_async
