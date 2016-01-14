@@ -6,18 +6,16 @@ module PerformanceDashboardHelper
       sorted_apps.each do |app|
         markup << %Q(<li><a href="javascript:void(0)" class="js-accordion-trigger">#{app[0].upcase} (#{app[1].count})</a><ul class="submenu"><li>)
         app[1].each do |data|
-          if data.is_a?(Hash)
-            markup << %q(<div class='tooltip-item'>)
-            markup << data["name"] ? !data["name"].nil? : "App With No Name"
-            markup << %q(<div class='tooltip'>)
-            data["health"].each do |vital, sign|
-              if sign["is_healthy"] == false
-                markup << %Q(<h6>#{vital.upcase}: </h6>) unless vital == "OVERALL"
-                markup << %Q(<p>#{sign["message"]}</p>)
-              end
+          markup << %q(<div class='tooltip-item'>)
+          markup << data["name"] ? !data["name"].nil? : "App With No Name"
+          markup << %q(<div class='tooltip'>)
+          data["health"].each do |vital, sign|
+            if sign["is_healthy"] == false
+              markup << %Q(<h6>#{vital.upcase}: </h6>) unless vital == "OVERALL"
+              markup << %Q(<p>#{sign["message"]}</p>)
             end
-            markup << %q(</div></div>)
           end
+          markup << %q(</div></div>)
         end
         markup << %q(</li></ul></li>)
       end
@@ -28,7 +26,7 @@ module PerformanceDashboardHelper
   end
 
   def sort_unhealthy_apps_by_type(apps)
-    apps[:data].delete_if {|app| app.nil?}
-    apps[:data].group_by {|app| app["name"].split("-")[1]}
+    apps[:unhealthy_apps][:data].compact!
+    apps[:unhealthy_apps][:data].group_by {|app| app["name"].split("-")[1]}
   end
 end

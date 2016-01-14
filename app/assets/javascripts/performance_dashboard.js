@@ -1,6 +1,6 @@
 (function( poller, $, undefined ) {
     poller.poll = function() {
-      setTimeout(this.updateIncidents, 10000);
+      setTimeout(this.updateIncidents, 30000);
     },
 
     poller.updateIncidents = function() {

@@ -42,15 +42,15 @@ class PerformanceDashboardController < ApplicationController
 
   def get_g5ops_data(key)
     ops_health_hash = {}
-    if get_redis_data(key).is_a?(Array)
+    if get_redis_data(key)
       ops_health_hash[:unhealthy_apps] = get_redis_data(key)
-      ops_health_hash[:unhealthy_apps_count] = ops_health_hash[:unhealthy_apps].count
+      ops_health_hash[:unhealthy_apps_count] = ops_health_hash[:unhealthy_apps][:data].compact.count
       ops_health_hash[:error_status] = false
     else
       ops_health_hash[:error_status] = true
-      ops_health_hash[:error_message] =  "Data is currently unavailable."
-      ops_health_hash[:unhealthy_apps] = get_redis_data(key)
+      ops_health_hash[:status_message] =  "Data is currently unavailable."
     end
+    ops_health_hash
   end
 
   def pagerduty_redis_incidents
