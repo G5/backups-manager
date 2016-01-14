@@ -1,4 +1,4 @@
-$(document).on 'page:load', ->
+$(document).on 'ready page:load', ->
  $('.js-accordion-trigger').bind 'click', (e) ->
   jQuery(this).parent().find('.submenu').slideToggle 'fast'
   jQuery(this).parent().toggleClass 'is-expanded'

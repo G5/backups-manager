@@ -1,6 +1,4 @@
-$(document).ready ->
-  cmsReady()
-$(document).on 'page:load', ->
+$(document).on 'ready page:load', ->
   cmsReady()
 
 cmsReady = ->
