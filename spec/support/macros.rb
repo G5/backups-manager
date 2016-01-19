@@ -235,37 +235,40 @@ def healthy_app_response
 end
 
 def unhealthy_unsorted_apps
-  {:data => [{"name"=>"g5-cls-unhealthy-app1",
-    "health"=>
-    {"database"=>{"is_healthy"=>true, "message"=>""},
-    "redis"=>{"is_healthy"=>true, "message"=>"PONG"},
-    "reputation"=>
-    {"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
-    "cxm"=>{"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
-    "core"=>{"is_healthy"=>true, "message"=>""},
-    "hub"=>
-    {"is_healthy"=>false, "message"=>"undefined method `all' for #<G5HubApi::NotificationService:0x007fb85f11da40>"},
-    "OVERALL"=>{"is_healthy"=>false, "message"=>""}}},
-    {"name"=>"g5-cls-unhealthy-app2",
+  {:unhealthy_apps =>
+    {:data => [{"name"=>"g5-cls-unhealthy-app1",
       "health"=>
-      {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 332"},
-      "Failed Leads Last 7 days"=>{"is_healthy"=>false, "message"=>"Failed leads: 18"},
-      "Last Html Form Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:41:54 -0800"},
-      "Last Voicestar Call Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:43:43 -0800"},
-      "Call Tracking"=>{"is_healthy"=>true, "message"=>"No backfilled calls"},
-      "Core Store location_urn Existence"=>{"is_healthy"=>true, "message"=>"No Stores lacking a location_urn"},
-      "database"=>{"is_healthy"=>true, "message"=>""},
+      {"database"=>{"is_healthy"=>true, "message"=>""},
+      "redis"=>{"is_healthy"=>true, "message"=>"PONG"},
+      "reputation"=>
+      {"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
+      "cxm"=>{"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
+      "core"=>{"is_healthy"=>true, "message"=>""},
+      "hub"=>
+      {"is_healthy"=>false, "message"=>"undefined method `all' for #<G5HubApi::NotificationService:0x007fb85f11da40>"},
       "OVERALL"=>{"is_healthy"=>false, "message"=>""}}},
-      {"name"=>"g5-cms-unhealthy-app",
+      {"name"=>"g5-cls-unhealthy-app2",
         "health"=>
-        {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 0"},
-        "Failed Leads Last 7 days"=>{"is_healthy"=>true, "message"=>"No failed leads"},
-        "Last Html Form Lead"=>{"is_healthy"=>false, "message"=>"No HtmlFormPayload leads found"},
-        "Last Voicestar Call Lead"=>{"is_healthy"=>false, "message"=>"No VoicestarCallPayload leads found"},
+        {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 332"},
+        "Failed Leads Last 7 days"=>{"is_healthy"=>false, "message"=>"Failed leads: 18"},
+        "Last Html Form Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:41:54 -0800"},
+        "Last Voicestar Call Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:43:43 -0800"},
         "Call Tracking"=>{"is_healthy"=>true, "message"=>"No backfilled calls"},
         "Core Store location_urn Existence"=>{"is_healthy"=>true, "message"=>"No Stores lacking a location_urn"},
         "database"=>{"is_healthy"=>true, "message"=>""},
-        "OVERALL"=>{"is_healthy"=>false, "message"=>""}}}]}
+        "OVERALL"=>{"is_healthy"=>false, "message"=>""}}},
+        {"name"=>"g5-cms-unhealthy-app",
+          "health"=>
+          {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 0"},
+          "Failed Leads Last 7 days"=>{"is_healthy"=>true, "message"=>"No failed leads"},
+          "Last Html Form Lead"=>{"is_healthy"=>false, "message"=>"No HtmlFormPayload leads found"},
+          "Last Voicestar Call Lead"=>{"is_healthy"=>false, "message"=>"No VoicestarCallPayload leads found"},
+          "Call Tracking"=>{"is_healthy"=>true, "message"=>"No backfilled calls"},
+          "Core Store location_urn Existence"=>{"is_healthy"=>true, "message"=>"No Stores lacking a location_urn"},
+          "database"=>{"is_healthy"=>true, "message"=>""},
+          "OVERALL"=>{"is_healthy"=>false, "message"=>""}}}]}
+  }
+
 end
 
 def sorted_unhealthy_apps

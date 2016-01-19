@@ -5,7 +5,6 @@ class PerformanceDashboardController < ApplicationController
     @new_relic_data = get_redis_data("newrelic:data")
     @goat = get_redis_data("pagerduty:oncall")
     @incidents = get_pagerduty_incidents("pagerduty:incidents")
-
     @unhealthy_apps = get_g5ops_data("g5ops:health")
 
     respond_to do |format|
@@ -47,8 +46,8 @@ class PerformanceDashboardController < ApplicationController
       ops_health_hash[:unhealthy_apps_count] = ops_health_hash[:unhealthy_apps][:data].compact.count
       ops_health_hash[:error_status] = false
     else
-      ops_health_hash[:error_status] = true
-      ops_health_hash[:status_message] =  "Data is currently unavailable."
+      ops_health_hash[:unhealthy_apps][:error_status] = true
+      ops_health_hash[:unhealthy_apps][:status_message] =  "Data is currently unavailable."
     end
     ops_health_hash
   end
