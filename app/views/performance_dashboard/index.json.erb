@@ -1,7 +1,7 @@
 <% data = "" %>
 <% if @incidents[:status_message] %>
     <% data = {
-      'status_message': "<p>#{@incidents[:status_message]}</p>"
+      'html': "<p>#{@incidents[:status_message]}</p>"
     } %>
 <% else %>
     <% data = {

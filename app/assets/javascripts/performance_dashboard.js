@@ -12,11 +12,7 @@
       })
         .done(function( data ) {
           setTimeout(function() {$('.loader').hide();}, 3000);
-          if (data['status_message']) {
-            $('#incidents').html(data['status_message']);
-          } else {
-            $('#incidents').html(data['html']);
-          }
+          $('#incidents').html(data['html']);
           poller.poll();
         });
     }
