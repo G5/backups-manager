@@ -8,10 +8,11 @@
     <h2>Active and Resolved Incidents</h2>
     <%= image_tag("ajax_loader.gif", class: 'loader') %>
     <%= content_tag :section, class: 'grid-item incident-wrapper', id: 'incidents', data: {url: '/performance_dashboard.json'} do %>
-      <% logger.info "**************************#{@incidents}***************************************" %>
       <% if !@incidents[:status_message] %>
+      <% logger.info "**************************#{@incidents}***************************************" %>
         <%= render 'incidents' %>
       <% else %>
+      <% logger.info "**************************#{@incidents} in else ***************************************" %>
         <%= content_tag :p, @incidents[:status_message] %>
       <% end %>
     <% end %>
