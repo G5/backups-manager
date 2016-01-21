@@ -1,0 +1,17 @@
+<h1 class="column-header">Top <%= app_cost_array.count %><br></h1>
+<table class="table-minimal">
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% app_cost_array.each do |app| %>
+      <tr>
+        <td><%= app[0] %></td>
+        <td><%= "$#{app[1]}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

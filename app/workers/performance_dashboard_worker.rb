@@ -5,7 +5,6 @@ class PerformanceDashboardWorker
   def perform
     PerformanceData.new_relic_data
     PerformanceData.pagerduty_oncall
-    PerformanceData.pagerduty_incidents
   end
 
 end

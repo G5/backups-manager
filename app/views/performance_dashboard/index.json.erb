@@ -1,0 +1,11 @@
+<% data = "" %>
+<% if @incidents[:status_message] %>
+    <% data = {
+      'html': "<p>#{@incidents[:status_message]}</p>"
+    } %>
+<% else %>
+    <% data = {
+      'html': "#{(render partial: 'incidents.html')}"
+    } %>
+<% end %>
+<%= data.to_json.html_safe %>

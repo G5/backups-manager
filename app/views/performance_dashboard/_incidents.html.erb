@@ -1,0 +1,12 @@
+<% @incidents.each do |key, data| %>
+  <% unless key == :status_message %>
+    <%= content_tag :div, class: "comment-content incident #{data["incident_number"]}", data: {id: data["incident_number"]} do %>
+      <% created_at = DateTime.parse(data["created_at"]) %>
+      <%= content_tag :h1, "Incident #{data["incident_number"]}" %>
+      <%= content_tag :p, "#{data["status"].capitalize} #{distance_of_time_in_words(created_at, Time.now)} ago." %>
+      <h3>Details</h3>
+      <%= content_tag :p, data["description"] %>
+    <% end %>
+    <%= content_tag(:hr) if @incidents.length > 1 && @incidents.keys.last != key %>
+  <% end %>
+<% end if @incidents.count >= 1 %>

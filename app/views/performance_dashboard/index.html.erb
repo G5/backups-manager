@@ -2,80 +2,35 @@
   <h1 class="column-header">Pager Duty<br><span>Goat and Open Incidents</span></h1>
   <hr>
   <section class='grid-item'>
-    <div class="stats">
-      <% if !@goat[:error_status] %>
-        <% @goat[:data].each do |goat| %>
-          <% unless goat["level"] > 2 %>
-            <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
-          <% end %>
-        <% end %>
+    <%= render 'goat_duty' %>
+  </section>
+  <div id="incident-wrapper">
+    <h2>Active and Resolved Incidents</h2>
+    <%= image_tag("ajax_loader.gif", class: 'loader') %>
+    <%= content_tag :section, class: 'grid-item incident-wrapper', id: 'incidents', data: {url: '/performance_dashboard.json'} do %>
+      <% if !@incidents[:status_message] %>
+        <%= render 'incidents' %>
       <% else %>
-        <%= @goat[:error_status] %>
+        <%= content_tag :p, @incidents[:status_message] %>
       <% end %>
-    </div>
-  </section>
-  <section class='grid-item'>
-    <h2>Incidents</h2>
-    <% if !@incidents[:error_status] %>
-      <% @incidents[:data].each do |inci| %>
-        <div class='comment-content'>
-          <%= content_tag :h1, "Incident #{inci["incident_number"]}" %>
-          <%= content_tag :p, inci["description"] %>
-          <%= content_tag :p, inci["created_at"], class: 'comment-detail' %>
-        </div>
-      <% end %>
-    <% else %>
-      <%= content_tag :p, @incidents[:error_message] %>
     <% end %>
-  </section>
+  </div>
 </div>
 
 <div class="grid-items-lines middle-column">
-  <h1 class="column-header">New Relic Statistics<br><span>Centralized or Critical</span></h1>
-  <hr>
-  <% if !@new_relic_data[:error_status] %>
-    <% @new_relic_data[:data].each do |app| %>
-      <% if app %>
-        <% status = app["health_status"] %>
-        <%= link_to "https://rpm.newrelic.com/accounts/5591/applications/#{app["id"]}", target: 'blank', class: "grid-item #{status}" do %>
-          <%= content_tag :h1, app["name"] %>
-          <div class="stats">
-            <%= content_tag :li, "#{app["response_time"]} ms<span>Response Time</span>".html_safe %>
-            <%= content_tag :li, "#{app["apdex_score"]}<span>Apdex</span>".html_safe %>
-            <%= content_tag :li, "#{app["error_rate"]}%<span>Error Rate</span>".html_safe %>
-          </div>
-        <% end %>
-      <% end %>
-    <% end %>
-  <% else %>
-    <%= @new_relic_data[:error_message] %>
-  <% end %>
+  <%= render 'new_relic_data' %>
 </div>
 
 <div class="grid-items-lines left-column">
   <% orgs = Organization.all %>
   <% app_cost_array = Organization.sort_cost_descending(orgs).take(5) %>
-  <h1 class="column-header">Top <%= app_cost_array.count %><br></h1>
-    <table class="table-minimal">
-      <thead>
-        <tr>
-          <th>Organization</th>
-          <th>Cost</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% app_cost_array.each do |app| %>
-          <tr>
-            <td><%= app[0] %></td>
-            <td><%= "$#{app[1]}" %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <%= render 'org_cost_table', app_cost_array: app_cost_array %>
   <hr>
+
   <h1 class="column-header">G5 Ops Health<br><span>Unhealthy Applications Total: <%= @unhealthy_apps[:unhealthy_apps_count] %></span></h1>
   <ul class="accordion">
     <%= wrangle_unhealthy_apps(@unhealthy_apps).html_safe %>
   </ul>
 </div>
+
 <%= link_to "Home", root_path, class: 'btn' %>

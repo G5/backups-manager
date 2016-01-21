@@ -1,0 +1,11 @@
+<div class="stats">
+  <% if !@goat[:status_message] %>
+    <% @goat[:data].each do |goat| %>
+      <% unless goat["level"] > 2 %>
+        <%= content_tag :li, "#{goat["user"]}<span>Level #{goat["level"]}</span>".html_safe %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= @goat[:status_message] %>
+  <% end %>
+</div>

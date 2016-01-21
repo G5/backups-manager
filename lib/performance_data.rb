@@ -29,17 +29,17 @@ class PerformanceData
     $redis.set("pagerduty:oncall", oncall.to_json)
   end
 
-  def self.pagerduty_incidents
-    data = get_pagerduty_incidents("https://ey-g5search.pagerduty.com/api/v1/incidents")
-    incidents = data["incidents"].map do |inci|
-      {
-        incident_number: inci["incident_number"],
-        status: inci["status"],
-        created_at: inci["created_on"],
-        description: inci["trigger_summary_data"]["description"]
-      }
+  def self.create_pagerduty_incident(params)
+    params["messages"].each do |incident|
+      incident_info = incident["data"]["incident"]
+      incident_data = {
+          incident_number: incident_info["incident_number"],
+          status: incident_info["status"],
+          created_at: incident["created_on"],
+          description: incident_info["trigger_summary_data"]["subject"]
+        }
+      $redis.setex("pagerduty:incidents:#{incident_info["incident_number"]}", 3600, incident_data.to_json)
     end
-    $redis.set("pagerduty:incidents", incidents.to_json)
   end
 
   def self.get_new_relic_data(uri)
@@ -57,22 +57,6 @@ class PerformanceData
       response = HTTPClient.
         get(uri,
             nil,
-            {
-              "Content-type" => "application/json",
-              "Authorization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}"
-            }
-        )
-        JSON.parse response.body
-    rescue => e
-      e.response
-    end
-  end
-
-  def self.get_pagerduty_incidents(uri)
-    begin
-      response = HTTPClient.
-        get(uri,
-            {"status"=>"triggered,acknowledged"},
             {
               "Content-type" => "application/json",
               "Authorization" => "Token token=#{ENV['PAGER_DUTY_API_KEY']}"

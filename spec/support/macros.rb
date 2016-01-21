@@ -192,147 +192,6 @@ def fake_pagerduty_oncall
   }
 end
 
-def fake_pagerduty_incidents
-  {
-    "incidents": [
-      {
-        "incident_number": 1,
-        "created_on": "2012-09-11T22:49:21Z",
-        "status": "triggered",
-        "html_url": "https://acme.pagerduty.com/incidents/P2A6J96",
-        "incident_key": nil,
-        "pending_actions": [
-          {
-            "type": "escalate",
-            "at": "2012-09-11T22:59:21Z"
-          }
-        ],
-        "service": {
-          "id": "PBF77WY",
-          "name": "Generic Api",
-          "description": "Description for Generic Api Service.",
-          "html_url": "https://acme.pagerduty.com/services/PBF77WY"
-        },
-        "assigned_to_user": {
-          "id": "PEO3O45",
-          "name": "John",
-          "email": "john@acme.com",
-          "html_url": "https://acme.pagerduty.com/users/PEO3O45"
-        },
-        "assigned_to": [
-          {
-            "at": "2012-09-11T22:49:21Z",
-            "object": {
-              "id": "PEO3O45",
-              "name": "John",
-              "email": "john@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PEO3O45",
-              "type": "us"
-            }
-          }
-        ],
-        "trigger_summary_data": {
-          "subject": "Opened on the web ui"
-        },
-        "trigger_details_html_url": "https://acme.pagerduty.com/incidents/P2A6J96/log_entries/P2NQP6P",
-        "last_status_change_on": "2012-09-11T22:49:21Z",
-        "last_status_change_by": nil,
-        "urgency": "high"
-      },
-      {
-        "incident_number": 3,
-        "created_on": "2012-09-11T22:54:08Z",
-        "status": "acknowledged",
-        "html_url": "https://acme.pagerduty.com/incidents/PBXG6JS",
-        "incident_key": "=?UTF-8?B?SnVzdCBhbiBlbWFpbCBmcm9tIOWvjOWjq+WxsSBhbmQg8J2EnvCdlaXwnZ+2IPCggoo=?=",
-        "pending_actions": [
-          {
-            "type": "unacknowledge",
-            "at": "2012-09-12T00:25:49Z"
-          }
-        ],
-        "service": {
-          "id": "PFRV88L",
-          "name": "Generic Email",
-          "description": "Description for Generic Email Service.",
-          "html_url": "https://acme.pagerduty.com/services/PFRV88L"
-        },
-        "assigned_to_user": {
-          "id": "PEO3O45",
-          "name": "John",
-          "email": "john@acme.com",
-          "html_url": "https://acme.pagerduty.com/users/PEO3O45"
-        },
-        "assigned_to": [
-          {
-            "at": "2012-09-11T22:54:08Z",
-            "object": {
-              "id": "PEO3O45",
-              "name": "John",
-              "email": "john@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PEO3O45",
-              "type": "user"
-            }
-          },
-          {
-            "at": "2012-09-11T22:54:08Z",
-            "object": {
-              "id": "PMI6007",
-              "name": "James",
-              "email": "james@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PMI6007",
-              "type": "user"
-            }
-          }
-        ],
-        "acknowledgers": [
-          {
-            "at": "2012-09-11T22:55:01Z",
-            "object": {
-              "id": "PMI6007",
-              "name": "James",
-              "email": "james@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PMI6007",
-              "type": "user"
-            }
-          },
-          {
-            "at": "2012-09-11T22:55:32Z",
-            "object": {
-              "type": "api"
-            }
-          },
-          {
-            "at": "2012-09-11T23:25:49Z",
-            "object": {
-              "id": "PMI6007",
-              "name": "James",
-              "email": "james@acme.com",
-              "html_url": "https://acme.pagerduty.com/users/PMI6007",
-              "type": "user"
-            }
-          }
-        ],
-        "trigger_summary_data": {
-          "subject": "Just an email from 富士山 and 𝄞𝕥𝟶 𠂊"
-        },
-        "trigger_details_html_url": "https://acme.pagerduty.com/incidents/PBXG6JS/log_entries/P30IVAT",
-        "last_status_change_on": "2012-09-11T22:55:01Z",
-        "last_status_change_by": {
-          "id": "PMI6007",
-          "name": "James",
-          "email": "james@acme.com",
-          "html_url": "https://acme.pagerduty.com/users/PMI6007"
-        },
-        "urgency": "high"
-      }
-    ],
-    "limit": 100,
-    "offset": 0,
-    "total": 2
-  }
-end
-
 def unhealthy_app_response
   {
     "version": "2.4.5",
@@ -376,37 +235,40 @@ def healthy_app_response
 end
 
 def unhealthy_unsorted_apps
-  {:data => [{"name"=>"g5-cls-unhealthy-app1",
-    "health"=>
-    {"database"=>{"is_healthy"=>true, "message"=>""},
-    "redis"=>{"is_healthy"=>true, "message"=>"PONG"},
-    "reputation"=>
-    {"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
-    "cxm"=>{"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
-    "core"=>{"is_healthy"=>true, "message"=>""},
-    "hub"=>
-    {"is_healthy"=>false, "message"=>"undefined method `all' for #<G5HubApi::NotificationService:0x007fb85f11da40>"},
-    "OVERALL"=>{"is_healthy"=>false, "message"=>""}}},
-    {"name"=>"g5-cls-unhealthy-app2",
+  {:unhealthy_apps =>
+    {:data => [{"name"=>"g5-cls-unhealthy-app1",
       "health"=>
-      {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 332"},
-      "Failed Leads Last 7 days"=>{"is_healthy"=>false, "message"=>"Failed leads: 18"},
-      "Last Html Form Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:41:54 -0800"},
-      "Last Voicestar Call Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:43:43 -0800"},
-      "Call Tracking"=>{"is_healthy"=>true, "message"=>"No backfilled calls"},
-      "Core Store location_urn Existence"=>{"is_healthy"=>true, "message"=>"No Stores lacking a location_urn"},
-      "database"=>{"is_healthy"=>true, "message"=>""},
+      {"database"=>{"is_healthy"=>true, "message"=>""},
+      "redis"=>{"is_healthy"=>true, "message"=>"PONG"},
+      "reputation"=>
+      {"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
+      "cxm"=>{"is_healthy"=>false, "message"=>"Unexpected error: {\"error\":\"Unauthorized\"} (status code: 401)"},
+      "core"=>{"is_healthy"=>true, "message"=>""},
+      "hub"=>
+      {"is_healthy"=>false, "message"=>"undefined method `all' for #<G5HubApi::NotificationService:0x007fb85f11da40>"},
       "OVERALL"=>{"is_healthy"=>false, "message"=>""}}},
-      {"name"=>"g5-cms-unhealthy-app",
+      {"name"=>"g5-cls-unhealthy-app2",
         "health"=>
-        {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 0"},
-        "Failed Leads Last 7 days"=>{"is_healthy"=>true, "message"=>"No failed leads"},
-        "Last Html Form Lead"=>{"is_healthy"=>false, "message"=>"No HtmlFormPayload leads found"},
-        "Last Voicestar Call Lead"=>{"is_healthy"=>false, "message"=>"No VoicestarCallPayload leads found"},
+        {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 332"},
+        "Failed Leads Last 7 days"=>{"is_healthy"=>false, "message"=>"Failed leads: 18"},
+        "Last Html Form Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:41:54 -0800"},
+        "Last Voicestar Call Lead"=>{"is_healthy"=>true, "message"=>"Last lead submitted at: 2015-11-19 09:43:43 -0800"},
         "Call Tracking"=>{"is_healthy"=>true, "message"=>"No backfilled calls"},
         "Core Store location_urn Existence"=>{"is_healthy"=>true, "message"=>"No Stores lacking a location_urn"},
         "database"=>{"is_healthy"=>true, "message"=>""},
-        "OVERALL"=>{"is_healthy"=>false, "message"=>""}}}]}
+        "OVERALL"=>{"is_healthy"=>false, "message"=>""}}},
+        {"name"=>"g5-cms-unhealthy-app",
+          "health"=>
+          {"Total Failed Leads"=>{"is_healthy"=>true, "message"=>"Total failed leads: 0"},
+          "Failed Leads Last 7 days"=>{"is_healthy"=>true, "message"=>"No failed leads"},
+          "Last Html Form Lead"=>{"is_healthy"=>false, "message"=>"No HtmlFormPayload leads found"},
+          "Last Voicestar Call Lead"=>{"is_healthy"=>false, "message"=>"No VoicestarCallPayload leads found"},
+          "Call Tracking"=>{"is_healthy"=>true, "message"=>"No backfilled calls"},
+          "Core Store location_urn Existence"=>{"is_healthy"=>true, "message"=>"No Stores lacking a location_urn"},
+          "database"=>{"is_healthy"=>true, "message"=>""},
+          "OVERALL"=>{"is_healthy"=>false, "message"=>""}}}]}
+  }
+
 end
 
 def sorted_unhealthy_apps
@@ -463,4 +325,81 @@ end
 
 def g5_ops_health_request(url, fake_response)
   stub_request(:get, url).to_return(:status => 200, :body => fake_response.to_json)
+end
+
+def pagerduty_incident_webhook
+  {
+    "messages": [
+      {
+        "id": "bb8b8fe0-e8d5-11e2-9c1e-22000afd16cf",
+        "created_on": "2013-07-09T20:25:44Z",
+        "type": "incident.trigger",
+        "data": {
+          "incident": {
+            "id": "PIJ90N7",
+            "incident_number": 1,
+            "created_on": "2016-01-01T21:25:44Z",
+            "status": "triggered",
+            "html_url": "https://acme.pagerduty.com/incidents/PIJ90N7",
+            "incident_key": "null",
+            "service": {
+              "id": "PBAZLIU",
+              "name": "service",
+              "html_url": "https://acme.pagerduty.com/services/PBAZLIU"
+            },
+            "assigned_to_user": {
+              "id": "PPI9KUT",
+              "name": "Alan Kay",
+              "email": "alan@pagerduty.com",
+              "html_url": "https://acme.pagerduty.com/users/PPI9KUT"
+            },
+            "trigger_summary_data": {
+              "subject": "45645"
+            },
+            "trigger_details_html_url": "https://acme.pagerduty.com/incidents/PIJ90N7/log_entries/PIJ90N7",
+            "last_status_change_on": "2013-07-09T20:25:44Z",
+            "last_status_change_by": "null"
+          }
+        }
+      },
+      {
+        "id": "8a1d6420-e9c4-11e2-b33e-f23c91699516",
+        "created_on": "2013-07-09T20:25:45Z",
+        "type": "incident.resolve",
+        "data": {
+          "incident": {
+            "id": "PIJ90N7",
+            "incident_number": 2,
+            "created_on": "2016-01-01T20:25:44Z",
+            "status": "resolved",
+            "html_url": "https://acme.pagerduty.com/incidents/PIJ90N7",
+            "incident_key": "null",
+            "service": {
+              "id": "PBAZLIU",
+              "name": "service",
+              "html_url": "https://acme.pagerduty.com/services/PBAZLIU"
+            },
+            "assigned_to_user": "null",
+            "resolved_by_user": {
+              "id": "PPI9KUT",
+              "name": "Alan Kay",
+              "email": "alan@pagerduty.com",
+              "html_url": "https://acme.pagerduty.com/users/PPI9KUT"
+            },
+            "trigger_summary_data": {
+              "subject": "45645"
+            },
+            "trigger_details_html_url": "https://acme.pagerduty.com/incidents/PIJ90N7/log_entries/PIJ90N7",
+            "last_status_change_on": "2013-07-09T20:25:45Z",
+            "last_status_change_by": {
+              "id": "PPI9KUT",
+              "name": "Alan Kay",
+              "email": "alan@pagerduty.com",
+              "html_url": "https://acme.pagerduty.com/users/PPI9KUT"
+            }
+          }
+        }
+      }
+    ]
+  }
 end
