@@ -36,7 +36,7 @@ class PerformanceData
           incident_number: incident_info["incident_number"],
           status: incident_info["status"],
           created_at: incident["created_on"],
-          description: incident_info["trigger_summary_data"]["subject"]
+          description: incident_info["trigger_summary_data"]["description"]
         }
       $redis.setex("pagerduty:incidents:#{incident_info["incident_number"]}", 3600, incident_data.to_json)
     end
