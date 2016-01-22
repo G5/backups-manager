@@ -131,7 +131,6 @@
 
   .grid-item p {
     color: transparentize($grid-item-color, 0.4);
-    line-height: 0.6em;
 
     @include media($medium-screen) {
       max-width: 100%;
