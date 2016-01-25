@@ -24,3 +24,4 @@
 
 # Ignore all RubyMine project files
 .idea
+*#*#
