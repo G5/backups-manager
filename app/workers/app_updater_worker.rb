@@ -1,4 +1,4 @@
-class AppWranglerWorker
+class AppUpdaterWorker
 
   include Sidekiq::Worker
 
@@ -6,13 +6,15 @@ class AppWranglerWorker
     create_new_apps
   end
 
+private
+
   def create_new_apps
     app_list = AppList.get #hits api once
     app_list.each do |h|
       o = find_or_create_organization(h)
       app = App.find_by_name(h["name"])
 
-      if !app.present?
+      if app.blank?
         o.apps.create!(app_details: h, name: h["name"])
       else
         if app.organization != o
@@ -23,11 +25,10 @@ class AppWranglerWorker
     end
   end
 
-protected
-
   def find_or_create_organization(app_hash)
     Organization.
       where(guid: app_hash["owner"]["id"]).
       first_or_create(email: app_hash["owner"]["email"])
   end
 end
+
