@@ -8,7 +8,7 @@ task :backup_db_backups => :environment do
 end
 
 task :update_app_list => :environment do
-  AppWranglerWorker.perform_async
+  AppUpdaterWorker.perform_async
 end
 
 task :update_dynos => :environment do
