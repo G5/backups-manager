@@ -12,9 +12,9 @@ private
     app_list = AppList.get #hits api once
     app_list.each do |h|
       o = find_or_create_organization(h)
+      next if h["name"].include?("g5-clw")
       app = App.find_by_name(h["name"])
-
-      if app.blank?
+      if app.blank? 
         o.apps.create!(app_details: h, name: h["name"])
       else
         if app.organization != o

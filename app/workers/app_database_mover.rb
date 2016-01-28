@@ -1,22 +1,29 @@
+require 'open3'
+
 class AppDatabaseMover
 
   include Sidekiq::Worker
 
-  def perform(app_id)
+  def perform(app_id, heroku_bin_path, region, bucket_name)
     app = App.find(app_id) 
-    run_backups(app)
+    run_backups(app, heroku_bin_path, region, bucket_name)
   end
 
 private
 
-  def run_backups(app)
-    system_command = "#{ENV['HEROKU_BIN_PATH']} pg:backups public-url -a #{app.name}"
+  def run_backups(app, heroku_bin_path, region, bucket_name)
+    system_command = "#{heroku_bin_path} pg:backups public-url -a #{app.name}"
 
     #Rails.logger.info("getting public-url") ##!
 
-    public_url = Bundler.with_clean_env {`#{system_command}`}
-    return if public_url.blank?
-    return if public_url.include?('No backups')
+    logger.info("running command: #{system_command}")
+    public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(system_command)}
+    logger.info("done")
+
+    logger.info("got public url value of: #{public_url}")
+    #public_url = Bundler.with_clean_env {system "#{system_command}"}
+    logger.info("app: #{app.name}")
+    return unless status.success?
     public_url.strip!
 
     #Rails.logger.info("had backups") ##!
@@ -26,9 +33,9 @@ private
     
     #Rails.logger.info("downloading dump") ##!
 
-    Bundler.with_clean_env {`#{system_command}`}
-    s3 = Aws::S3::Resource.new
-    bucket = s3.bucket(ENV['S3_BUCKET_NAME'])
+    Bundler.with_clean_env {system "#{system_command}"}
+    s3 = Aws::S3::Resource.new(region: region)
+    bucket = s3.bucket(bucket_name)
 
     #Rails.logger.info("uploading to s3") ##!
 

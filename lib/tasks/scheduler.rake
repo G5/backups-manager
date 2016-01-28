@@ -3,7 +3,7 @@ desc "This task is called by the Heroku scheduler add-on"
 task :backup_db_backups => :environment do
   AppUpdaterWorker.perform_async
   App.all.each do |app|
-    AppDatabaseMover.perform_async(app.id)
+    AppDatabaseMover.perform_async(app.id, ENV['HEROKU_BIN_PATH'], ENV['AWS_REGION'], ENV['S3_BUCKET_NAME'])
   end
 end
 

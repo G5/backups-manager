@@ -25,3 +25,5 @@
 # Ignore all RubyMine project files
 .idea
 *#*#
+
+config/sidekiq.yml
