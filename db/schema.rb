@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150912201433) do
+ActiveRecord::Schema.define(version: 20160128201433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20150912201433) do
     t.datetime "updated_at"
     t.string   "name"
     t.integer  "organization_id"
+    t.boolean  "backup_transfer_success", default: false
+    t.string   "backup_schedule"
   end
 
   add_index "apps", ["organization_id"], name: "index_apps_on_organization_id", using: :btree
