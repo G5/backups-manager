@@ -4,14 +4,18 @@ class AppDatabaseMover
 
   include Sidekiq::Worker
 
-  def perform(app_id, heroku_bin_path, region, bucket_name)
+  def perform(app_id, heroku_bin_path, region, bucket_name, aws_access_key_id, aws_secret_access_key)
     app = App.find(app_id) 
-    run_backups(app, heroku_bin_path, region, bucket_name)
+    run_backups(app, heroku_bin_path, region, bucket_name, aws_access_key_id, aws_secret_access_key)
   end
 
 private
 
-  def run_backups(app, heroku_bin_path, region, bucket_name)
+  def run_backups(app, heroku_bin_path, region, bucket_name, aws_access_key_id, aws_secret_access_key)
+    Aws.config.update({
+      region: region,
+      credentials: Aws::Credentials.new(aws_access_key_id, aws_secret_access_key)
+    })
     system_command = "#{heroku_bin_path} pg:backups public-url -a #{app.name}"
     public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(system_command)}
     return unless status.success?
@@ -23,4 +27,5 @@ private
     upload_result = bucket.put_object({ body: File.open("#{Rails.root.join('tmp',app.name)}"), 
                                  key: "#{app.name}"})
   end
+
 end

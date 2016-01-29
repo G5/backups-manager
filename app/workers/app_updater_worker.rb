@@ -26,7 +26,6 @@ private
   end
 
   def find_or_create_organization(app_hash)
-binding.pry
     Organization.
       where(guid: app_hash["owner"]["id"]).
       first_or_create(email: app_hash["owner"]["email"])
