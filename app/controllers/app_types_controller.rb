@@ -1,5 +1,6 @@
 class AppTypesController < ApplicationController
   def index
+    @apps = App.all
     @app_types = App.group_by_type(App.all)
     @rate_limit = RateCheck.usage
   end

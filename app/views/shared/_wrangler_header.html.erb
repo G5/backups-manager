@@ -1,6 +1,5 @@
 <div class="app-card">
-  <h1>Heroku Apps</h1>
+  <h1>Backup Manager</h1>
   <%= content_tag :p, "App data as of: #{Date.yesterday.to_formatted_s(:long_ordinal)} (this is just date yesterday)" %>
-  <%= content_tag :p, "#{App.count} Apps" %>
-  <%= content_tag :p, "API requests remaining at #{current_time("%I:%M%p")}: <span class='rate-limit'>#{@rate_limit} out of 4500</span>".html_safe %>
+  <%= content_tag :p, "#{App.count} Heroku Apps" %>
 </div>
