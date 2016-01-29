@@ -1,20 +1,6 @@
 <div class="app-card">
-  <h1>Heroku Apps By <%= grouped %></h1>
-  <%= content_tag :p, class: 'app-btn' do %>
-    <%= link_to cash_path, class: 'btn' do %>
-      <i class='fa fa-money'></i>
-    <% end %>
-  <% end %>
-  <%= content_tag :p, class: 'app-btn' do %>
-    <%= link_to "CMS Reporter", cms_url, class: 'btn' %>
-  <% end %>
-  <%= content_tag :p, "App data as of: #{Date.yesterday.to_formatted_s(:long_ordinal)}" %>
+  <h1>Heroku Apps</h1>
+  <%= content_tag :p, "App data as of: #{Date.yesterday.to_formatted_s(:long_ordinal)} (this is just date yesterday)" %>
   <%= content_tag :p, "#{App.count} Apps" %>
-  <%= content_tag :p, class: 'app-btn' do %>
-    <%= link_to "Group by #{group_by}", view_link, class: 'btn' %>
-  <% end %>
-  <%= content_tag :p, class: 'app-btn' do %>
-    <%= link_to "Ops Dashboard", performance_dashboard_index_path, class: 'btn' %>
-  <% end %>
   <%= content_tag :p, "API requests remaining at #{current_time("%I:%M%p")}: <span class='rate-limit'>#{@rate_limit} out of 4500</span>".html_safe %>
 </div>
