@@ -2,7 +2,7 @@
   <%= render 'shared/wrangler_header', grouped: "Type", group_by: "owner", view_link: orgs_path %>
   <div class="app-group">
     <% @apps.each do |app| %>
-      <p><strong><%= app.name %></strong></p>
+      <p><strong><%= app.name %> - <%= app.backup_transfer_success %></strong></p>
     <% end %>
   </div>
 </div>
