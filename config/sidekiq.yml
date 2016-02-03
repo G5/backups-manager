@@ -1,9 +1,4 @@
 ---
 :concurrency: 9
-staging:
-  :concurrency: 9
-production:
-  :concurrency: 9
 :queues:
   - default
-  - [myqueue, 2]

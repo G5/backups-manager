@@ -1,11 +1,11 @@
 development:
   adapter: postgresql
   database: backups_manager_development
-  pool: 10
+  pool: 9
 test:
   adapter: postgresql
   database: backups_manager_test
-  pool: 10
+  pool: 9
 production:
-  pool: 10
+  pool: 9
   
