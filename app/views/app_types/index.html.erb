@@ -1,8 +1,23 @@
 <div class="app"> 
   <%= render 'shared/wrangler_header', grouped: "Type", group_by: "owner", view_link: orgs_path %>
   <div class="app-group">
-    <% @apps.each do |app| %>
-      <p><strong><%= app.name %> - <%= app.backup_transfer_success %></strong></p>
-    <% end %>
+    <table border="1" width="100%">
+      <thead>
+        <tr BGCOLOR="#8b9dc3">
+          <td>Applications</td>
+          <td>Backed Up</td>
+          <td>Backup Schedule</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @apps.each do |app| %>
+          <tr>
+            <td><strong><%= app.name %></strong></td>
+            <td><%= app.backup_transfer_success %></td>
+            <td><%= app.backup_schedule %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

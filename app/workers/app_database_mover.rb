@@ -22,6 +22,7 @@ private
     public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(system_command)}
     return unless status.success?
     public_url.strip!
+    check_backup_schedule(app)
     system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
     Bundler.with_clean_env {system "#{system_command}"}
     backup = File.open("#{Rails.root.join('tmp',app.name)}")   
@@ -46,9 +47,12 @@ private
     end
   end
 
-  def check_backup_schedule
-    schedule_check = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
-
+  def check_backup_schedule(app)
+    schedule_check = "#{HEROKU_BIN_PATH} pg:backups schedules -a #{app.name}"
+    schedule, stdeerr, status = Bundler.with_clean_env {Open3.capture3(schedule_check)}
+    app.backup_schedule = schedule
+    app.save
+    logger.info("#{app.backup_schedule}")
   end
 
   def get_public_url
