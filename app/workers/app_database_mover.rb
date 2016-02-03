@@ -38,7 +38,7 @@ private
     bucket = s3.bucket(BUCKET_NAME)
     begin
       bucket.put_object({ body: backup, key: bucket_key})
-      logger.info("#{app.name} file saved to S3.")
+      logger.info("#{bucket_key} file saved to S3.")
       true
     rescue => e
       logger.info("Failed to Save to S3. Error: #{e}")
