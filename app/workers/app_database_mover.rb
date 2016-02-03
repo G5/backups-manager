@@ -6,7 +6,7 @@ class AppDatabaseMover
   
   include Sidekiq::Worker
 
-  def perform(app_id)#, heroku_bin_path, region, bucket_name, aws_access_key_id, aws_secret_access_key)
+  def perform(app_id)
     app = App.find(app_id)
     run_backups(app)
   end
