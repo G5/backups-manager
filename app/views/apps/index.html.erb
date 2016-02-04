@@ -4,6 +4,9 @@
   <%= f.label :name %>
   <%= f.search_field :name_cont %>
 
+  <%= f.label :organization, "Organization Name" %>
+  <%= f.search_field :organization_name_cont %>
+
   <%= f.submit %>
 <% end %>
 
@@ -14,6 +17,7 @@
       <thead>
         <tr BGCOLOR="#8b9dc3">
           <td><%= sort_link(@q, :name, "Applications") %></td>
+          <td><%= sort_link(@q, :organization_name, "Organization") %></td>
           <td>Backed Up</td>
           <td>Backup Schedule</td>
           <td>Run Date</td>
@@ -23,6 +27,7 @@
         <% @apps.each do |app| %>
           <tr>
             <td><strong><%= app.name %></strong></td>
+            <td><%= app.organization.name %></td>
             <td><%= app.backup_transfer_success %></td>
             <td><%= app.backup_schedule %></td>
             <td><%= app.updated_at.strftime("%b %e, %l:%M %p") %></td>

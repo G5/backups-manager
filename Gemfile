@@ -35,6 +35,7 @@ gem 'font-awesome-sass'
 gem 'g5_ops'
 gem 'pusher'
 gem 'sidekiq-failures'
+gem 'ransack'
 
 group :development, :test do
   gem 'dotenv-rails'

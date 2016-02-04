@@ -1,4 +1,8 @@
 class AppsController < ApplicationController
+  def index
+    @q = App.ransack(params[:q])
+    @apps = @q.result.includes(:organization)
+  end
   def show
     @app = App.find params[:id]
     details = @app.app_details

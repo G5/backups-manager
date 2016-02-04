@@ -26,9 +26,11 @@ private
   end
 
   def find_or_create_organization(app_hash)
-    Organization.
+    org = Organization.
       where(guid: app_hash["owner"]["id"]).
       first_or_create(email: app_hash["owner"]["email"])
+    org.update_attribute(:name,  org.get_name)
+    org
   end
 end
 

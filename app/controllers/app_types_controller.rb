@@ -1,8 +1,7 @@
 class AppTypesController < ApplicationController
   def index
-    @apps = App.all
-    @app_types = App.group_by_type(App.all)
-    @rate_limit = RateCheck.usage
+    @q = App.ransack(params[:q])
+    @apps = @q.result
   end
 
   def show
