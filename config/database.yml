@@ -1,11 +1,11 @@
 development:
   adapter: postgresql
   database: backups_manager_development
-  pool: 9
+  pool: 19
 test:
   adapter: postgresql
   database: backups_manager_test
-  pool: 9
+  pool: 19
 production:
   url: <%= ENV["DATABASE_URL"] %>
   pool: <%= ENV["DB_POOL"] %>
