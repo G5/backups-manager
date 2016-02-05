@@ -26,7 +26,8 @@ private
     system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
     Bundler.with_clean_env {system "#{system_command}"}
     backup = File.open("#{Rails.root.join('tmp',app.name)}")   
-    if send_backup_to_s3(backup,app.name)
+    options = { body: backup, key: app.name, metadata: { pg_backup_date: last_backup_date(app) } }
+    if send_backup_to_s3(options)
       app.backup_transfer_success = true 
     else
       app.backup_transfer_success = false 
@@ -34,15 +35,15 @@ private
     app.save
   end
   
-  def send_backup_to_s3(backup, bucket_key)
+  def send_backup_to_s3(options)
     s3 = Aws::S3::Resource.new(region: REGION)
     bucket = s3.bucket(BUCKET_NAME)
     begin
-      bucket.put_object({ body: backup, key: bucket_key})
-      logger.info("#{bucket_key} file saved to S3.")
+      bucket.put_object(options)
+      logger.info("#{options[:key]} file saved to S3.")
       true
     rescue => e
-      logger.info("Failed to Save to S3. Error: #{e}")
+      logger.info("#{options[:key]} failed to save to S3. Error: #{e}")
       false
     end
   end
@@ -55,8 +56,10 @@ private
     logger.info("#{app.backup_schedule}")
   end
 
-  def get_public_url
-
+  def last_backup_date(app)
+    backup_info = "#{HEROKU_BIN_PATH} pg:backups info -a #{app.name}"
+    backup_data, stdeerr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
+    backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
   end
 
 end
