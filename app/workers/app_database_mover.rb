@@ -29,8 +29,10 @@ private
     options = { body: backup, key: app.name, metadata: { pg_backup_date: last_backup_date(app) } }
     if send_backup_to_s3(options)
       app.backup_transfer_success = true 
+      app.touch
     else
       app.backup_transfer_success = false 
+      app.touch
     end
     app.save
   end
