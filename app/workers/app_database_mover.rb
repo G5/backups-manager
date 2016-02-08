@@ -53,15 +53,24 @@ private
   def check_backup_schedule(app)
     schedule_check = "#{HEROKU_BIN_PATH} pg:backups schedules -a #{app.name}"
     schedule, stdeerr, status = Bundler.with_clean_env {Open3.capture3(schedule_check)}
-    app.backup_schedule = schedule
-    app.save
+    if status.success?
+      app.backup_schedule = schedule if status.success?
+      app.save
+    else
+      logger.info("schedule check failed, #{stdeerr}")
+    end
     logger.info("#{app.backup_schedule}")
   end
 
   def last_backup_date(app)
     backup_info = "#{HEROKU_BIN_PATH} pg:backups info -a #{app.name}"
     backup_data, stdeerr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
-    backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
+    if status.success?
+      backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
+    else
+      logger.info("backups date check failed, #{stdeerr}")
+      ''
+    end
   end
 
 end
