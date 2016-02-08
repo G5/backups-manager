@@ -18,9 +18,12 @@ private
       region: REGION,
       credentials: Aws::Credentials.new(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     })
-    system_command = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
-    public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(system_command)}
-    return unless status.success?
+    get_public_url = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
+    public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(get_public_url)}
+    unless status.success?
+      app.update_attribute(:backup_transfer_success, false)
+      raise "Could not get public_url"
+    end
     public_url.strip!
     check_backup_schedule(app)
     system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
@@ -29,11 +32,10 @@ private
     options = { body: backup, key: app.name, metadata: { pg_backup_date: last_backup_date(app) } }
     if send_backup_to_s3(options)
       app.backup_transfer_success = true 
-      app.touch
     else
       app.backup_transfer_success = false 
-      app.touch
     end
+    app.touch
     app.save
   end
   
