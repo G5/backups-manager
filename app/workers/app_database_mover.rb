@@ -1,4 +1,5 @@
 require 'open3'
+require 'csv'
 
 class AppDatabaseMover
   HEROKU_BIN_PATH, REGION, BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY =
@@ -14,15 +15,17 @@ class AppDatabaseMover
 private
 
   def run_backups(app)
+    CSV.open("job_log", "a") {|csv| csv << "Starting Job Log - #{DateTime.now}" }
     Aws.config.update({
       region: REGION,
       credentials: Aws::Credentials.new(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     })
     get_public_url = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
     public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(get_public_url)}
+    CSV.open("job_log","a") {|csv| csv << [app.name, ublic_url, stdeerr, status] }
     unless status.success?
       app.update_attribute(:backup_transfer_success, false)
-      raise "Could not get public_url"
+      raise "Could not get public_url for #{app.name}"
     end
     public_url.strip!
     check_backup_schedule(app)
