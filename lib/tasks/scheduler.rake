@@ -2,6 +2,7 @@ desc "This task is called by the Heroku scheduler add-on"
 
 task :backup_db_backups => :environment do
   AppUpdaterWorker.perform_async
+  CSV.open("job_log.csv", "a") {|csv| csv << ["Starting Job Log - #{DateTime.now}"] }
   App.all.each do |app|
     AppDatabaseMover.perform_async(app.id)
   end
