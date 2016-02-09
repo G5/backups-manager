@@ -21,9 +21,12 @@ private
     })
     get_public_url = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
     public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(get_public_url)}
-    CSV.open("job_log.csv","a") {|csv| csv << [app.name, public_url, stdeerr, status] }
+    CSV.open("job_log.csv","a") {|csv| csv << [app.name, public_url, stdeerr, status, status.success?] }
+    logger.info("success from get public_url: #{status.to_s}")
     unless status.success?
-      app.update_attribute(:backup_transfer_success, false)
+      app.backup_transfer_success=false
+      app.touch
+      app.save
       raise "Could not get public_url for #{app.name}"
     end
     public_url.strip!
