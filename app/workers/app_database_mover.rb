@@ -18,7 +18,6 @@ class AppDatabaseMover
       credentials: Aws::Credentials.new(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     })
 
-
     public_url, stderr, status = get_public_url(app)
     if status.success?
       public_url.strip!
@@ -29,11 +28,18 @@ class AppDatabaseMover
       raise "Could not get public_url for #{app.name}"
     end
 
+    if Rails.env.development?
+      CSV.open("job_log.csv","a") {|csv| csv << [app.name, public_url, stderr, status, status.success?] }
+    end
+    logger.info("success from get public_url: #{status.to_s}")
+
     schedule, stderr, status = check_backup_schedule(app)
     if status.success?
+      logger.info(schedule)
       app.backup_schedule = schedule
       app.save
     else
+      logger.info("schedule check failed, #{stdeerr}")
       app.touch; app.save
       raise "Could not check the schedule, or no scheduled backups"
     end
@@ -56,7 +62,7 @@ class AppDatabaseMover
     end
   end
 
-private
+  private
 
   def download_backup(app, public_url)
     system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
@@ -70,8 +76,10 @@ private
     bucket = s3.bucket(BUCKET_NAME)
     begin
       bucket.put_object(options)
+      logger.info("#{options[:key]} file saved to S3.")
       true
     rescue => e
+      logger.info("#{options[:key]} failed to save to S3. Error: #{e}")
       false
     end
   end
@@ -93,6 +101,7 @@ private
     if status.success?
       backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
     else
+      logger.info("backups date check failed, #{stdeerr}")
       ''
     end
   end
