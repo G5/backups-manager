@@ -12,8 +12,6 @@ class AppDatabaseMover
     run_backups(app)
   end
 
-private
-
   def run_backups(app)
     Aws.config.update({
       region: REGION,
@@ -57,6 +55,8 @@ private
       raise "Could not upload the backup to s3"
     end
   end
+
+private
 
   def download_backup(app, public_url)
     system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
