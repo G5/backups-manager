@@ -12,39 +12,66 @@ class AppDatabaseMover
     run_backups(app)
   end
 
-private
-
   def run_backups(app)
     Aws.config.update({
       region: REGION,
       credentials: Aws::Credentials.new(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     })
-    get_public_url = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
-    public_url, stdeerr, status = Bundler.with_clean_env {Open3.capture3(get_public_url)}
-    CSV.open("job_log.csv","a") {|csv| csv << [app.name, public_url, stdeerr, status, status.success?] }
-    logger.info("success from get public_url: #{status.to_s}")
-    unless status.success?
+
+    public_url, stderr, status = get_public_url(app)
+    if status.success?
+      public_url.strip!
+    else
       app.backup_transfer_success=false
       app.touch
       app.save
       raise "Could not get public_url for #{app.name}"
     end
-    public_url.strip!
-    check_backup_schedule(app)
-    system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
-    Bundler.with_clean_env {system "#{system_command}"}
-    backup = File.open("#{Rails.root.join('tmp',app.name)}")   
+
+    if Rails.env.development?
+      CSV.open("job_log.csv","a") {|csv| csv << [app.name, public_url, stderr, status, status.success?] }
+    end
+    logger.info("success from get public_url: #{status.to_s}")
+
+    schedule, stderr, status = check_backup_schedule(app)
+    if status.success?
+      logger.info(schedule)
+      app.backup_schedule = schedule
+      app.save
+    else
+      logger.info("schedule check failed, #{stdeerr}")
+      app.touch; app.save
+      raise "Could not check the schedule, or no scheduled backups"
+    end
+
+    schedule, stderr, status = download_backup(app, public_url)
+    if status.success?
+      backup = File.open("#{Rails.root.join('tmp',app.name)}")   
+    else
+      raise "Could not download the backup"
+    end
+
     options = { body: backup, key: app.name, metadata: { pg_backup_date: last_backup_date(app) } }
-    if send_backup_to_s3(options)
+    if send_file_to_s3(options)
       app.backup_transfer_success = true 
+      app.touch; app.save
     else
       app.backup_transfer_success = false 
+      app.touch; app.save
+      raise "Could not upload the backup to s3"
     end
-    app.touch
-    app.save
   end
-  
-  def send_backup_to_s3(options)
+
+  private
+
+  def download_backup(app, public_url)
+    system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
+    output, stderr, status = run_system_command(system_command)
+  end
+
+  # more info at: http://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#put_object-instance_method
+  # put_object accepts keys like `body` (for file), `key`, `metadata` (as a hash)
+  def send_file_to_s3(options) 
     s3 = Aws::S3::Resource.new(region: REGION)
     bucket = s3.bucket(BUCKET_NAME)
     begin
@@ -57,27 +84,30 @@ private
     end
   end
 
+  def get_public_url(app)
+    get_public_url = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
+    public_url, stderr, status = run_system_command(get_public_url)
+  end
+
   def check_backup_schedule(app)
-    schedule_check = "#{HEROKU_BIN_PATH} pg:backups schedules -a #{app.name}"
-    schedule, stdeerr, status = Bundler.with_clean_env {Open3.capture3(schedule_check)}
-    if status.success?
-      app.backup_schedule = schedule if status.success?
-      app.save
-    else
-      logger.info("schedule check failed, #{stdeerr}")
-    end
-    logger.info("#{app.backup_schedule}")
+    schedule_check_command = "#{HEROKU_BIN_PATH} pg:backups schedules -a #{app.name}"
+    schedule, stderr, status = run_system_command(schedule_check_command)
+    [schedule, stderr, status]
   end
 
   def last_backup_date(app)
     backup_info = "#{HEROKU_BIN_PATH} pg:backups info -a #{app.name}"
-    backup_data, stdeerr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
+    backup_data, stderr, status = run_system_command(backup_info)
     if status.success?
       backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
     else
       logger.info("backups date check failed, #{stdeerr}")
       ''
     end
+  end
+
+  def run_system_command(command)
+    Bundler.with_clean_env {Open3.capture3(command)}
   end
 
 end
