@@ -74,8 +74,12 @@ private
     backup_data, stdeerr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
     if status.success?
       backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
+      app.pgbackup_date = backup_time
+      app.save
     else
       logger.info("backups date check failed, #{stdeerr}")
+      app.pgbackup_date = "none"
+      app.save
       ''
     end
   end
