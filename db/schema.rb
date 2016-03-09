@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160308004158) do
     t.datetime "updated_at"
     t.string   "name"
     t.integer  "organization_id"
-    t.string   "backup_transfer_success"
+    t.boolean  "backup_transfer_success", default: false
     t.string   "backup_schedule"
     t.string   "pgbackup_date"
   end
