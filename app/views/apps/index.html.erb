@@ -20,6 +20,7 @@
           <td><%= sort_link(@q, :organization_name, "Organization") %></td>
           <td><%= sort_link(@q, :backup_transfer_success, "Backed Up") %></td>
           <td>Backup Schedule</td>
+          <td>PG Backup Date</td>
           <td>Run Date</td>
         </tr>
       </thead>
@@ -33,6 +34,7 @@
             <td><%= app.organization.name %></td>
             <td><%= app.backup_transfer_success %></td>
             <td><%= app.backup_schedule %></td>
+            <td><%= app.pgbackup_date.in_time_zone("Pacific Time (US & Canada)").strftime("%b %e, %l:%M %p")if app.pgbackup_date %>
             <td><%= app.updated_at.in_time_zone("Pacific Time (US & Canada)").strftime("%b %e, %l:%M %p") %></td>
           </tr>
         <% end %>
