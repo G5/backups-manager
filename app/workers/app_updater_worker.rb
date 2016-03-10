@@ -9,6 +9,7 @@ class AppUpdaterWorker
 private
 
   def create_new_apps
+    App.destroy_all
     app_list = AppList.get #hits api once
     app_list.each do |h|
       o = find_or_create_organization(h)
