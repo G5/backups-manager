@@ -2,8 +2,9 @@ class AppUpdaterWorker
 
   include Sidekiq::Worker
 
-  def perform
+  def perform(callback)
     create_new_apps
+    eval(callback)
   end
 
 private
