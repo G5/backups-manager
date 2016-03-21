@@ -76,6 +76,9 @@ class AppDatabaseMover
     backup_data, stderr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
     if status.success?
       backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
+      backup_id = backup_data.match(/info:\s*(.*)/).captures.first
+      logger.info("backup_time: #{backup_time}, backup_id: #{backup_id}")
+      app.pgbackup_id = backup_id
       app.pgbackup_date = backup_time
       app.save
       backup_time
