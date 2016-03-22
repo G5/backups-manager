@@ -297,6 +297,7 @@ hr {
     background-color: $table-background;
 
     td {
+      word-break: break-all;
       border-bottom: 0px;
       border-top: 1px solid $table-border-color;
       line-height: $base-line-height;
