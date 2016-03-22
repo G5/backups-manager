@@ -63,6 +63,8 @@ class AppDatabaseMover
     schedule_check = "#{HEROKU_BIN_PATH} pg:backups schedules -a #{app.name}"
     schedule, stderr, status = Bundler.with_clean_env {Open3.capture3(schedule_check)}
     if status.success?
+    binding.pry
+    schedule.slice!("=== Backup Schedules\n")
       app.backup_schedule = schedule if status.success?
       app.save
     else
