@@ -12,6 +12,7 @@ private
   def create_new_apps
     App.destroy_all
     app_list = AppList.get #hits api once
+    logger.info("Applist Response: #{app_list["message"]}") if app_list.first.include?("unauthorized")
     app_list.each do |h|
       o = find_or_create_organization(h)
       next if h["name"].include?("g5-clw")
