@@ -6,7 +6,13 @@ task :backup_the_backups => :environment do
 end
 
 task :fix_backup_schedules => :environment do
-  BackupSchedulesWorker.perform_async
+  apps = []
+  App.all.each do |app|
+    if app.backup_schedule && !app.backup_schedule.include?('No backup schedules found')
+      apps << app
+    end
+  end
+  apps.each {|app| BackupSchedulesWorker.perform_async(app.id) }
 end
 
 task :update_app_list => :environment do
