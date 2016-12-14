@@ -60,7 +60,7 @@ class AppDatabaseMover
   end
 
   def check_backup_schedule(app)
-    schedule_check = "#{HEROKU_BIN_PATH} pg:backups schedules -a #{app.name}"
+    schedule_check = "#{HEROKU_BIN_PATH} pg:backups:schedules -a #{app.name}"
     schedule, stderr, status = Bundler.with_clean_env {Open3.capture3(schedule_check)}
     if status.success?
     schedule.slice!("=== Backup Schedules\n")
