@@ -42,7 +42,7 @@ class AppDatabaseMover
       app.backup_transfer_success=false
       app.touch
       app.save
-      raise "Could not get public_url for #{app.name}" unless stderr.include?("No backups.")
+      raise "[#{app.name}] Could not get public_url" unless stderr.include?("No backups.")
     end
   end
 
@@ -51,10 +51,10 @@ class AppDatabaseMover
     bucket = s3.bucket(BUCKET_NAME)
     begin
       bucket.put_object(options)
-      logger.info("#{options[:key]} file saved to S3.")
+      logger.info("[#{options[:key]}] file saved to S3.")
       true
     rescue => e
-      logger.info("#{options[:key]} failed to save to S3. Error: #{e}")
+      logger.info("[#{options[:key]}] failed to save to S3. Error: #{e}")
       false
     end
   end
@@ -77,19 +77,20 @@ class AppDatabaseMover
     backup_data, stderr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
     if status.success?
       begin
-       logger.info("[#{app.name}] getting backup_time")
+       #if this fails it will most likely fail because heroku will change the format of what 
+       #returns from the pg:backups info. The last time this failed, Heroku had changed the 
+       # backup time from 'Finished' to 'Finished at'. They also changed the ID format.
+       logger.info("[#{app.name}] getting backup_time") 
        backup_time = backup_data.match(/^Finished at:\s*(.*)/).captures.first
-       logger.info("[#{app.name}] backup_time: #{backup_time}")
        logger.info("[#{app.name}] getting backup_id")
-       backup_id = backup_data.match(/==== Backup\s*(.*)/).captures.first
-       logger.info("[#{app.name}] backup_time: #{backup_id}")
+       backup_id = backup_data.match(/=== Backup\s*(.*)/).captures.first
        #if no failures save to the database and return the time
        app.pgbackup_id = backup_id
        app.pgbackup_date = backup_time
        app.save
        backup_time
-      rescue => e # if failures return the failure
-       logger.info("[#{app.name}] failure setting last backup info => #{e}")
+      rescue => e
+       logger.info("[#{app.name}] Failed getting last backup info => #{e}")
       end
     else
       logger.info("backups date check failed, #{stderr}")
