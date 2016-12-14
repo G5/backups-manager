@@ -76,13 +76,21 @@ class AppDatabaseMover
     backup_info = "#{HEROKU_BIN_PATH} pg:backups info -a #{app.name}"
     backup_data, stderr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
     if status.success?
-      backup_time = backup_data.match(/^Finished:\s*(.*)/).captures.first
-      backup_id = backup_data.match(/info:\s*(.*)/).captures.first
-      logger.info("backup_time: #{backup_time}, backup_id: #{backup_id}")
-      app.pgbackup_id = backup_id
-      app.pgbackup_date = backup_time
-      app.save
-      backup_time
+      begin
+       logger.info("[#{app.name}] getting backup_time")
+       backup_time = backup_data.match(/^Finished at:\s*(.*)/).captures.first
+       logger.info("[#{app.name}] backup_time: #{backup_time}")
+       logger.info("[#{app.name}] getting backup_id")
+       backup_id = backup_data.match(/==== Backup\s*(.*)/).captures.first
+       logger.info("[#{app.name}] backup_time: #{backup_id}")
+       #if no failures save to the database and return the time
+       app.pgbackup_id = backup_id
+       app.pgbackup_date = backup_time
+       app.save
+       backup_time
+      rescue => e # if failures return the failure
+       logger.info("[#{app.name}] failure setting last backup info => #{e}")
+      end
     else
       logger.info("backups date check failed, #{stderr}")
       ''
