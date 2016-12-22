@@ -21,7 +21,7 @@ class AppDatabaseMover
     })
     get_public_url = "#{HEROKU_BIN_PATH} pg:backups public-url -a #{app.name}"
     public_url, stderr, status = Bundler.with_clean_env {Open3.capture3(get_public_url)}
-    CSV.open("job_log.csv","a") {|csv| csv << [app.name, public_url, stderr, status, status.success?] }
+    CSV.open("job_log.csv","wb") {|csv| csv << [app.name, public_url, stderr, status, status.success?] }
     logger.info("Success from get public_url: #{status.to_s}")
     if status.success?
       public_url.strip!
@@ -67,7 +67,7 @@ class AppDatabaseMover
       app.backup_schedule = schedule if status.success?
       app.save
     else
-      logger.info("Schedule check failed, #{stderr}")
+      logger.info("[#{app.name}] Cound not get Schedule: stderr => #{stderr}")
     end
     logger.info("#{app.backup_schedule}")
   end
