@@ -28,12 +28,12 @@ class AppDatabaseMover
       check_backup_schedule(app)
       system_command = "curl -o #{Rails.root.join('tmp', app.name)} '#{public_url}'"
       Bundler.with_clean_env {system "#{system_command}"}
-      backup = File.open("#{Rails.root.join('tmp',app.name)}")   
+      backup = File.open("#{Rails.root.join('tmp',app.name)}")
       options = { body: backup, key: app.name, metadata: { pg_backup_date: last_backup_date(app) } }
       if send_backup_to_s3(options)
-        app.backup_transfer_success = true 
+        app.backup_transfer_success = true
       else
-        app.backup_transfer_success = false 
+        app.backup_transfer_success = false
       end
       app.touch
       app.save
@@ -42,7 +42,7 @@ class AppDatabaseMover
       app.backup_transfer_success=false
       app.touch
       app.save
-      raise "[#{app.name}] Could not get public_url: stderr => #{stderr.to_s}" unless stderr.include?("No backups.")
+      raise "[#{app.name}] Could not get public_url: stderr => #{stderr.to_s}" unless stderr.include?("No backups on")
     end
   end
 
@@ -77,10 +77,10 @@ class AppDatabaseMover
     backup_data, stderr, status = Bundler.with_clean_env {Open3.capture3(backup_info)}
     if status.success?
       begin
-       #if this fails it will most likely fail because heroku will change the format of what 
-       #returns from the pg:backups info. The last time this failed, Heroku had changed the 
+       #if this fails it will most likely fail because heroku will change the format of what
+       #returns from the pg:backups info. The last time this failed, Heroku had changed the
        # backup time from 'Finished' to 'Finished at'. They also changed the ID format.
-       logger.info("[#{app.name}] getting backup_time") 
+       logger.info("[#{app.name}] getting backup_time")
        backup_time = backup_data.match(/^Finished at:\s*(.*)/).captures.first
        logger.info("[#{app.name}] getting backup_id")
        backup_id = backup_data.match(/=== Backup\s*(.*)/).captures.first
