@@ -42,7 +42,7 @@ class AppDatabaseMover
       app.backup_transfer_success=false
       app.touch
       app.save
-      raise "[#{app.name}] Could not get public_url: stderr => #{stderr.to_s}" unless stderr.include?("No backups on")
+      raise "[#{app.name}] Could not get public_url: stderr => #{stderr.to_s}" unless stderr.include?("No backups.")
     end
   end
 
