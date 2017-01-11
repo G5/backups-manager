@@ -15,9 +15,9 @@ private
     logger.info("Applist Response: #{app_list["message"]}") if app_list.first.include?("unauthorized")
     app_list.each do |h|
       o = find_or_create_organization(h)
-      next if h["name"].include?("g5-clw")
+      next if skip_app(h)
       app = App.find_by_name(h["name"])
-      if app.blank? 
+      if app.blank?
         o.apps.create!(app_details: h, name: h["name"])
       else
         if app.organization != o
@@ -28,6 +28,12 @@ private
     end
   end
 
+def skip_app(app)
+  app["name"].match(/g5-clw|redirect/)
+  app["organization"].include?("g5-test-apps") if app["organization"]
+end
+
+
   def find_or_create_organization(app_hash)
     org = Organization.
       where(guid: app_hash["owner"]["id"]).
@@ -36,4 +42,3 @@ private
     org
   end
 end
-
