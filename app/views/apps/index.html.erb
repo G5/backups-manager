@@ -10,17 +10,18 @@
   <%= f.submit %>
 <% end %>
 
-<div class="app"> 
+<div class="app">
   <%= render 'shared/wrangler_header', grouped: "Type", group_by: "owner", view_link: orgs_path %>
   <div class="app-group">
     <table border="1" width="100%">
       <thead>
         <tr BGCOLOR="#8b9dc3">
+          <td><%= sort_link(@q, :id, "ID") %></td>
           <td><%= sort_link(@q, :name, "Applications") %></td>
           <td><%= sort_link(@q, :organization_name, "Organization") %></td>
           <td><%= sort_link(@q, :backup_transfer_success, "Backed Up") %></td>
-          <td>Backup Schedule</td>
-          <td>PG Backup Date</td>
+          <td><%= sort_link(@q, :backup_schedule, "Backup Schedule") %></td>
+          <td><%= sort_link(@q, :pgbackup_date, "PG Backup Date") %></td>
           <td>PG Backup ID</td>
           <td>Run Date</td>
         </tr>
@@ -31,6 +32,7 @@
         <% end %>
         <% @apps.each do |app| %>
           <tr>
+            <td><%= app.id %></td>
             <td><strong><%= app.name %></strong></td>
             <td><%= app.organization.name %></td>
             <td><%= app.backup_transfer_success %></td>

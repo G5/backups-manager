@@ -5,6 +5,7 @@ class Organization < ActiveRecord::Base
   validates :email, :guid, presence: true
 
   def get_name
+    return nil if email.match("la.team@getg5.com")
     email.match(/(.+)@/)[1]
   end
 

@@ -54,6 +54,7 @@ end
 group :development do
   gem 'spring'
   gem 'pry'
+  gem 'pry-nav'
   gem 'spring-commands-rspec'
   gem 'rack-mini-profiler'
 end
