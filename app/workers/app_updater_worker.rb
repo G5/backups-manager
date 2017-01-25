@@ -32,8 +32,11 @@ private
 
     # skip the app if it's name contains "g5-clwo, or redirect"
     return true if app["name"].match(/g5-clw|redirect/)
+
+    # skip app if it is a member of listed organizations
     return true if app["organization"]["name"].match(/g5-test-apps|g5-test-apps|g5-tests-apps2|g5-sales-demo|g5-sales-demo-2|g5-test-clients|g5-test-clients2|mjstorage|sockeye|la.team/)
   end
+
 
   def find_or_create_organization(app_hash)
     org = Organization.
