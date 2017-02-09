@@ -1,11 +1,12 @@
 development:
   adapter: postgresql
-  encoding: unicode
-  database: appwrangler_development
-  pool: 5
-
+  database: backups_manager_development
+  pool: 19
 test:
   adapter: postgresql
-  encoding: unicode
-  database: appwrangler_test
-  pool: 5
+  database: backups_manager_test
+  pool: 19
+production:
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV["DB_POOL"] %>
+
