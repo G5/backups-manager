@@ -50,7 +50,8 @@ class AppDatabaseMover
     s3 = Aws::S3::Resource.new(region: REGION)
     bucket = s3.bucket(BUCKET_NAME)
     begin
-      bucket.put_object(options)
+      #bucket.put_object(options)
+      bucket.object(options[:key]).upload_file("tmp/#{options[:key]}")
       logger.info("[#{options[:key]}] file saved to S3.")
       true
     rescue => e
