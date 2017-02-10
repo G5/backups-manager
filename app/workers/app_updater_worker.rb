@@ -15,18 +15,28 @@ private
     logger.info("Applist Response: #{app_list["message"]}") if app_list.first.include?("unauthorized")
     app_list.each do |h|
       o = find_or_create_organization(h)
-      next if h["name"].include?("g5-clw")
       app = App.find_by_name(h["name"])
-      if app.blank? 
-        o.apps.create!(app_details: h, name: h["name"])
-      else
-        if app.organization != o
+        if app.blank?
+          o.apps.create!(app_details: h, name: h["name"]) unless skip_app(h)
+        else
+          app.organization != o
           app.organization = o
           app.save!
         end
       end
     end
+
+  def skip_app(app)
+    # skip the app if it doesn't belong to an organization
+    return true unless app["organization"]
+
+    # skip the app if it's name contains "g5-clwo, or redirect"
+    return true if app["name"].match(/g5-clw|redirect/)
+
+    # skip app if it is a member of listed organizations
+    return true if app["organization"]["name"].match(/g5-test-apps|g5-test-apps|g5-tests-apps2|g5-sales-demo|g5-sales-demo-2|g5-test-clients|g5-test-clients2|mjstorage|sockeye|la.team/)
   end
+
 
   def find_or_create_organization(app_hash)
     org = Organization.
@@ -36,4 +46,3 @@ private
     org
   end
 end
-

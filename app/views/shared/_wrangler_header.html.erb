@@ -2,4 +2,7 @@
   <h1>Backup Manager</h1>
   <%= content_tag :p, "App data as of: #{Date.yesterday.to_formatted_s(:long_ordinal)} (this is just date yesterday)" %>
   <%= content_tag :p, "#{App.count} Heroku Apps" %>
+  <%= content_tag :p, "#{App.backed_up.count} Apps backed up" %>
+  <%= content_tag :p, "#{App.not_backed_up.count} Apps not backed up" %>
+  <%= content_tag :p, "#{App.no_schedules.count} Apps wihtout a scheduled backup" %>
 </div>

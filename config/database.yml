@@ -9,4 +9,4 @@ test:
 production:
   url: <%= ENV["DATABASE_URL"] %>
   pool: <%= ENV["DB_POOL"] %>
-  
+

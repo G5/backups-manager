@@ -17,6 +17,7 @@ private
 
   def get_schedules(app)
     schedules = []
+    return schedules if app.backup_schedule.nil?
     pg_schedules = app.backup_schedule.split("\n")
     pg_schedules.each do |pg_schedule|
       next if pg_schedule.include?("DATABASE_URL")
@@ -28,7 +29,7 @@ private
   def clean_schedules(app)
     schedules = get_schedules(app)
     logger.info("[#{app.name}] - #{schedules}") if schedules.any?
-    schedules.each do |schedule| 
+    schedules.each do |schedule|
       pg_info, stderr, status = Bundler.with_clean_env {Open3.capture3("#{HEROKU_BIN_PATH} pg:backups:unschedule #{schedule} -a #{app.name}")}
       logger.info("[#{app.name}][#{schedule}] - #{pg_info} - #{stderr} - #{status}")
       if status.success?
@@ -38,7 +39,7 @@ private
       end
     end
   end
-  
+
   def add_schedule(app)
     pg_schedule = "#{HEROKU_BIN_PATH} pg:backups:schedule --at '02:00 America/Los_Angeles' DATABASE_URL --app #{app.name}"
     sched_result = open3_capture(pg_schedule)
@@ -51,4 +52,3 @@ private
   end
 
 end
-

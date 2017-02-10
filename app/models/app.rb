@@ -2,6 +2,9 @@ class App < ActiveRecord::Base
   belongs_to :organization
 
   validates :name, :organization, presence: true
+  scope :backed_up, -> { where("backup_transfer_success IS TRUE") }
+  scope :not_backed_up, -> { where("backup_transfer_success IS FALSE") }
+  scope :no_schedules, -> { where("backup_schedule IS NULL") }
 
   ADDON_FINDERER_SQL = <<-EOS
     SELECT *
