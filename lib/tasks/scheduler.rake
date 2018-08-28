@@ -8,7 +8,7 @@ end
 task :fix_backup_schedules => :environment do
   apps = []
   App.all.each do |app|
-    if app.backup_schedule && !app.backup_schedule.include?('No backup schedules found')
+    if !app.backup_schedule || app.backup_schedule.include?('No backup schedules found')
       apps << app
     end
   end
