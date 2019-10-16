@@ -22,10 +22,8 @@ class App < ActiveRecord::Base
   end
 
   def self.prefixes
-    [ 'g5-cau', 'g5-cls', 'g5-clw', 'g5-cms', 'g5-cpas', 'g5-cpns', 'g5-cxm', 'g5-dsh', 'g5-inv', 'g5-jobs', 'g5-nae',
-      'g5-hub', 'g5-configurator', 'g5-client-app-creator', 'g5-app-wrangler', 'g5-layout-garden', 'g5-theme-garden',
-      'g5-widget-garden', 'g5-analytics-dashboard', 'g5-backups-manager', 'g5-inventory', 'g5-social-feed-service',
-      'g5-integrations', 'g5-vendor-leads', 'g5-phone-number-service', 'g5-news-and-events-service']
+    [ 'g5-nae', 'g5-hub', 'g5-analytics-dashboard', 'g5-backups-manager', 'g5-social-feed-service',
+      'g5-phone-number-service', 'g5-news-and-events-service']
   end
 
   def self.types
